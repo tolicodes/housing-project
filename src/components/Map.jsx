@@ -1,18 +1,15 @@
-import React from 'react';
-import { Map, TileLayer } from 'react-leaflet';
 
-export default () => (
-  <div>
-    <Map
-      center={{
-        lat: 51.505,
-        lng: -0.09,
-      }}
-    >
-      <TileLayer
-        attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-    </Map>
-  </div>
-);
+import React, { StrictMode } from 'react'
+import { Map, TileLayer } from 'react-leaflet'
+
+const ZoomControlExample = () => (
+  <StrictMode>
+    Hi
+  <Map style={{height: 300}} center={[51.505, -0.09]} zoom={13} zoomControl={false}>
+    <TileLayer
+      attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    />  </Map>
+  </StrictMode>
+)
+export default ZoomControlExample
