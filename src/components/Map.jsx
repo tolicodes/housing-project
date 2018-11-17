@@ -2,8 +2,48 @@
 import React from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
+import la from './maps/la';
 import sanFernandoValley from './maps/sanFernandoValley';
-// import santaMonicaMountains from './maps/santaMonicaMountains';
+import santaMonicaMountains from './maps/santaMonicaMountains';
+import theWestside from './maps/theWestside';
+import theVerdugos from './maps/theVerdugos';
+
+/* Neighborhood */
+const defaultStyle = {
+  color: '#2262CC',
+  weight: 2,
+  opacity: 0.6,
+  fillOpacity: 0.1,
+  fillColor: '#2262CC',
+};
+
+const highlightStyle = {
+  color: '#2262CC',
+  weight: 3,
+  opacity: 0.6,
+  fillOpacity: 0.65,
+  fillColor: '#2262CC',
+};
+
+const onEachFeature = (feature, layer) => {
+  // Load the default style.
+  layer.setStyle(defaultStyle);
+
+  const properties = feature.properties;
+
+  layer.on('mouseover', () => {
+    console.log(feature, layer);
+    layer.setStyle(highlightStyle);
+
+    layer.on('mouseout', () => {
+      layer.setStyle(defaultStyle);
+    });
+
+    layer.on('click', () => {
+
+    });
+  });
+};
 
 export default () => (
   <Map
@@ -20,7 +60,7 @@ export default () => (
     maxZoom={16}
     minZoom={8}
 
-    zoom={11}
+    zoom={10}
 
     center={[34.228206809, -118.4674801745]}
 
@@ -36,7 +76,9 @@ export default () => (
     />
 
     <GeoJSON
-      data={sanFernandoValley}
+      data={la}
+      onEachFeature={onEachFeature}
+
     // data={santaMonicaMountains}
     />
 
