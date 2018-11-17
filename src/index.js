@@ -1,12 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
+
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import reducer from './reducer';
+import saga from './saga';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// create the saga middleware
+const sagaMiddleware = createSagaMiddleware();
+
+// eslint-disable-next-line
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+// mount it on the Store
+const store = createStore(
+  reducer,
+  {},
+  composeEnhancers(
+    applyMiddleware(
+      sagaMiddleware,
+    ),
+  ),
+);
+
+// then run the saga
+sagaMiddleware.run(saga);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path="/" exact component={App} />
+      </Switch>
+    </Router>
+  </Provider>,
+  document.getElementById('root'),
+);

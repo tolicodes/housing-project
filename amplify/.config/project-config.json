@@ -1,0 +1,20 @@
+{
+    "projectName": "housingproject",
+    "projectPath": "/Users/tolicodes/Sites/housing-project",
+    "defaultEditor": "code",
+    "frontendHandler": {
+        "javascript": "/Users/tolicodes/.nvm/versions/node/v9.11.2/lib/node_modules/@aws-amplify/cli/node_modules/amplify-frontend-javascript"
+    },
+    "javascript": {
+        "framework": "react",
+        "config": {
+            "SourceDir": "src",
+            "DistributionDir": "build",
+            "BuildCommand": "npm run-script build",
+            "StartCommand": "npm run-script start"
+        }
+    },
+    "providers": {
+        "awscloudformation": "/Users/tolicodes/.nvm/versions/node/v9.11.2/lib/node_modules/@aws-amplify/cli/node_modules/amplify-provider-awscloudformation"
+    }
+}

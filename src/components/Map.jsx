@@ -1,6 +1,6 @@
 
-import React from 'react'
-import { Map, TileLayer } from 'react-leaflet'
+import React from 'react';
+import { Map, TileLayer } from 'react-leaflet';
 
 export default () => (
 
@@ -10,4 +10,4 @@ export default () => (
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
   </Map>
-)
+);
