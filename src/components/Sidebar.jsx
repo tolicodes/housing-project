@@ -38,10 +38,6 @@ const borrowers = [
     name: 'Sean Miller',
     amount: '50,000',
   },
-  {
-    name: 'Toli Zaslavskiy',
-    amount: '500,000',
-  },
 ];
 
 function ClippedDrawer(props) {

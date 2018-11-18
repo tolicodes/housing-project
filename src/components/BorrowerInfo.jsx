@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   container: {
@@ -22,6 +23,12 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
+  zoomControl: {
+    textAlign: 'right',
+  },
+  zoomOutButton: {
+
+  }
 });
 
 class TextFields extends React.Component {
@@ -40,7 +47,7 @@ class TextFields extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Paper style={{ marginTop: '66px' }}>
+      <Paper style={{ marginTop: '66px', marginRight: '300px' }}>
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             id="borrower-name"
@@ -60,6 +67,11 @@ class TextFields extends React.Component {
             margin="normal"
           />
         </form>
+        <div className={classes.zoomControl}>
+          <Button size="small" color="primary" align="right" className={classes.zoomOutButton}>
+            Back to L.A.
+          </Button>
+        </div>
       </Paper>
     );
   }
