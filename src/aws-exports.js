@@ -5,9 +5,9 @@ const awsmobile = {
   aws_content_delivery_bucket: 'housingproject-20181117115401--hostingbucket',
   aws_content_delivery_bucket_region: 'us-west-2',
   aws_content_delivery_url: 'http://housingproject-20181117115401--hostingbucket.s3-website-us-west-2.amazonaws.com',
-  aws_cognito_identity_pool_id: 'us-west-2:cognitoe0abea6f_identitypool_e0abea6f',
+  aws_cognito_identity_pool_id: 'us-west-2:d4b3c715-38a7-4a79-8db7-87a9ac45d585',
   aws_cognito_region: 'us-west-2',
-  aws_user_pools_id: 'us-west-2:d4b3c715-38a7-4a79-8db7-87a9ac45d585',
+  aws_user_pools_id: 'us-west-2_dzRTWU0em',
   aws_user_pools_web_client_id: '6069cv56eunc2meqcfmi2nvmg',
 };
 
