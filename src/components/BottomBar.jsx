@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
+import SubmitModal from './SubmitModal';
 
 const styles = theme => ({
   text: {
@@ -28,7 +29,6 @@ const styles = theme => ({
   },
   toolbar: {
     padding: '10px',
-    border: '1px solid red',
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
@@ -37,30 +37,55 @@ const styles = theme => ({
 
   },
   submitText: {
-    color: '#fff',
+    fontWeight: 'bold',
+    color: '#000',
   },
 });
 
-function BottomAppBar(props) {
+class BottomAppBar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      modalOpen: false,
+    };
+  }
+
   // eslint-disable-next-line
-  const { classes } = props;
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar position="fixed" color="primary" className={classes.appBar}>
-        {/* <Toolbar className={classes.toolbar}>
-          <Button variant="contained" color="secondary" size="large" aria-label="Submit" className={classes.submitButton}>
-            <Typography className={classes.submitText}>Submit</Typography>
-          </Button>
-        </Toolbar> */}
-        <div className={classes.toolbar}>
-          <Button variant="contained" color="secondary" size="large" aria-label="Submit" className={classes.submitButton}>
-            <Typography className={classes.submitText}>Submit</Typography>
-          </Button>
-        </div>
-      </AppBar>
-    </React.Fragment>
-  );
+  onSubmit = () => {
+    console.log('made it here');
+    this.setState({
+      modalOpen: true,
+    });
+    console.log('NOW STATE IS: ', this.state);
+  }
+
+  modalClose = () => {
+    this.setState({
+      modalOpen: false
+    })
+  }
+
+  render() {
+    // eslint-disable-next-line
+    const { classes } = this.props;
+
+    const { modalOpen } = this.state;
+
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <div className={classes.toolbar}>
+            <Button variant="contained" size="large" aria-label="Submit" className={classes.submitButton} onClick={this.onSubmit}>
+              <Typography className={classes.submitText}>Submit</Typography>
+            </Button>
+          </div>
+        </AppBar>
+        <SubmitModal open={modalOpen} modalClose={this.modalClose} />
+      </React.Fragment>
+    );
+  }
 }
 
 export default withStyles(styles)(BottomAppBar);

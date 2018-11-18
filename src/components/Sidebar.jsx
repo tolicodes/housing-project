@@ -19,12 +19,10 @@ const styles = () => ({
   },
   drawer: {
     width: drawerWidth,
-    paddingTop: '64px',
-    backgroundColor: 'red'
+    flexShrink: 0,
   },
   drawerPaper: {
     width: drawerWidth,
-    paddingTop: '64px',
   },
   expansionPanel: {
     width: '100%',
@@ -68,8 +66,10 @@ function ClippedDrawer(props) {
     <div className={classes.root}>
       <Drawer
         anchor="right"
-        className={classes.drawer}
         variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
       >
         <List className={classes.borrowers}>
           {borrowersHTML}

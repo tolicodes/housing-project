@@ -45,6 +45,7 @@ const centers = {
 export default class CityMap extends Component {
   state = {
     currentCity: null,
+    currentNeighborhoods: []
   }
 
   onEachFeature = (feature, layer) => {
@@ -62,7 +63,11 @@ export default class CityMap extends Component {
     });
 
     layer.on('mouseout', () => {
-      layer.setStyle(defaultStyle);
+      console.log(this.state.currentNeighborhoods)
+      if (!this.state.currentNeighborhoods.includes(properties.name)) {
+        layer.setStyle(defaultStyle);
+
+      }
     });
 
     layer.on('click', () => {
@@ -70,6 +75,15 @@ export default class CityMap extends Component {
         this.setState({
           currentCity: properties.name
         });
+      } else {
+        this.setState({
+          currentNeighborhoods: [
+            ...this.state.currentNeighborhoods,
+            properties.name
+          ]
+        })
+
+        layer.setStyle(highlightStyle);
       }
     });
   };
