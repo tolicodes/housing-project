@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +12,7 @@ const styles = theme => ({
 });
 
 function CityDetailsBox(props) {
+  // eslint-disable-next-line
   const { classes } = props;
 
   return (
@@ -28,9 +28,5 @@ function CityDetailsBox(props) {
     </div>
   );
 }
-
-CityDetailsBox.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(CityDetailsBox);

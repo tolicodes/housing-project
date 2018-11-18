@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { Typography, ExpansionPanel } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,9 +8,9 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const drawerWidth = 240;
+const drawerWidth = '300px';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     display: 'flex',
   },
@@ -21,8 +19,8 @@ const styles = theme => ({
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
     paddingTop: '64px',
+    backgroundColor: 'red'
   },
   drawerPaper: {
     width: drawerWidth,
@@ -41,6 +39,7 @@ const borrowers = [
 ];
 
 function ClippedDrawer(props) {
+  // eslint-disable-next-line
   const { classes } = props;
 
   const borrowersHTML = borrowers.map(({ name, amount }, i) => (
@@ -67,10 +66,9 @@ function ClippedDrawer(props) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <Drawer
         anchor="right"
-        styles={classes.drawer}
+        className={classes.drawer}
         variant="permanent"
       >
         <List className={classes.borrowers}>
@@ -80,9 +78,5 @@ function ClippedDrawer(props) {
     </div>
   );
 }
-
-ClippedDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(ClippedDrawer);

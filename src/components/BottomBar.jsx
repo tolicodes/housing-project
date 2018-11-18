@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -25,32 +24,43 @@ const styles = theme => ({
   appBar: {
     top: 'auto',
     bottom: 0,
-    marginRight: '300px',
+    paddingRight: '300px',
   },
   toolbar: {
+    padding: '10px',
+    border: '1px solid red',
+    textAlign: 'center',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+  },
+  submitButton: {
+
+  },
+  submitText: {
+    color: '#fff',
   },
 });
 
 function BottomAppBar(props) {
+  // eslint-disable-next-line
   const { classes } = props;
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="fixed" color="primary" className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <Button variant="contained" color="secondary" aria-label="Submit">
-            <Typography>Submit</Typography>
+        {/* <Toolbar className={classes.toolbar}>
+          <Button variant="contained" color="secondary" size="large" aria-label="Submit" className={classes.submitButton}>
+            <Typography className={classes.submitText}>Submit</Typography>
           </Button>
-        </Toolbar>
+        </Toolbar> */}
+        <div className={classes.toolbar}>
+          <Button variant="contained" color="secondary" size="large" aria-label="Submit" className={classes.submitButton}>
+            <Typography className={classes.submitText}>Submit</Typography>
+          </Button>
+        </div>
       </AppBar>
     </React.Fragment>
   );
 }
-
-BottomAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(BottomAppBar);
