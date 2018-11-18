@@ -1,12 +1,15 @@
 
-import React from 'react';
-import { Map, TileLayer, GeoJSON } from 'react-leaflet';
+import React, { Component } from 'react';
+import { Map, TileLayer, GeoJSON, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
+
 import la from './maps/la';
 import sanFernandoValley from './maps/sanFernandoValley';
 import santaMonicaMountains from './maps/santaMonicaMountains';
 import theWestside from './maps/theWestside';
 import theVerdugos from './maps/theVerdugos';
+
+import CityDetailsBox from './CityDetailsBox';
 
 /* Neighborhood */
 const defaultStyle = {
@@ -25,62 +28,106 @@ const highlightStyle = {
   fillColor: '#2262CC',
 };
 
-const onEachFeature = (feature, layer) => {
-  // Load the default style.
-  layer.setStyle(defaultStyle);
+const MAPS = {
+  'San Fernando Valley': sanFernandoValley,
+  'Santa Monica Mountains': santaMonicaMountains,
+  'Westside': theWestside,
+  'Verdugos': theVerdugos,
+};
 
-  const properties = feature.properties;
+const centers = {
+  'San Fernando Valley': [34.228206858549996, -118.4674801745],
+  'Santa Monica Mountains': [34.08857698855, -118.75480809449999],
+  'Westside': [34.04733700695, -118.4783734895],
+  'Verdugos': [34.2052679991, -118.201619]
+};
 
-  layer.on('mouseover', () => {
-    console.log(feature, layer);
-    layer.setStyle(highlightStyle);
+export default class CityMap extends Component {
+  state = {
+    currentCity: null,
+  }
+
+  onEachFeature = (feature, layer) => {
+    const { currentCity } = this.state;
+
+    // Load the default style.
+    layer.setStyle(defaultStyle);
+
+    const properties = feature.properties;
+
+    console.log("Properties are: ", properties)
+
+    layer.on('mouseover', () => {
+      layer.setStyle(highlightStyle);
+    });
 
     layer.on('mouseout', () => {
       layer.setStyle(defaultStyle);
     });
 
     layer.on('click', () => {
-
+      if (currentCity === null) {
+        this.setState({
+          currentCity: properties.name
+        });
+      }
     });
-  });
-};
+  };
+  render() {
+    const { currentCity } = this.state;
 
-export default () => (
-  <Map
-    style={{
-      height: 'calc(100vh - 200px)',
-      marginRight: '300px',
-    }}
+    const zoomLevel = currentCity === null ? 10 : 11;
 
-    zoomControl={false}
-    scrollWheelZoom={false}
-    touchZoom={false}
-    doubleClickZoom={false}
-    dragging={false}
-    maxZoom={16}
-    minZoom={8}
+    const centerPoint = currentCity === null ?
+      [34.228206809, -118.4674801745]
+      : centers[currentCity];
 
-    zoom={10}
+    // const cityDetails = currentCity === null ? (
 
-    center={[34.228206809, -118.4674801745]}
+    // ) : (
 
-    maxBounds={new L.LatLngBounds(
-      new L.LatLng(34.1191069991, -118.668153),
-      new L.LatLng(34.337306718, -118.266807349),
-    )}
-  >
-    <TileLayer
-      attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      url="http://{s}.latimes.com/quiet-la-0.4.0/{z}/{x}/{y}.png"
-      subdomains={['tiles1', 'tiles2', 'tiles3', 'tiles4']}
-    />
+    // )
 
-    <GeoJSON
-      data={la}
-      onEachFeature={onEachFeature}
+    return (
+      <Map
+        style={{
+          height: 'calc(100vh - 200px)',
+          marginRight: '300px',
+        }}
 
-    // data={santaMonicaMountains}
-    />
+        zoomControl={false}
+        scrollWheelZoom={false}
+        touchZoom={false}
+        doubleClickZoom={false}
+        dragging={false}
+        maxZoom={16}
+        minZoom={8}
 
-  </Map>
-);
+        zoom={zoomLevel}
+
+        center={centerPoint}
+      >
+        <TileLayer
+          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="http://{s}.latimes.com/quiet-la-0.4.0/{z}/{x}/{y}.png"
+          subdomains={['tiles1', 'tiles2', 'tiles3', 'tiles4']}
+        />
+
+        {currentCity === null && <GeoJSON
+          key={la}
+          data={la}
+          onEachFeature={this.onEachFeature}
+        />}
+        {
+          Object.entries(MAPS).map(([name, data]) => (
+            name === currentCity && <GeoJSON
+              key={name}
+              data={data}
+              onEachFeature={this.onEachFeature}
+            />
+          ))
+        }
+      </Map>
+    );
+  }
+}
