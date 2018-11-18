@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/housingproject-20181117115259-deployment/amplify-cfn-templates/hosting/template.json",
 				"logicalId": "hostingS3AndCloudFront"
 			},
-			"lastPushTimeStamp": "2018-11-17T20:15:31.668Z",
+			"lastPushTimeStamp": "2018-11-18T02:41:50.720Z",
 			"output": {
 				"S3BucketSecureURL": "https://housingproject-20181117115401--hostingbucket.s3.amazonaws.com",
 				"WebsiteURL": "http://housingproject-20181117115401--hostingbucket.s3-website-us-west-2.amazonaws.com",
@@ -37,7 +37,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/housingproject-20181117115259-deployment/amplify-cfn-templates/auth/cognitoe0abea6f-cloudformation-template.yml",
 				"logicalId": "authcognitoe0abea6f"
 			},
-			"lastPushTimeStamp": "2018-11-17T20:15:31.671Z",
+			"lastPushTimeStamp": "2018-11-18T02:41:50.724Z",
 			"output": {
 				"AppClientSecret": "2qdijo8il157241cebve7q46i8988bqr0u2821d1c5ve2smj83u",
 				"UserPoolId": "us-west-2_dzRTWU0em",
@@ -47,7 +47,8 @@
 				"IdentityPoolName": "cognitoe0abea6f_identitypool_e0abea6f",
 				"UserPoolName": "cognitoe0abea6f_userpool_e0abea6f"
 			},
-			"lastPushDirHash": "okunmG6UdQLKAlOkVnF/Sx8yDNA="
+			"lastPushDirHash": "vMwoH1VRo3hxZx37JBD1uDlNUP4=",
+			"[object Object]": {}
 		}
 	}
 }
