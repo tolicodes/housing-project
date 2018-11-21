@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { connect } from 'react-redux';
+
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import { Typography, ExpansionPanel } from '@material-ui/core';
@@ -29,18 +32,11 @@ const styles = () => ({
   },
 });
 
-const borrowers = [
-  {
-    name: 'Sean Miller',
-    amount: '50,000',
-  },
-];
-
 function ClippedDrawer(props) {
   // eslint-disable-next-line
-  const { classes } = props;
+  const { classes, borrowers } = props;
 
-  const borrowersHTML = borrowers.map(({ name, amount }, i) => (
+  const borrowersHTML = borrowers.map(({ borrowerName, borrowerAmount }, i) => (
     <ListItem>
       <ExpansionPanel className={classes.expansionPanel}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -48,14 +44,13 @@ function ClippedDrawer(props) {
             {`Borrower ${i + 1}:`}
             &nbsp;
           </Typography>
-          <Typography className={classes.secondaryHeading}>{name}</Typography>
+          <Typography className={classes.secondaryHeading}>{borrowerName}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
             Amount:
             {' '}
-            $
-            {amount}
+            {borrowerAmount}
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -79,4 +74,8 @@ function ClippedDrawer(props) {
   );
 }
 
-export default withStyles(styles)(ClippedDrawer);
+export default withStyles(styles)(connect(
+  ({ app: { borrowers } }) => ({
+    borrowers,
+  }),
+)(ClippedDrawer));

@@ -1,5 +1,9 @@
 
 import React, { Component } from 'react';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import { Map, TileLayer, GeoJSON, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
 
@@ -63,10 +67,8 @@ export default class CityMap extends Component {
     });
 
     layer.on('mouseout', () => {
-      console.log(this.state.currentNeighborhoods)
       if (!this.state.currentNeighborhoods.includes(properties.name)) {
         layer.setStyle(defaultStyle);
-
       }
     });
 
@@ -96,11 +98,8 @@ export default class CityMap extends Component {
       [34.228206809, -118.4674801745]
       : centers[currentCity];
 
-    // const cityDetails = currentCity === null ? (
-
-    // ) : (
-
-    // )
+    const mapData = currentCity === null ? la : MAPS[currentCity];
+    const mapKey = currentCity || 'la';
 
     return (
       <Map
@@ -113,9 +112,6 @@ export default class CityMap extends Component {
         scrollWheelZoom={false}
         touchZoom={false}
         doubleClickZoom={false}
-        dragging={false}
-        maxZoom={16}
-        minZoom={8}
 
         zoom={zoomLevel}
 
@@ -127,20 +123,18 @@ export default class CityMap extends Component {
           subdomains={['tiles1', 'tiles2', 'tiles3', 'tiles4']}
         />
 
-        {currentCity === null && <GeoJSON
-          key={la}
+        <GeoJSON
+          key="la"
           data={la}
           onEachFeature={this.onEachFeature}
-        />}
-        {
-          Object.entries(MAPS).map(([name, data]) => (
-            name === currentCity && <GeoJSON
-              key={name}
-              data={data}
-              onEachFeature={this.onEachFeature}
-            />
-          ))
-        }
+        />
+        <GeoJSON
+          key={mapKey}
+          data={mapData}
+          onEachFeature={this.onEachFeature}
+        />
+        ))
+      }
       </Map>
     );
   }

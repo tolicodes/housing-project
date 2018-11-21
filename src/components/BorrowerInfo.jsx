@@ -1,4 +1,10 @@
 import React from 'react';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { updateBorrower } from './App/actions'
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -23,20 +29,20 @@ const styles = theme => ({
   },
 });
 
-class TextFields extends React.Component {
-  state = {
-    name: 'Borrower 1',
-    preapprovalAmount: "$"
-  };
+class BorrowerInfo extends React.Component {
 
   handleChange = name => event => {
-    this.setState({
+    this.props.updateBorrower({
+      ...this.props.borrower,
       [name]: event.target.value,
     });
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, borrower: {
+      borrowerName,
+      borrowerAmount
+    } } = this.props;
 
     return (
       <Paper style={{ marginTop: '64px', marginRight: '300px' }}>
@@ -45,7 +51,7 @@ class TextFields extends React.Component {
             id="borrower-name"
             label="Borrower Name"
             className={classes.textField}
-            value={this.state.name}
+            value={borrowerName}
             onChange={this.handleChange('borrowerName')}
             margin="normal"
           />
@@ -53,9 +59,9 @@ class TextFields extends React.Component {
             id="preapproval-amount"
             label="Preapproval Amount"
             className={classes.textField}
-            value={this.state.preapprovalAmount}
+            value={borrowerAmount}
             placeholder="$"
-            onChange={this.handleChange('preapprovalAmount')}
+            onChange={this.handleChange('borrowerAmount')}
             margin="normal"
           />
         </form>
@@ -64,8 +70,13 @@ class TextFields extends React.Component {
   }
 }
 
-TextFields.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(TextFields);
+export default withStyles(styles)(connect(
+  ({ app: { borrowers } }) => {
+    return {
+      borrower: borrowers[borrowers.length - 1]
+    };
+  },
+  dispatch => bindActionCreators({
+    updateBorrower,
+  }, dispatch),
+)(BorrowerInfo));
