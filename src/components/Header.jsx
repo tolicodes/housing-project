@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { CssBaseline } from '@material-ui/core';
+
+import LoginModal from './Auth/LoginModal';
 
 const styles = {
   root: {
@@ -20,25 +20,43 @@ const styles = {
   },
 };
 
-function ButtonAppBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="fixed" style={{ zIndex: 10000 }}>
+class Header extends Component {
+  state = {
+    showLogin: false,
+  }
 
-        <Toolbar>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
-            Danniels App
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+  onClickLogin = () => {
+    this.setState({
+      showLogin: true,
+    })
+  }
+
+  render() {
+    const { classes } = this.props;
+    const { showLogin } = this.state;
+
+    return (
+      <div className={classes.root}>
+        <AppBar position="fixed" style={{ zIndex: 10000 }}>
+
+          <Toolbar>
+            <Typography variant="h6" color="inherit" className={classes.grow}>
+              Danniels App
+            </Typography>
+            <Button
+              color="inherit"
+              onClick={this.onClickLogin}
+            >
+              Login
+
+            </Button>
+          </Toolbar>
+        </AppBar>
+
+        { showLogin && <LoginModal/> }
+      </div>
+    );
+  }
 }
 
-ButtonAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(ButtonAppBar);
+export default withStyles(styles)(Header);
