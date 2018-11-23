@@ -74,7 +74,8 @@ export default class CityMap extends Component {
     layer.on('click', () => {
       if (currentCity === null) {
         this.setState({
-          currentCity: properties.name
+          currentCity: properties.name,
+          currentNeighborhoods: [],
         });
       } else {
         this.setState({
