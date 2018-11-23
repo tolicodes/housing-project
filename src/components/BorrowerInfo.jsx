@@ -5,11 +5,9 @@ import { connect } from 'react-redux';
 
 import { updateBorrower } from './App/actions'
 
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   container: {
@@ -48,7 +46,6 @@ class BorrowerInfo extends React.Component {
       <Paper style={{ marginTop: '64px', marginRight: '300px' }}>
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
-            id="borrower-name"
             label="Borrower Name"
             className={classes.textField}
             value={borrowerName}
@@ -56,7 +53,6 @@ class BorrowerInfo extends React.Component {
             margin="normal"
           />
           <TextField
-            id="preapproval-amount"
             label="Preapproval Amount"
             className={classes.textField}
             value={borrowerAmount}

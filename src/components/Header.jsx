@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import LoginModal from './Auth/LoginModal';
+import AuthModal from './Auth/AuthModal';
 
 const styles = {
   root: {
@@ -53,7 +53,7 @@ class Header extends Component {
           </Toolbar>
         </AppBar>
 
-        { showLogin && <LoginModal/> }
+        { showLogin && <AuthModal/> }
       </div>
     );
   }

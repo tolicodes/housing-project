@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { Map, TileLayer, GeoJSON, LayersControl } from 'react-leaflet';
 import L from 'leaflet';
+import turf from 'turf';
 
 import la from './maps/la';
 import sanFernandoValley from './maps/sanFernandoValley';
@@ -60,8 +61,6 @@ export default class CityMap extends Component {
 
     const properties = feature.properties;
 
-    console.log("Properties are: ", properties)
-
     layer.on('mouseover', () => {
       layer.setStyle(highlightStyle);
     });
@@ -90,13 +89,23 @@ export default class CityMap extends Component {
     });
   };
   render() {
-    const { currentCity } = this.state;
+    const { currentCity, currentNeighborhoods } = this.state;
 
-    const zoomLevel = currentCity === null ? 10 : 11;
+    let zoomLevel = currentCity === null ? 10 : 11;
 
-    const centerPoint = currentCity === null ?
+    let centerPoint = currentCity === null ?
       [34.228206809, -118.4674801745]
       : centers[currentCity];
+ 
+    if (currentNeighborhoods.length) {
+      const lastNeighborhood = currentNeighborhoods[currentNeighborhoods.length - 1];
+
+      const [lng, lat] = turf.center(MAPS[currentCity].features.find(({ properties: { name } }) => name === lastNeighborhood)).geometry.coordinates;
+
+      centerPoint = [lat, lng];
+
+      zoomLevel = 12;
+    }
 
     const mapData = currentCity === null ? la : MAPS[currentCity];
     const mapKey = currentCity || 'la';
@@ -133,8 +142,6 @@ export default class CityMap extends Component {
           data={mapData}
           onEachFeature={this.onEachFeature}
         />
-        ))
-      }
       </Map>
     );
   }

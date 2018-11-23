@@ -26,6 +26,7 @@
     "redux": "^4.0.1",
     "redux-saga": "^0.16.2",
     "styled-components": "^4.1.1",
+    "turf": "^3.0.14",
     "uuid": "^3.3.2"
   },
   "scripts": {
