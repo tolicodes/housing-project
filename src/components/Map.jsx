@@ -1,11 +1,6 @@
 
 import React, { Component } from 'react';
-
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import { Map, TileLayer, GeoJSON, LayersControl } from 'react-leaflet';
-import L from 'leaflet';
+import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import turf from 'turf';
 
 import la from './maps/la';
@@ -14,7 +9,7 @@ import santaMonicaMountains from './maps/santaMonicaMountains';
 import theWestside from './maps/theWestside';
 import theVerdugos from './maps/theVerdugos';
 
-import CityDetailsBox from './CityDetailsBox';
+// import CityDetailsBox from './CityDetailsBox';
 
 /* Neighborhood */
 const defaultStyle = {
@@ -113,6 +108,9 @@ export default class CityMap extends Component {
 
     return (
       <Map
+        ref={(map) => {
+          this.map = map && map.leafletElement;
+        }}
         style={{
           height: 'calc(100vh - 200px)',
           marginRight: '300px',
@@ -138,11 +136,11 @@ export default class CityMap extends Component {
           data={la}
           onEachFeature={this.onEachFeature}
         />
-        <GeoJSON
+        {currentCity && <GeoJSON
           key={mapKey}
           data={mapData}
           onEachFeature={this.onEachFeature}
-        />
+        />}
       </Map>
     );
   }

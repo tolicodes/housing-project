@@ -1,7 +1,7 @@
 import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-import LoginForm from './LoginForm';
+// import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 
 const styles = {
