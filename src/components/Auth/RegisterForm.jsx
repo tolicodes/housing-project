@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import { register } from './api';
+
 const styles = {
     textField: {
         width: '100%',
@@ -21,6 +23,19 @@ class LoginForm extends React.Component {
             [name]: event.target.value,
         });
     };
+
+    onClickSubmit = () => {
+        const { email, password, confirmPassword, mlsNumber, phone } = this.state;
+
+        if (password !== confirmPassword) {
+            return alert('Passwords must match');
+        }
+
+        register({
+            email,
+            password,
+        });
+    }
 
     render() {
         const { classes } = this.props;
@@ -65,7 +80,9 @@ class LoginForm extends React.Component {
                     onChange={this.handleChange('phone')}
                 />
 
-                <Button>Submit</Button>
+                <Button
+                    onClick={this.onClickSubmit}
+                >Submit</Button>
             </div>
         );
     }
