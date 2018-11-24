@@ -3,13 +3,13 @@ import io from 'socket.io-client';
 
 const { REACT_APP_API_ROOT: API_ROOT } = process.env;
 
-export const openSocket = () => {
+export const getSocket = () => {
   // https://codeburst.io/react-authentication-with-twitter-google-facebook-and-github-862d59583105
 };
 
-export const login = ({ email, password }) => {
+export const login = async ({ email, password }) => {
   try {
-    const { token } = axios.post(`${API_ROOT}/users/login`, {
+    const { data: { user: { token } } } = await axios.post(`${API_ROOT}/users/login`, {
       email,
       password,
     });
@@ -24,9 +24,9 @@ export const logout = () => {
   localStorage.removeItem('token');
 };
 
-export const register = ({ email, password }) => {
+export const register = async ({ email, password }) => {
   try {
-    const { token } = axios.post(`${API_ROOT}/users`, {
+    const { data: { user: { token } } } = await axios.post(`${API_ROOT}/users`, {
       email,
       password,
     });

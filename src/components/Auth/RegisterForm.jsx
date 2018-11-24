@@ -4,7 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { register } from './api';
+import { register, getSocket } from './api';
+// import OAuth from './OAuth';
 
 const styles = {
     textField: {
@@ -12,11 +13,19 @@ const styles = {
     },
 };
 
+const PROVIDERS = [
+    'google',
+    'facebook',
+    'linkedin',
+]
+
 class LoginForm extends React.Component {
     state = {
         email: '',
         password: ''
     }
+
+    socket = getSocket()
 
     handleChange = name => event => {
         this.setState({
@@ -43,6 +52,13 @@ class LoginForm extends React.Component {
 
         return (
             <div>
+                {/* {PROVIDERS.map(provider => 
+            <OAuth 
+              provider={provider}
+              key={provider}
+              socket={this.socket}
+            />
+          )} */}
                 <TextField
                     className={classes.textField}
                     label="Email"
