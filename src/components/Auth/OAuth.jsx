@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-const { API_ROOT } = process.env;
-const API_URL = API_ROOT + '/facebook';
+const { REACT_APP_API_ROOT: API_ROOT } = process.env;
+const API_URL = API_ROOT + '/users';
 
 export default class OAuth extends Component {
   state = {

@@ -3,9 +3,7 @@ import io from 'socket.io-client';
 
 const { REACT_APP_API_ROOT: API_ROOT } = process.env;
 
-export const getSocket = () => {
-  // https://codeburst.io/react-authentication-with-twitter-google-facebook-and-github-862d59583105
-};
+export const getSocket = () => io(API_ROOT)
 
 export const login = async ({ email, password }) => {
   try {

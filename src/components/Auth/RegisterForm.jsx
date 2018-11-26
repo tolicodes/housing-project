@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import { register, getSocket } from './api';
-// import OAuth from './OAuth';
+import OAuth from './OAuth';
 
 const styles = {
     textField: {
@@ -52,13 +52,13 @@ class LoginForm extends React.Component {
 
         return (
             <div>
-                {/* {PROVIDERS.map(provider => 
+                {PROVIDERS.map(provider => 
             <OAuth 
               provider={provider}
               key={provider}
               socket={this.socket}
             />
-          )} */}
+          )}
                 <TextField
                     className={classes.textField}
                     label="Email"
