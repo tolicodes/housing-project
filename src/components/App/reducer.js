@@ -13,6 +13,8 @@ const createBorrower = () => ({
   uuid: uuid(),
   borrowerAmount: '$',
   borrowerName: `Borrower ${borrowerCounter += 1}`,
+  neighborhoods: [],
+  city: '',
 });
 
 const initialState = {
@@ -44,8 +46,11 @@ export default function (state = initialState, action) {
         uuid,
         borrowerAmount,
         borrowerName,
+        neighborhoods,
+        city,
       } = data;
 
+      console.log('City: ', city, 'Neighborhoods: ', neighborhoods, findIndexById(state, uuid));
       return update(
         state,
         {
@@ -55,6 +60,8 @@ export default function (state = initialState, action) {
                 uuid,
                 borrowerAmount,
                 borrowerName,
+                neighborhoods,
+                city,
               },
             },
           },
@@ -64,4 +71,4 @@ export default function (state = initialState, action) {
 
     default: return state;
   }
-}  
+}

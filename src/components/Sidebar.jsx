@@ -36,7 +36,7 @@ function ClippedDrawer(props) {
   // eslint-disable-next-line
   const { classes, borrowers } = props;
 
-  const borrowersHTML = borrowers.map(({ borrowerName, borrowerAmount }, i) => (
+  const borrowersHTML = borrowers.map(({ borrowerName, borrowerAmount, neighborhoods }, i) => (
     <ListItem
       key={borrowerName}
     >
@@ -50,12 +50,17 @@ function ClippedDrawer(props) {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
+            Neighborhoods:
+            {' '}
+            {neighborhoods}
+          </Typography>
+        </ExpansionPanelDetails>
+        <ExpansionPanelDetails>
+          <Typography>
             Amount:
             {' '}
             {borrowerAmount}
           </Typography>
-
-
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </ListItem>

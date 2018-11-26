@@ -3,6 +3,11 @@ import React, { Component } from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import turf from 'turf';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { updateBorrower } from './App/actions'
+
 import la from './maps/la';
 import sanFernandoValley from './maps/sanFernandoValley';
 import santaMonicaMountains from './maps/santaMonicaMountains';
@@ -42,14 +47,14 @@ const centers = {
   'Verdugos': [34.2052679991, -118.201619]
 };
 
-export default class CityMap extends Component {
+class CityMap extends Component {
   state = {
     currentCity: null,
     currentNeighborhoods: []
   }
 
   onEachFeature = (feature, layer) => {
-    const { currentCity } = this.state;
+    const { city } = this.props.borrower;
 
     // Load the default style.
     layer.setStyle(defaultStyle);
@@ -61,21 +66,24 @@ export default class CityMap extends Component {
     });
 
     layer.on('mouseout', () => {
-      if (!this.state.currentNeighborhoods.includes(properties.name)) {
+      if (!this.props.borrower.neighborhoods.includes(properties.name)) {
         layer.setStyle(defaultStyle);
       }
     });
 
     layer.on('click', () => {
-      if (currentCity === null) {
-        this.setState({
-          currentCity: properties.name,
-          currentNeighborhoods: [],
-        });
+      console.log("Properties.name", properties.name)
+      if (!city) {
+        this.props.updateBorrower({
+          ...this.props.borrower,
+          city: properties.name,
+          neighborhoods: [],
+        })
       } else {
-        this.setState({
-          currentNeighborhoods: [
-            ...this.state.currentNeighborhoods,
+        this.props.updateBorrower({
+          ...this.props.borrower,
+          neighborhoods: [
+            ...this.props.borrower.neighborhoods,
             properties.name
           ]
         })
@@ -85,26 +93,26 @@ export default class CityMap extends Component {
     });
   };
   render() {
-    const { currentCity, currentNeighborhoods } = this.state;
+    const { city, neighborhoods } = this.props.borrower;
 
-    let zoomLevel = currentCity === null ? 10 : 11;
+    let zoomLevel = !city ? 10 : 11;
 
-    let centerPoint = currentCity === null ?
+    let centerPoint = !city ?
       [34.228206809, -118.4674801745]
-      : centers[currentCity];
- 
-    if (currentNeighborhoods.length) {
-      const lastNeighborhood = currentNeighborhoods[currentNeighborhoods.length - 1];
+      : centers[city];
 
-      const [lng, lat] = turf.center(MAPS[currentCity].features.find(({ properties: { name } }) => name === lastNeighborhood)).geometry.coordinates;
+    if (neighborhoods.length) {
+      const lastNeighborhood = neighborhoods[neighborhoods.length - 1];
+
+      const [lng, lat] = turf.center(MAPS[city].features.find(({ properties: { name } }) => name === lastNeighborhood)).geometry.coordinates;
 
       centerPoint = [lat, lng];
 
       zoomLevel = 12;
     }
 
-    const mapData = currentCity === null ? la : MAPS[currentCity];
-    const mapKey = currentCity || 'la';
+    const mapData = !city ? la : MAPS[city];
+    const mapKey = city || 'la';
 
     return (
       <Map
@@ -136,7 +144,7 @@ export default class CityMap extends Component {
           data={la}
           onEachFeature={this.onEachFeature}
         />
-        {currentCity && <GeoJSON
+        {city && <GeoJSON
           key={mapKey}
           data={mapData}
           onEachFeature={this.onEachFeature}
@@ -145,3 +153,12 @@ export default class CityMap extends Component {
     );
   }
 }
+
+export default (connect(
+  ({ app: { borrowers } }) => ({
+    borrower: borrowers[borrowers.length - 1],
+  }),
+  dispatch => bindActionCreators({
+    updateBorrower,
+  }, dispatch),
+)(CityMap));
