@@ -12,9 +12,10 @@ export default class OAuth extends Component {
   componentDidMount() {
     const { socket, provider } = this.props
 
-    socket.on(provider, user => {  
+    socket.on(provider, user => {
       this.popup.close()
       this.setState({user})
+      console.log(user)
     })
   }
 
@@ -55,10 +56,6 @@ export default class OAuth extends Component {
       this.checkPopup()
       this.setState({disabled: 'disabled'})
     }
-  }
-
-  closeCard() {
-    this.setState({user: {}})
   }
 
   render() {
