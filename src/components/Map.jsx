@@ -1,18 +1,15 @@
 
 import React, { Component } from 'react';
-import { Map, TileLayer, GeoJSON } from 'react-leaflet';
-import turf from 'turf';
+import { Map, GeoJSON } from 'react-leaflet';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateBorrower } from './App/actions'
+import TitleLayer from './maps/TitleLayer';
+import { updateBorrower } from './App/actions';
 
+import { getCenter, MAPS, CENTERS, LA_CENTER } from './maps/utils';
 import la from './maps/la';
-import sanFernandoValley from './maps/sanFernandoValley';
-import santaMonicaMountains from './maps/santaMonicaMountains';
-import theWestside from './maps/theWestside';
-import theVerdugos from './maps/theVerdugos';
 
 // import CityDetailsBox from './CityDetailsBox';
 
@@ -26,25 +23,9 @@ const defaultStyle = {
 };
 
 const highlightStyle = {
-  color: '#2262CC',
+  ...defaultStyle,
   weight: 3,
-  opacity: 0.6,
   fillOpacity: 0.65,
-  fillColor: '#2262CC',
-};
-
-const MAPS = {
-  'San Fernando Valley': sanFernandoValley,
-  'Santa Monica Mountains': santaMonicaMountains,
-  'Westside': theWestside,
-  'Verdugos': theVerdugos,
-};
-
-const centers = {
-  'San Fernando Valley': [34.228206858549996, -118.4674801745],
-  'Santa Monica Mountains': [34.08857698855, -118.75480809449999],
-  'Westside': [34.04733700695, -118.4783734895],
-  'Verdugos': [34.2052679991, -118.201619]
 };
 
 class CityMap extends Component {
@@ -72,7 +53,6 @@ class CityMap extends Component {
     });
 
     layer.on('click', () => {
-      console.log("Properties.name", properties.name)
       if (!city) {
         this.props.updateBorrower({
           ...this.props.borrower,
@@ -84,7 +64,7 @@ class CityMap extends Component {
           ...this.props.borrower,
           neighborhoods: [
             ...this.props.borrower.neighborhoods,
-            properties.name
+            properties.name,
           ]
         })
 
@@ -92,21 +72,20 @@ class CityMap extends Component {
       }
     });
   };
+
   render() {
     const { city, neighborhoods } = this.props.borrower;
 
     let zoomLevel = !city ? 10 : 11;
 
     let centerPoint = !city ?
-      [34.228206809, -118.4674801745]
-      : centers[city];
+      LA_CENTER
+      : CENTERS[city];
 
     if (neighborhoods.length) {
       const lastNeighborhood = neighborhoods[neighborhoods.length - 1];
 
-      const [lng, lat] = turf.center(MAPS[city].features.find(({ properties: { name } }) => name === lastNeighborhood)).geometry.coordinates;
-
-      centerPoint = [lat, lng];
+      centerPoint = getCenter(city, lastNeighborhood);
 
       zoomLevel = 12;
     }
@@ -116,9 +95,6 @@ class CityMap extends Component {
 
     return (
       <Map
-        ref={(map) => {
-          this.map = map && map.leafletElement;
-        }}
         style={{
           height: 'calc(100vh - 200px)',
           marginRight: '300px',
@@ -130,14 +106,10 @@ class CityMap extends Component {
         doubleClickZoom={false}
 
         zoom={zoomLevel}
-
         center={centerPoint}
       >
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="http://{s}.latimes.com/quiet-la-0.4.0/{z}/{x}/{y}.png"
-          subdomains={['tiles1', 'tiles2', 'tiles3', 'tiles4']}
-        />
+        
+        <TitleLayer/>
 
         <GeoJSON
           key="la"

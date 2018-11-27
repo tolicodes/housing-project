@@ -11,6 +11,11 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import { Map, GeoJSON } from 'react-leaflet';
+import { getCenter, MAPS } from './maps/utils';
+
+import TitleLayer from './maps/TitleLayer';
+
 const drawerWidth = '300px';
 
 const styles = () => ({
@@ -30,13 +35,27 @@ const styles = () => ({
   expansionPanel: {
     width: '100%',
   },
+  map: {
+    width: '100%',
+    height: 300,
+  },
+  neighborhoods: {
+    flexDirection: 'column',
+  },
 });
+
+const ZOOM = 11;
 
 function ClippedDrawer(props) {
   // eslint-disable-next-line
   const { classes, borrowers } = props;
 
-  const borrowersHTML = borrowers.map(({ borrowerName, borrowerAmount, neighborhoods }, i) => (
+  const borrowersHTML = borrowers.map(({
+    borrowerName,
+    borrowerAmount,
+    neighborhoods,
+    city,
+  }, i) => (
     <ListItem
       key={borrowerName}
     >
@@ -48,12 +67,36 @@ function ClippedDrawer(props) {
           </Typography>
           <Typography className={classes.secondaryHeading}>{borrowerName}</Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails className={classes.neighborhoods}>
           <Typography>
             Neighborhoods:
             {' '}
-            {neighborhoods}
           </Typography>
+
+          {neighborhoods.map(hood => (
+            <div key={hood}>
+              <Map
+                className={classes.map}
+                zoomControl={false}
+                scrollWheelZoom={false}
+                touchZoom={false}
+                doubleClickZoom={false}
+
+                zoom={ZOOM}
+                center={getCenter(city, hood)}
+              >
+                <TitleLayer />
+
+                <GeoJSON
+                  data={{
+                    type: 'FeatureCollection',
+                    features: MAPS[city].features.filter(({ properties: { name } }) => name === hood),
+                  }}
+                />
+              </Map>
+              {hood}
+            </div>
+          ))}
         </ExpansionPanelDetails>
         <ExpansionPanelDetails>
           <Typography>
