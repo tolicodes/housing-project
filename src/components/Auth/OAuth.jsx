@@ -1,9 +1,51 @@
 import React, { Component } from 'react';
 
+import Button from '@material-ui/core/Button';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+
+
 const { REACT_APP_API_ROOT: API_ROOT } = process.env;
 const API_URL = API_ROOT + '/users';
 
-export default class OAuth extends Component {
+const styles = () => ({
+  button: {
+    width: '230px',
+    height: '40px',
+    marginBottom: '10px',
+    backgroundColor: '#4267b2',
+    color: '#fff'
+  },
+  facebook: {
+    backgroundColor: '#4267b2',
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#4267b2',
+      color: '#fff',
+      opacity: .7,
+    }
+  },
+  google: {
+    backgroundColor: '#fff',
+    color: '#4285F4',
+    '&:hover': {
+      backgroundColor: '#fff',
+      color: '#4285F4',
+      opacity: .7,
+    }
+  },
+  linkedin: {
+    backgroundColor: '#0077B5',
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#0077B5',
+      color: '#fff',
+      opacity: .7,
+    }
+  }
+});
+
+class OAuth extends Component {
   state = {
     user: {},
     disabled: ''
@@ -14,7 +56,7 @@ export default class OAuth extends Component {
 
     socket.on(provider, user => {
       this.popup.close()
-      this.setState({user})
+      this.setState({ user })
       console.log(user)
     })
   }
@@ -24,11 +66,11 @@ export default class OAuth extends Component {
       const { popup } = this
       if (!popup || popup.closed || popup.closed === undefined) {
         clearInterval(check)
-        this.setState({ disabled: ''})
+        this.setState({ disabled: '' })
       }
     }, 1000)
   }
-  
+
   // Launches the popup by making a request to the server and then 
   // passes along the socket id so it can be used to send back user 
   // data to the appropriate socket on the connected client.
@@ -39,7 +81,7 @@ export default class OAuth extends Component {
     const top = (window.innerHeight / 2) - (height / 2)
     const url = `${API_URL}/${provider}?socketId=${socket.id}`
 
-    return window.open(url, '',       
+    return window.open(url, '',
       `toolbar=no, location=no, directories=no, status=no, menubar=no, 
       scrollbars=no, resizable=no, copyhistory=no, width=${width}, 
       height=${height}, top=${top}, left=${left}`
@@ -52,15 +94,15 @@ export default class OAuth extends Component {
   startAuth(e) {
     if (!this.state.disabled) {
       e.preventDefault()
-      this.popup = this.openPopup()  
+      this.popup = this.openPopup()
       this.checkPopup()
-      this.setState({disabled: 'disabled'})
+      this.setState({ disabled: 'disabled' })
     }
   }
 
   render() {
     const { name } = this.state.user;
-    const { provider } = this.props;
+    const { provider, classes } = this.props;
     const { disabled } = this.state;
 
     return (
@@ -70,23 +112,24 @@ export default class OAuth extends Component {
             <h4>
               {provider}
               {' '}
-- Logged In -
+              - Logged In -
               {' '}
               {name}
             </h4>
           )
           : (
-            <div className="button-wrapper fadein-fast">
-              <button
-                onClick={this.startAuth.bind(this)}
-                className={`${provider} ${disabled} button`}
-              >
-                {provider}
-              </button>
-            </div>
+            <Button
+              variant="contained"
+              onClick={this.startAuth.bind(this)}
+              className={classes.button + ' ' + classes[provider]}
+            >
+              {provider}
+            </Button>
           )
-          }
+        }
       </div>
     );
   }
 }
+
+export default withStyles(styles)(OAuth);

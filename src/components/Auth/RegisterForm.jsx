@@ -8,15 +8,23 @@ import { register, getSocket } from './api';
 import OAuth from './OAuth';
 
 const styles = {
+    socialButtonsContainer: {
+        marginTop: '40px',
+        marginBottom: '30px',
+        textAlign: 'center',
+    },
     textField: {
         width: '100%',
     },
+    submit: {
+        marginTop: '20px'
+    }
 };
 
 const PROVIDERS = [
-    'google',
     'facebook',
     'linkedin',
+    'google'
 ]
 
 class LoginForm extends React.Component {
@@ -52,13 +60,15 @@ class LoginForm extends React.Component {
 
         return (
             <div>
-                {PROVIDERS.map(provider => 
-            <OAuth 
-              provider={provider}
-              key={provider}
-              socket={this.socket}
-            />
-          )}
+                <div className={classes.socialButtonsContainer}>
+                    {PROVIDERS.map(provider =>
+                        <OAuth
+                            provider={provider}
+                            key={provider}
+                            socket={this.socket}
+                        />
+                    )}
+                </div>
                 <TextField
                     className={classes.textField}
                     label="Email"
@@ -97,7 +107,10 @@ class LoginForm extends React.Component {
                 />
 
                 <Button
+                    variant="contained"
+                    color="primary"
                     onClick={this.onClickSubmit}
+                    className={classes.submit}
                 >Submit</Button>
             </div>
         );

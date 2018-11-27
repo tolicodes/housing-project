@@ -5,9 +5,18 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 const styles = {
+    credentials: {
+        width: '70%',
+        margin: 'auto',
+        marginTop: '30px',
+    },
     textField: {
         width: '100%',
+        margin: 'auto'
     },
+    submit: {
+        marginTop: '20px'
+    }
 };
 
 class LoginForm extends React.Component {
@@ -27,14 +36,13 @@ class LoginForm extends React.Component {
         const { email, password } = this.state;
 
         return (
-            <div>
+            <div className={classes.credentials}>
                 <TextField
                     className={classes.textField}
                     label="Email"
                     value={email}
                     onChange={this.handleChange('email')}
                 />
-
                 <TextField
                     className={classes.textField}
                     label="Password"
@@ -42,8 +50,13 @@ class LoginForm extends React.Component {
                     value={password}
                     onChange={this.handleChange('password')}
                 />
-
-                <Button>Submit</Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    Submit
+                </Button>
             </div>
         );
     }

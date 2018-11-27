@@ -47,13 +47,13 @@ class Header extends Component {
               color="inherit"
               onClick={this.onClickLogin}
             >
-              Login
+              Login / Register
 
             </Button>
           </Toolbar>
         </AppBar>
 
-        { showLogin && <AuthModal/> }
+        {showLogin && <AuthModal />}
       </div>
     );
   }
