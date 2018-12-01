@@ -8,25 +8,37 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
+    position: 'absolute',
+    bottom: '150px',
+    left: '60px',
+    width: '300px',
+    zIndex: '10000',
+  },
+  show: {
+    display: 'block',
+  },
+  hide: {
+    display: 'none',
   },
 });
 
-function CityDetailsBox(props) {
+function HoodDetailsBox(props) {
   // eslint-disable-next-line
-  const { classes } = props;
+  const { classes, displayHoodDetails, name } = props;
+  const showClass = displayHoodDetails ? classes.show : classes.hide;
 
   return (
     <div>
-      <Paper className={classes.root} elevation={1}>
+      <Paper className={`${classes.root} ${showClass}`} elevation={1}>
         <Typography variant="h5" component="h3">
-          This is a sheet of paper.
+          {name}
         </Typography>
         <Typography component="p">
-          Paper can be used to build surface or other elements for your application.
+          This will show some more information
         </Typography>
       </Paper>
     </div>
   );
 }
 
-export default withStyles(styles)(CityDetailsBox);
+export default withStyles(styles)(HoodDetailsBox);

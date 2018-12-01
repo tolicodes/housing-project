@@ -8,14 +8,13 @@ import { Map, GeoJSON } from 'react-leaflet';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import TitleLayer from './maps/TitleLayer';
 import { updateBorrower } from './App/actions';
 
 import { getCenter, MAPS, CENTERS, LA_CENTER } from './maps/utils';
 import la from './maps/la';
+import TitleLayer from './maps/TitleLayer';
 
-// import CityDetailsBox from './CityDetailsBox';
+import HoodDetailsBox from './HoodDetailsBox';
 
 /* Neighborhood */
 let defaultStyle = {
@@ -36,17 +35,18 @@ const styles = () => ({
   mapContainer: {
     marginRight: '300px',
     paddingTop: '20px',
-    border: '1px solid red',
   },
   backButton: {
     marginLeft: '50px',
+    marginTop: '5px',
   }
 })
 
 class CityMap extends Component {
   state = {
     currentCity: null,
-    currentNeighborhoods: []
+    currentNeighborhoods: [],
+    displayHoodDetails: false,
   }
 
   onEachCityFeature = (feature, layer) => this.onEachFeature('city', feature, layer)
@@ -62,6 +62,19 @@ class CityMap extends Component {
     const properties = feature.properties;
 
     layer.on('mouseover', () => {
+      // check to see if we are hovering over a neighborhood or not
+      if (type === 'neighborhood') {
+        console.log("Neighborhood is: ", feature.properties.name);
+        this.setState({
+          displayHoodDetails: true,
+          currentCity: feature.properties.name
+        })
+      } else {
+        console.log("City is: ", feature.properties.name);
+        this.setState({
+          displayHoodDetails: false,
+        })
+      }
       layer.setStyle(highlightStyle);
     });
 
@@ -120,6 +133,10 @@ class CityMap extends Component {
         neighborhoods: [],
       })
     }
+
+    this.setState({
+      displayHoodDetails: false,
+    })
   };
 
   render() {
@@ -156,18 +173,18 @@ class CityMap extends Component {
       null
       : <Button
         size="small"
+        variant="contained"
         className={classes.backButton}
         onClick={this.handleBackButton}
       >
-        Back
-        </Button>;
-
+        Zoom Out
+      </Button>;
 
     return (
       <div className={classes.mapContainer}>
         <Map
           style={{
-            height: 'calc(100vh - 275px)',
+            height: 'calc(100vh - 260px)',
             marginRight: '50px',
             marginLeft: '50px',
           }}
@@ -203,6 +220,7 @@ class CityMap extends Component {
           />}
         </Map>
         {button}
+        <HoodDetailsBox displayHoodDetails={this.state.displayHoodDetails} name={this.state.currentCity} />
       </div>
     );
   }
