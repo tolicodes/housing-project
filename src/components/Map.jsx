@@ -1,5 +1,9 @@
 
 import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+
+import Button from '@material-ui/core/Button';
+
 import { Map, GeoJSON } from 'react-leaflet';
 
 import { bindActionCreators } from 'redux';
@@ -27,6 +31,17 @@ const highlightStyle = {
   weight: 3,
   fillOpacity: 0.65,
 };
+
+const styles = () => ({
+  mapContainer: {
+    marginRight: '300px',
+    paddingTop: '20px',
+    border: '1px solid red',
+  },
+  backButton: {
+    marginLeft: '50px',
+  }
+})
 
 class CityMap extends Component {
   state = {
@@ -73,7 +88,18 @@ class CityMap extends Component {
     });
   };
 
+  handleBackButton = () => {
+    this.props.updateBorrower({
+      ...this.props.borrower,
+      city: '',
+      neighborhoods: [],
+    })
+  };
+
   render() {
+
+    const { classes } = this.props;
+
     const { city, neighborhoods } = this.props.borrower;
 
     let zoomLevel = !city ? 10 : 11;
@@ -93,40 +119,55 @@ class CityMap extends Component {
     const mapData = !city ? la : MAPS[city];
     const mapKey = city || 'la';
 
-    return (
-      <Map
-        style={{
-          height: 'calc(100vh - 200px)',
-          marginRight: '300px',
-        }}
-
-        zoomControl={false}
-        scrollWheelZoom={false}
-        touchZoom={false}
-        doubleClickZoom={false}
-
-        zoom={zoomLevel}
-        center={centerPoint}
+    const button = !city ?
+      null
+      : <Button
+        size="small"
+        className={classes.backButton}
+        onClick={this.handleBackButton}
       >
-        
-        <TitleLayer/>
+        Back
+        </Button>;
 
-        <GeoJSON
-          key="la"
-          data={la}
-          onEachFeature={this.onEachFeature}
-        />
-        {city && <GeoJSON
-          key={mapKey}
-          data={mapData}
-          onEachFeature={this.onEachFeature}
-        />}
-      </Map>
+
+    return (
+      <div className={classes.mapContainer}>
+        <Map
+          style={{
+            height: 'calc(100vh - 275px)',
+            marginRight: '50px',
+            marginLeft: '50px',
+          }}
+
+          zoomControl={false}
+          scrollWheelZoom={false}
+          touchZoom={false}
+          doubleClickZoom={false}
+
+          zoom={zoomLevel}
+          center={centerPoint}
+        >
+
+          <TitleLayer />
+
+          <GeoJSON
+            key="la"
+            data={la}
+            onEachFeature={this.onEachFeature}
+          />
+          {city && <GeoJSON
+            key={mapKey}
+            data={mapData}
+            onEachFeature={this.onEachFeature}
+          />}
+        </Map>
+        {button}
+      </div>
     );
   }
 }
 
-export default (connect(
+export default withStyles(styles)(connect(
   ({ app: { borrowers } }) => ({
     borrower: borrowers[borrowers.length - 1],
   }),

@@ -41,14 +41,13 @@ class Header extends Component {
 
           <Toolbar>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              Danniels App
+              Edison Blvd.
             </Typography>
             <Button
               color="inherit"
               onClick={this.onClickLogin}
             >
               Login / Register
-
             </Button>
           </Toolbar>
         </AppBar>
