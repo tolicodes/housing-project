@@ -49,7 +49,11 @@ class CityMap extends Component {
     currentNeighborhoods: []
   }
 
-  onEachFeature = (feature, layer) => {
+  onEachCityFeature = (feature, layer) => this.onEachFeature('city', feature, layer)
+
+  onEachNeighborhoodFeature = (feature, layer) => this.onEachFeature('neighborhood', feature, layer)
+
+  onEachFeature = (type, feature, layer) => {
     const { city, neighborhoods } = this.props.borrower;
 
     // Load the default style.
@@ -70,14 +74,13 @@ class CityMap extends Component {
     layer.on('click', () => {
       const { city, neighborhoods } = this.props.borrower;
 
-      if (!city) {
+      if (type === 'city') {
         this.props.updateBorrower({
           ...this.props.borrower,
           city: properties.name,
           neighborhoods: [],
         })
       } else {
-        console.log('hoods', neighborhoods)
         // if we click on a neighborhood that is already selected, remove it from the list of selected neighborhoods
         if (neighborhoods.includes(properties.name)) {
           const index = neighborhoods.indexOf(properties.name);
@@ -95,10 +98,9 @@ class CityMap extends Component {
               properties.name,
             ]
           })
+
         }
       };
-
-      layer.setStyle(highlightStyle);
     });
   };
 
@@ -128,13 +130,15 @@ class CityMap extends Component {
 
     let zoomLevel = !city ? 10 : 11;
 
+    let lastNeighborhood;
+
     let centerPoint = !city ?
       LA_CENTER
       : CENTERS[city];
 
     if (neighborhoods.length) {
-      const lastNeighborhood = neighborhoods[neighborhoods.length - 1];
-
+      lastNeighborhood = neighborhoods[neighborhoods.length - 1];
+      console.log('yo', neighborhoods, city);
       centerPoint = getCenter(city, lastNeighborhood);
 
       zoomLevel = 12;
@@ -142,6 +146,11 @@ class CityMap extends Component {
 
     const mapData = !city ? la : MAPS[city];
     const mapKey = city || 'la';
+
+    city && console.log({
+      type: 'FeatureCollection',
+      features: MAPS[city].features.filter(({ properties: { name } }) => lastNeighborhood === name),
+    })
 
     const button = !city ?
       null
@@ -173,15 +182,24 @@ class CityMap extends Component {
 
           <TitleLayer />
 
-          <GeoJSON
+          {neighborhoods.length === 0 && <GeoJSON
             key="la"
             data={la}
-            onEachFeature={this.onEachFeature}
-          />
-          {city && <GeoJSON
+            onEachFeature={this.onEachCityFeature}
+          />}
+
+          {city && neighborhoods.length === 0 && <GeoJSON
             key={mapKey}
             data={mapData}
-            onEachFeature={this.onEachFeature}
+            onEachFeature={this.onEachNeighborhoodFeature}
+          />}
+
+          {city && neighborhoods.length && <GeoJSON
+            key={neighborhoods}
+            data={{
+              type: 'FeatureCollection',
+              features: MAPS[city].features.filter(({ properties: { name } }) => lastNeighborhood === name),
+            }}
           />}
         </Map>
         {button}
