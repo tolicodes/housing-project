@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import { register, getSocket } from './api';
 import OAuth from './OAuth';
+import RegistrationFields from './RegistrationFields';
 
 const styles = {
     socialButtonsContainer: {
@@ -30,10 +31,9 @@ const PROVIDERS = [
 class LoginForm extends React.Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+        isLoggedInWithSocial: false,
     }
-
-    socket = getSocket()
 
     handleChange = name => event => {
         this.setState({
@@ -54,65 +54,84 @@ class LoginForm extends React.Component {
         });
     }
 
+
     render() {
         const { classes } = this.props;
         const { email, password, confirmPassword, mlsNumber, phone } = this.state;
 
+        // const Auth = PROVIDERS.map(provider =>
+        //     <OAuth
+        //         provider={provider}
+        //         key={provider}
+        //         socket={this.socket}
+        //         update={this.updateRegistrationView}
+        //     />
+        // );
+
+        // const { isLoggedInWithSocial } = this.state;
+
+        // const display = isLoggedInWithSocial ? (
+        //     <p>coolio</p>
+        // ) : (
+        //         <div>
+        //             <div className={classes.socialButtonsContainer}>
+        //                 {Auth}
+        //             </div>
+        //             <TextField
+        //                 className={classes.textField}
+        //                 label="Email"
+        //                 value={email}
+        //                 onChange={this.handleChange('email')}
+        //             />
+
+        //             <TextField
+        //                 className={classes.textField}
+        //                 label="Password"
+        //                 type="password"
+        //                 value={password}
+        //                 onChange={this.handleChange('password')}
+        //             />
+
+        //             <TextField
+        //                 className={classes.textField}
+        //                 label="Confirm Password"
+        //                 type="password"
+        //                 value={confirmPassword}
+        //                 onChange={this.handleChange('confirmPassword')}
+        //             />
+
+        //             <TextField
+        //                 className={classes.textField}
+        //                 label="MLS #"
+        //                 value={mlsNumber}
+        //                 onChange={this.handleChange('mlsNumber')}
+        //             />
+
+        //             <TextField
+        //                 className={classes.textField}
+        //                 label="Phone"
+        //                 value={phone}
+        //                 onChange={this.handleChange('phone')}
+        //             />
+
+        //             <Button
+        //                 variant="contained"
+        //                 color="primary"
+        //                 onClick={this.onClickSubmit}
+        //                 className={classes.submit}
+        //             >
+        //                 Submit
+        //     </Button>
+        //         </div>
+        //     );
+
         return (
-            <div>
-                <div className={classes.socialButtonsContainer}>
-                    {PROVIDERS.map(provider =>
-                        <OAuth
-                            provider={provider}
-                            key={provider}
-                            socket={this.socket}
-                        />
-                    )}
-                </div>
-                <TextField
-                    className={classes.textField}
-                    label="Email"
-                    value={email}
-                    onChange={this.handleChange('email')}
-                />
-
-                <TextField
-                    className={classes.textField}
-                    label="Password"
-                    type="password"
-                    value={password}
-                    onChange={this.handleChange('password')}
-                />
-
-                <TextField
-                    className={classes.textField}
-                    label="Confirm Password"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={this.handleChange('confirmPassword')}
-                />
-
-                <TextField
-                    className={classes.textField}
-                    label="MLS #"
-                    value={mlsNumber}
-                    onChange={this.handleChange('mlsNumber')}
-                />
-
-                <TextField
-                    className={classes.textField}
-                    label="Phone"
-                    value={phone}
-                    onChange={this.handleChange('phone')}
-                />
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.onClickSubmit}
-                    className={classes.submit}
-                >Submit</Button>
-            </div>
+            <RegistrationFields
+                handleChange={this.handleChange}
+                onClickSubmit={this.onClickSubmit}
+                isLoggedInWithSocial={this.state.isLoggedInWithSocial}
+                update={this.updateRegistrationView}
+            />
         );
     }
 }
