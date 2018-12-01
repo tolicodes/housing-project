@@ -18,7 +18,7 @@ import la from './maps/la';
 // import CityDetailsBox from './CityDetailsBox';
 
 /* Neighborhood */
-const defaultStyle = {
+let defaultStyle = {
   color: '#2262CC',
   weight: 2,
   opacity: 0.6,
@@ -50,7 +50,7 @@ class CityMap extends Component {
   }
 
   onEachFeature = (feature, layer) => {
-    const { city } = this.props.borrower;
+    const { city, neighborhoods } = this.props.borrower;
 
     // Load the default style.
     layer.setStyle(defaultStyle);
@@ -68,6 +68,8 @@ class CityMap extends Component {
     });
 
     layer.on('click', () => {
+      const { city, neighborhoods } = this.props.borrower;
+
       if (!city) {
         this.props.updateBorrower({
           ...this.props.borrower,
@@ -75,25 +77,47 @@ class CityMap extends Component {
           neighborhoods: [],
         })
       } else {
-        this.props.updateBorrower({
-          ...this.props.borrower,
-          neighborhoods: [
-            ...this.props.borrower.neighborhoods,
-            properties.name,
-          ]
-        })
+        console.log('hoods', neighborhoods)
+        // if we click on a neighborhood that is already selected, remove it from the list of selected neighborhoods
+        if (neighborhoods.includes(properties.name)) {
+          const index = neighborhoods.indexOf(properties.name);
+          neighborhoods.splice(index, 1)
 
-        layer.setStyle(highlightStyle);
-      }
+          this.props.updateBorrower({
+            ...this.props.borrower,
+            neighborhoods,
+          })
+        } else {
+          this.props.updateBorrower({
+            ...this.props.borrower,
+            neighborhoods: [
+              ...this.props.borrower.neighborhoods,
+              properties.name,
+            ]
+          })
+        }
+      };
+
+      layer.setStyle(highlightStyle);
     });
   };
 
   handleBackButton = () => {
-    this.props.updateBorrower({
-      ...this.props.borrower,
-      city: '',
-      neighborhoods: [],
-    })
+
+    const { neighborhoods } = this.props.borrower;
+
+    if (neighborhoods.length) {
+      this.props.updateBorrower({
+        ...this.props.borrower,
+        neighborhoods: [],
+      })
+    } else {
+      this.props.updateBorrower({
+        ...this.props.borrower,
+        city: '',
+        neighborhoods: [],
+      })
+    }
   };
 
   render() {
@@ -138,7 +162,6 @@ class CityMap extends Component {
             marginRight: '50px',
             marginLeft: '50px',
           }}
-
           zoomControl={false}
           scrollWheelZoom={false}
           touchZoom={false}
