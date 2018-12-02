@@ -138,7 +138,7 @@ class LoginForm extends React.Component {
       />
       <TextField
         className={classes.textField}
-        label="MLS #"
+        label="NMLS #"
         value={mlsNumber}
         onChange={this.handleChange('mlsNumber')}
       />

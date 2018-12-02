@@ -54,8 +54,9 @@ class OAuth extends Component {
 
     socket.on(provider, user => {
       this.popup.close()
-      this.setState({ user });
-    })
+      this.props.updateUser(user);
+      console.log(user)
+    });
   }
 
   openPopup() {
@@ -74,9 +75,7 @@ class OAuth extends Component {
 
   startAuth(e) {
     e.preventDefault()
-    this.popup = this.openPopup()
-    const { user } = this.state;
-    this.props.updateUser(user);
+    this.popup = this.openPopup();
   }
 
   render() {
