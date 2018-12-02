@@ -1,10 +1,10 @@
 import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-// import LoginForm from './LoginForm';
-
+import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import CloseIcon from '@material-ui/icons/Close';
 import { Typography } from '@material-ui/core';
 
 import RegisterForm from './RegisterForm';
@@ -30,6 +30,12 @@ const styles = {
   or: {
     textAlign: 'center',
     fontWeight: 'bold'
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    color: 'red',
   }
 };
 
@@ -46,6 +52,11 @@ class AuthModal extends React.Component {
     console.log("EVENT IS: ", event, "VALUE IS: ", value)
     this.setState({ value });
   };
+
+  handleModalClose = () => {
+    // call our close login prop
+    this.props.closeLogin();
+  }
 
   render() {
     const { classes } = this.props;
@@ -71,6 +82,10 @@ class AuthModal extends React.Component {
           </div>
         }
         {value === 1 && <RegisterForm />}
+
+        <Button variant="transparent" mini aria-label="Close" className={classes.closeButton} onClick={this.handleModalClose}>
+          <CloseIcon />
+        </Button>
       </div>
     );
   }

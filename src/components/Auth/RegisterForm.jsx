@@ -9,131 +9,137 @@ import OAuth from './OAuth';
 import RegistrationFields from './RegistrationFields';
 
 const styles = {
-    socialButtonsContainer: {
-        marginTop: '40px',
-        marginBottom: '30px',
-        textAlign: 'center',
-    },
-    textField: {
-        width: '100%',
-    },
-    submit: {
-        marginTop: '20px'
-    }
+  socialButtonsContainer: {
+    marginTop: '40px',
+    marginBottom: '30px',
+    textAlign: 'center',
+  },
+  textField: {
+    width: '100%',
+  },
+  submit: {
+    marginTop: '20px'
+  }
 };
 
 const PROVIDERS = [
-    'facebook',
-    'linkedin',
-    'google'
+  'facebook',
+  'linkedin',
+  'google'
 ]
 
 class LoginForm extends React.Component {
-    state = {
-        email: '',
-        password: '',
-        isLoggedInWithSocial: false,
+  state = {
+    email: '',
+    password: '',
+    isLoggedInWithSocial: false,
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
+  onClickSubmit = () => {
+    const { email, password, confirmPassword, mlsNumber, phone } = this.state;
+
+    if (password !== confirmPassword) {
+      return alert('Passwords must match');
     }
 
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value,
-        });
-    };
+    register({
+      email,
+      password,
+    });
+  }
 
-    onClickSubmit = () => {
-        const { email, password, confirmPassword, mlsNumber, phone } = this.state;
+  render() {
+    const { classes } = this.props;
+    const { email, password, confirmPassword, company, mlsNumber, phone } = this.state;
 
-        if (password !== confirmPassword) {
-            return alert('Passwords must match');
-        }
+    const Auth = PROVIDERS.map(provider =>
+      <OAuth
+        provider={provider}
+        key={provider}
+        socket={this.socket}
+        update={this.updateRegistrationView}
+      />
+    );
 
-        register({
-            email,
-            password,
-        });
-    }
+    const { isLoggedInWithSocial } = this.state;
 
+    const display = isLoggedInWithSocial ? (
+      <p>coolio</p>
+    ) : (
+        <div>
+          <div className={classes.socialButtonsContainer}>
+            {Auth}
+          </div>
+          <TextField
+            className={classes.textField}
+            label="Email"
+            value={email}
+            onChange={this.handleChange('email')}
+          />
 
-    render() {
-        const { classes } = this.props;
-        const { email, password, confirmPassword, mlsNumber, phone } = this.state;
+          <TextField
+            className={classes.textField}
+            label="Password"
+            type="password"
+            value={password}
+            onChange={this.handleChange('password')}
+          />
 
-        // const Auth = PROVIDERS.map(provider =>
-        //     <OAuth
-        //         provider={provider}
-        //         key={provider}
-        //         socket={this.socket}
-        //         update={this.updateRegistrationView}
-        //     />
-        // );
+          <TextField
+            className={classes.textField}
+            label="Confirm Password"
+            type="password"
+            value={confirmPassword}
+            onChange={this.handleChange('confirmPassword')}
+          />
 
-        // const { isLoggedInWithSocial } = this.state;
+          <TextField
+            className={classes.textField}
+            label="Company"
+            value={company}
+            onChange={this.handleChange('company')}
+          />
 
-        // const display = isLoggedInWithSocial ? (
-        //     <p>coolio</p>
-        // ) : (
-        //         <div>
-        //             <div className={classes.socialButtonsContainer}>
-        //                 {Auth}
-        //             </div>
-        //             <TextField
-        //                 className={classes.textField}
-        //                 label="Email"
-        //                 value={email}
-        //                 onChange={this.handleChange('email')}
-        //             />
+          <TextField
+            className={classes.textField}
+            label="MLS #"
+            value={mlsNumber}
+            onChange={this.handleChange('mlsNumber')}
+          />
 
-        //             <TextField
-        //                 className={classes.textField}
-        //                 label="Password"
-        //                 type="password"
-        //                 value={password}
-        //                 onChange={this.handleChange('password')}
-        //             />
+          <TextField
+            className={classes.textField}
+            label="Phone"
+            value={phone}
+            onChange={this.handleChange('phone')}
+          />
 
-        //             <TextField
-        //                 className={classes.textField}
-        //                 label="Confirm Password"
-        //                 type="password"
-        //                 value={confirmPassword}
-        //                 onChange={this.handleChange('confirmPassword')}
-        //             />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.onClickSubmit}
+            className={classes.submit}
+          >
+            Submit
+          </Button>
+        </div>
+      );
 
-        //             <TextField
-        //                 className={classes.textField}
-        //                 label="MLS #"
-        //                 value={mlsNumber}
-        //                 onChange={this.handleChange('mlsNumber')}
-        //             />
-
-        //             <TextField
-        //                 className={classes.textField}
-        //                 label="Phone"
-        //                 value={phone}
-        //                 onChange={this.handleChange('phone')}
-        //             />
-
-        //             <Button
-        //                 variant="contained"
-        //                 color="primary"
-        //                 onClick={this.onClickSubmit}
-        //                 className={classes.submit}
-        //             >
-        //                 Submit
-        //     </Button>
-        //         </div>
-        //     );
-
-        return (
-            <RegistrationFields
-                handleChange={this.handleChange}
-                onClickSubmit={this.onClickSubmit}
-                isLoggedInWithSocial={this.state.isLoggedInWithSocial}
-                update={this.updateRegistrationView}
-            />
-        );
-    }
+    return (
+      <RegistrationFields
+        handleChange={this.handleChange}
+        onClickSubmit={this.onClickSubmit}
+        isLoggedInWithSocial={this.state.isLoggedInWithSocial}
+        update={this.updateRegistrationView}
+      />
+    );
+  }
 }
 
 export default withStyles(styles)(LoginForm);
