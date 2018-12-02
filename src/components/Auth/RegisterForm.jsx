@@ -53,10 +53,12 @@ class LoginForm extends React.Component {
 
   socket = getSocket()
 
-  updateRegistrationView = (name) => {
+  updateUser = provider => ({ name, id }) => {
     this.setState({
       isLoggedInWithSocial: !this.state.isLoggedInWithSocial,
       name,
+      id,
+      provider 
     })
   }
 
@@ -67,7 +69,7 @@ class LoginForm extends React.Component {
   };
 
   onClickSubmit = () => {
-    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, mlsNumber, phone } = this.state;
+    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, mlsNumber, phone, provider, id } = this.state;
     const checkFields = [name, company, email, mlsNumber, phone];
 
     if (!isLoggedInWithSocial) {
@@ -80,6 +82,20 @@ class LoginForm extends React.Component {
       if (!field) return alert("Oops! Please make sure every field is filled in");
     });
 
+    let providerId = {};
+
+    if (provider) {
+        const PROVIDER_MAP = {
+            'facebook': 'fb_id',
+            'linkedin': 'li_id',
+            'google': 'google_id',
+        };
+
+        providerId = {
+            [PROVIDER_MAP[provider]]: id,
+        };
+    }
+
     register({
       name,
       company,
@@ -87,6 +103,7 @@ class LoginForm extends React.Component {
       password,
       mlsNumber,
       phone,
+      ...providerId
     });
   }
 
@@ -96,7 +113,7 @@ class LoginForm extends React.Component {
         provider={provider}
         key={provider}
         socket={this.socket}
-        update={this.updateRegistrationView}
+        updateUser={this.updateUser(provider)}
       />
     );
   }
