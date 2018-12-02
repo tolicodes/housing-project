@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import AuthModal from './Auth/AuthModal';
+
 
 const styles = {
   root: {
@@ -38,7 +41,7 @@ class Header extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
     const { showLogin } = this.state;
 
     return (
@@ -52,7 +55,11 @@ class Header extends Component {
               color="inherit"
               onClick={this.onClickLogin}
             >
-              Login / Register
+              {
+                user
+                ? `${user.name} - Logout`
+                : 'Login / Register'
+              }
             </Button>
           </Toolbar>
         </AppBar>
@@ -63,4 +70,8 @@ class Header extends Component {
   }
 }
 
-export default withStyles(styles)(Header);
+export default connect(
+  ({ auth: { user } }) => ({
+    user,
+  }),
+)(withStyles(styles)(Header));
