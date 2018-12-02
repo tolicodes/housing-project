@@ -34,9 +34,7 @@ const styles = {
     fontWeight: 'bold'
   },
   closeButton: {
-    position: 'absolute',
-    top: '5px',
-    right: '5px',
+    fontSize: '18px',
     color: 'red',
   }
 };
@@ -61,7 +59,7 @@ class AuthModal extends React.Component {
 
     return (
       <div className={classes.modal}>
-        <Button onClick={this.handleModalClose}>x</Button>
+        <Button onClick={this.handleModalClose} className={classes.closeButton}>X</Button>
         <Tabs
           value={tabNumber}
           onChange={this.handleChange}
@@ -77,7 +75,7 @@ class AuthModal extends React.Component {
             <SocialLogins
               setUser={this.props.setUser}
               closeModal={this.handleModalClose}
-              />
+            />
             <Typography className={classes.or}>OR</Typography>
             <LoginForm
               closeModal={this.handleModalClose}
@@ -88,7 +86,7 @@ class AuthModal extends React.Component {
         {tabNumber === 1 && <RegisterForm
           setUser={this.props.setUser}
           closeModal={this.handleModalClose}
-          />}
+        />}
       </div>
     );
   }

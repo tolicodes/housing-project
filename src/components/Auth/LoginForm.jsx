@@ -36,6 +36,10 @@ class LoginForm extends React.Component {
     onClickSubmit = () => {
         const { email, password } = this.state;
 
+        if (!email || !password) {
+            return alert("Please enter a valid email and password combination")
+        }
+
         login({
             email,
             password
