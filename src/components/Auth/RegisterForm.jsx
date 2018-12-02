@@ -68,17 +68,22 @@ class LoginForm extends React.Component {
 
   onClickSubmit = () => {
     const { isLoggedInWithSocial, name, email, password, confirmPassword, company, mlsNumber, phone } = this.state;
-    const checkFields = [name, company, email, mlsNumber, phone];
+    const checkFields = ['name', 'company', 'email', 'mlsNumber', 'phone'];
 
     if (!isLoggedInWithSocial) {
-      if (password !== confirmPassword) {
+      if (!password || password !== confirmPassword) {
         return alert('Passwords must match');
       }
     }
 
-    checkFields.forEach(field => {
-      if (!field) return alert("Oops! Please make sure every field is filled in");
+    const failedValidation = checkFields.some((field) => {
+      if (!this.state[field]) {
+        alert(`Oops! Please make sure the ${field} field is filled in`);
+        return true;
+      }
     });
+
+    if (failedValidation) return;
 
     register({
       name,
