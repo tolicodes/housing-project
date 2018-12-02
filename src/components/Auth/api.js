@@ -47,7 +47,7 @@ export const register = async ({
   name,
   phone,
   company,
-  mls_number,
+  nmls_number,
 }) => {
   try {
     const {
@@ -62,7 +62,7 @@ export const register = async ({
       name,
       phone,
       company,
-      mls_number,
+      nmls_number,
     });
 
     setToken(token);
