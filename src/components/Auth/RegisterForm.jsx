@@ -58,7 +58,7 @@ class LoginForm extends React.Component {
       isLoggedInWithSocial: !this.state.isLoggedInWithSocial,
       name,
       id,
-      provider 
+      provider
     })
   }
 
@@ -69,31 +69,37 @@ class LoginForm extends React.Component {
   };
 
   onClickSubmit = () => {
-    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, mlsNumber, phone, provider, id } = this.state;
-    const checkFields = [name, company, email, mlsNumber, phone];
+    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, nmlsNumber, phone, provider, id } = this.state;
+    const checkFields = ['name', 'company', 'email', 'nmlsNumber', 'phone'];
 
     if (!isLoggedInWithSocial) {
-      if (password !== confirmPassword) {
+      if (!password || password !== confirmPassword) {
         return alert('Passwords must match');
       }
     }
 
-    checkFields.forEach(field => {
-      if (!field) return alert("Oops! Please make sure every field is filled in");
+    const failedValidation = checkFields.some((field) => {
+      if (!this.state[field]) {
+        alert(`Oops! Please make sure the ${field} field is filled in`);
+        return true;
+      } else {
+        return false;
+      }
     });
 
+    if (failedValidation) return;
     let providerId = {};
 
     if (provider) {
-        const PROVIDER_MAP = {
-            'facebook': 'fb_id',
-            'linkedin': 'li_id',
-            'google': 'google_id',
-        };
+      const PROVIDER_MAP = {
+        'facebook': 'fb_id',
+        'linkedin': 'li_id',
+        'google': 'google_id',
+      };
 
-        providerId = {
-            [PROVIDER_MAP[provider]]: id,
-        };
+      providerId = {
+        [PROVIDER_MAP[provider]]: id,
+      };
     }
 
     register({
@@ -101,7 +107,7 @@ class LoginForm extends React.Component {
       company,
       email,
       password,
-      mlsNumber,
+      nmlsNumber,
       phone,
       ...providerId
     });
@@ -120,7 +126,7 @@ class LoginForm extends React.Component {
 
   renderIsLoggedInWithSocial = () => {
     const { classes } = this.props;
-    const { company, email, mlsNumber, phone } = this.state;
+    const { company, email, nmlsNumber, phone } = this.state;
 
     return <div className={classes.completeRegistration}>
       <p>Nice! Please fill in the rest of the required fields to finish registering.</p>
@@ -139,8 +145,8 @@ class LoginForm extends React.Component {
       <TextField
         className={classes.textField}
         label="MLS #"
-        value={mlsNumber}
-        onChange={this.handleChange('mlsNumber')}
+        value={nmlsNumber}
+        onChange={this.handleChange('nmlsNumber')}
       />
       <TextField
         className={classes.textField}
@@ -161,7 +167,7 @@ class LoginForm extends React.Component {
 
   renderIsNotLoggedInWithSocial = () => {
     const { classes } = this.props;
-    const { name, email, password, confirmPassword, company, mlsNumber, phone } = this.state;
+    const { name, email, password, confirmPassword, company, nmlsNumber, phone } = this.state;
 
     return (
       <div className={classes.registrationFields}>
@@ -204,8 +210,8 @@ class LoginForm extends React.Component {
           <TextField
             className={classes.textField2}
             label="MLS #"
-            value={mlsNumber}
-            onChange={this.handleChange('mlsNumber')}
+            value={nmlsNumber}
+            onChange={this.handleChange('nmlsNumber')}
           />
           <TextField
             className={classes.textField2}
