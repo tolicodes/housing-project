@@ -1,14 +1,16 @@
 import axios from 'axios';
-
 import {
   all,
 } from 'redux-saga/effects';
+
+import { setToken } from './api';
+
 
 function doGetUser() {
   const token = localStorage.getItem('token');
 
   if (token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    setToken(token);
   }
 }
 
