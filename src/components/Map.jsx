@@ -126,11 +126,11 @@ class CityMap extends Component {
   }
 }
 
-export default (connect(
+export default connect(
   ({ app: { borrowers } }) => ({
     borrower: borrowers[borrowers.length - 1],
   }),
   dispatch => bindActionCreators({
     updateBorrower,
   }, dispatch),
-)(CityMap));
+)(CityMap);

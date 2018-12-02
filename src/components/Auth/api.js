@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 
 const { REACT_APP_API_ROOT: API_ROOT } = process.env;
 
-export const getSocket = () => io(API_ROOT)
+export const getSocket = () => io(API_ROOT);
 
 export const login = async ({ email, password }) => {
   try {
@@ -13,12 +13,14 @@ export const login = async ({ email, password }) => {
     });
 
     localStorage.setItem('token', token);
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } catch (e) {
     alert(e.message);
   }
 };
 
 export const logout = () => {
+  axios.defaults.headers.common.Authorization = '';
   localStorage.removeItem('token');
 };
 
@@ -30,6 +32,7 @@ export const register = async ({ email, password }) => {
     });
 
     localStorage.setItem('token', token);
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   } catch (e) {
     alert(e.message);
   }

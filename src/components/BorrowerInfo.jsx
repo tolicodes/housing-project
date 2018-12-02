@@ -38,8 +38,8 @@ class BorrowerInfo extends React.Component {
 
   render() {
     const { classes, borrower: {
-      borrowerName,
-      borrowerAmount
+      name,
+      preapprovalAmount
     } } = this.props;
 
     return (
@@ -48,16 +48,16 @@ class BorrowerInfo extends React.Component {
           <TextField
             label="Borrower Name"
             className={classes.textField}
-            value={borrowerName}
-            onChange={this.handleChange('borrowerName')}
+            value={name}
+            onChange={this.handleChange('name')}
             margin="normal"
           />
           <TextField
             label="Preapproval Amount"
             className={classes.textField}
-            value={borrowerAmount}
+            value={preapprovalAmount}
             placeholder="$"
-            onChange={this.handleChange('borrowerAmount')}
+            onChange={this.handleChange('preapprovalAmount')}
             margin="normal"
           />
         </form>

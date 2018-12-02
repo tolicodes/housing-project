@@ -51,13 +51,13 @@ function ClippedDrawer(props) {
   const { classes, borrowers } = props;
 
   const borrowersHTML = borrowers.map(({
-    borrowerName,
-    borrowerAmount,
+    name,
+    preapprovalAmount,
     neighborhoods,
     city,
   }, i) => (
     <ListItem
-      key={borrowerName}
+      key={name}
     >
       <ExpansionPanel className={classes.expansionPanel}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -65,7 +65,7 @@ function ClippedDrawer(props) {
             {`Borrower ${i + 1}:`}
             &nbsp;
           </Typography>
-          <Typography className={classes.secondaryHeading}>{borrowerName}</Typography>
+          <Typography className={classes.secondaryHeading}>{name}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.neighborhoods}>
           <Typography>
@@ -102,7 +102,7 @@ function ClippedDrawer(props) {
           <Typography>
             Amount:
             {' '}
-            {borrowerAmount}
+            {preapprovalAmount}
           </Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
