@@ -58,7 +58,7 @@ class LoginForm extends React.Component {
       isLoggedInWithSocial: !this.state.isLoggedInWithSocial,
       name,
       id,
-      provider 
+      provider
     })
   }
 
@@ -69,13 +69,8 @@ class LoginForm extends React.Component {
   };
 
   onClickSubmit = () => {
-<<<<<<< HEAD
-    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, nmlsNumber, phone } = this.state;
+    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, nmlsNumber, phone, provider, id } = this.state;
     const checkFields = ['name', 'company', 'email', 'nmlsNumber', 'phone'];
-=======
-    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, mlsNumber, phone, provider, id } = this.state;
-    const checkFields = [name, company, email, mlsNumber, phone];
->>>>>>> 3bdb3b541b57474f9cd37b10926b2ec8d7fdef26
 
     if (!isLoggedInWithSocial) {
       if (!password || password !== confirmPassword) {
@@ -87,26 +82,25 @@ class LoginForm extends React.Component {
       if (!this.state[field]) {
         alert(`Oops! Please make sure the ${field} field is filled in`);
         return true;
+      } else {
+        return false;
       }
     });
 
-<<<<<<< HEAD
     if (failedValidation) return;
-=======
     let providerId = {};
 
     if (provider) {
-        const PROVIDER_MAP = {
-            'facebook': 'fb_id',
-            'linkedin': 'li_id',
-            'google': 'google_id',
-        };
+      const PROVIDER_MAP = {
+        'facebook': 'fb_id',
+        'linkedin': 'li_id',
+        'google': 'google_id',
+      };
 
-        providerId = {
-            [PROVIDER_MAP[provider]]: id,
-        };
+      providerId = {
+        [PROVIDER_MAP[provider]]: id,
+      };
     }
->>>>>>> 3bdb3b541b57474f9cd37b10926b2ec8d7fdef26
 
     register({
       name,
