@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import { login } from './api';
+
 const styles = {
     credentials: {
         width: '70%',
@@ -31,6 +33,15 @@ class LoginForm extends React.Component {
         });
     };
 
+    onClickSubmit = () => {
+        const { email, password } = this.state;
+
+        login({
+            email,
+            password
+        });
+    }
+
     render() {
         const { classes } = this.props;
         const { email, password } = this.state;
@@ -54,6 +65,7 @@ class LoginForm extends React.Component {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
+                    onClick={this.onClickSubmit}
                 >
                     Submit
                 </Button>

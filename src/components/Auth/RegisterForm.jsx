@@ -59,6 +59,8 @@ class LoginForm extends React.Component {
         register({
             email,
             password,
+            mlsNumber,
+            phone,
         });
     }
 

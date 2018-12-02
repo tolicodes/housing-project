@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -54,8 +53,6 @@ class CityMap extends Component {
   onEachNeighborhoodFeature = (feature, layer) => this.onEachFeature('neighborhood', feature, layer)
 
   onEachFeature = (type, feature, layer) => {
-    const { city, neighborhoods } = this.props.borrower;
-
     // Load the default style.
     layer.setStyle(defaultStyle);
 
@@ -83,7 +80,7 @@ class CityMap extends Component {
     });
 
     layer.on('click', () => {
-      const { city, neighborhoods } = this.props.borrower;
+      const { neighborhoods } = this.props.borrower;
 
       if (type === 'city') {
         this.props.updateBorrower({
