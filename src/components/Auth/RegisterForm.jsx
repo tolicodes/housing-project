@@ -53,10 +53,12 @@ class LoginForm extends React.Component {
 
   socket = getSocket()
 
-  updateRegistrationView = (name) => {
+  updateUser = provider => ({ name, id }) => {
     this.setState({
       isLoggedInWithSocial: !this.state.isLoggedInWithSocial,
       name,
+      id,
+      provider 
     })
   }
 
@@ -67,8 +69,13 @@ class LoginForm extends React.Component {
   };
 
   onClickSubmit = () => {
+<<<<<<< HEAD
     const { isLoggedInWithSocial, name, email, password, confirmPassword, company, nmlsNumber, phone } = this.state;
     const checkFields = ['name', 'company', 'email', 'nmlsNumber', 'phone'];
+=======
+    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, mlsNumber, phone, provider, id } = this.state;
+    const checkFields = [name, company, email, mlsNumber, phone];
+>>>>>>> 3bdb3b541b57474f9cd37b10926b2ec8d7fdef26
 
     if (!isLoggedInWithSocial) {
       if (!password || password !== confirmPassword) {
@@ -83,7 +90,23 @@ class LoginForm extends React.Component {
       }
     });
 
+<<<<<<< HEAD
     if (failedValidation) return;
+=======
+    let providerId = {};
+
+    if (provider) {
+        const PROVIDER_MAP = {
+            'facebook': 'fb_id',
+            'linkedin': 'li_id',
+            'google': 'google_id',
+        };
+
+        providerId = {
+            [PROVIDER_MAP[provider]]: id,
+        };
+    }
+>>>>>>> 3bdb3b541b57474f9cd37b10926b2ec8d7fdef26
 
     register({
       name,
@@ -92,6 +115,7 @@ class LoginForm extends React.Component {
       password,
       nmlsNumber,
       phone,
+      ...providerId
     });
   }
 
@@ -101,7 +125,7 @@ class LoginForm extends React.Component {
         provider={provider}
         key={provider}
         socket={this.socket}
-        update={this.updateRegistrationView}
+        updateUser={this.updateUser(provider)}
       />
     );
   }

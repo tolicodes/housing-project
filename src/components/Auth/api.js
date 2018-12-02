@@ -48,6 +48,9 @@ export const register = async ({
   phone,
   company,
   nmls_number,
+  li_id,
+  fb_id,
+  google_id,
 }) => {
   try {
     const {
@@ -63,6 +66,9 @@ export const register = async ({
       phone,
       company,
       nmls_number,
+      li_id,
+      fb_id,
+      google_id,
     });
 
     setToken(token);

@@ -74,8 +74,8 @@ class OAuth extends Component {
   startAuth(e) {
     e.preventDefault()
     this.popup = this.openPopup()
-    const { name } = this.state;
-    this.props.update(name);
+    const { user } = this.state;
+    this.props.updateUser(user);
   }
 
   render() {
