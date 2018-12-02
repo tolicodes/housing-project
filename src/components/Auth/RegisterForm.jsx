@@ -37,7 +37,6 @@ class LoginForm extends React.Component {
     socket = getSocket()
 
     updateRegistrationView = () => {
-      console.log("OK THAT SEEMS TO MAKE SENSE")
       this.setState({
         isLoggedInWithSocial: !this.state.isLoggedInWithSocial
       })
