@@ -53,11 +53,9 @@ class BottomAppBar extends Component {
 
   // eslint-disable-next-line
   onSubmit = () => {
-    console.log('made it here');
     this.setState({
       modalOpen: true,
     });
-    console.log('NOW STATE IS: ', this.state);
   }
 
   modalClose = () => {

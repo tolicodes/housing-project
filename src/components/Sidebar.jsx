@@ -11,11 +11,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { Map, GeoJSON } from 'react-leaflet';
-import { getCenter, MAPS } from './maps/utils';
-
-import TitleLayer from './maps/TitleLayer';
-
 const drawerWidth = '300px';
 
 const styles = () => ({
@@ -46,8 +41,6 @@ const styles = () => ({
     flexDirection: 'column',
   },
 });
-
-const ZOOM = 11;
 
 function ClippedDrawer(props) {
   // eslint-disable-next-line

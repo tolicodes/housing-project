@@ -66,7 +66,7 @@ class LoginForm extends React.Component {
   };
 
   onClickSubmit = () => {
-    const { company, email, password, confirmPassword, mlsNumber, phone } = this.state;
+    const { email, password, confirmPassword, mlsNumber, phone } = this.state;
 
     if (password !== confirmPassword) {
       return alert('Passwords must match');
@@ -75,10 +75,12 @@ class LoginForm extends React.Component {
     register({
       email,
       password,
+      mlsNumber,
+      phone,
     });
   }
 
-  renderSocial() {
+  renderSocial = () => {
     return PROVIDERS.map(provider =>
       <OAuth
         provider={provider}
@@ -89,7 +91,7 @@ class LoginForm extends React.Component {
     );
   }
 
-  renderIsLoggedInWithSocial() {
+  renderIsLoggedInWithSocial = () => {
     const { classes } = this.props;
     const { company, email, mlsNumber, phone } = this.state;
 
@@ -130,7 +132,7 @@ class LoginForm extends React.Component {
     </div>
   }
 
-  renderIsNotLoggedInWithSocial() {
+  renderIsNotLoggedInWithSocial = () => {
     const { classes } = this.props;
     const { name, email, password, confirmPassword, company, mlsNumber, phone } = this.state;
 
@@ -203,5 +205,4 @@ class LoginForm extends React.Component {
       : this.renderIsNotLoggedInWithSocial();
   }
 }
-
 export default withStyles(styles)(LoginForm);

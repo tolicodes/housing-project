@@ -50,7 +50,6 @@ export default function (state = initialState, action) {
         city,
       } = data;
 
-      console.log('City: ', city, 'Neighborhoods: ', neighborhoods, findIndexById(state, uuid));
       return update(
         state,
         {

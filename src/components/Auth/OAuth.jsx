@@ -47,7 +47,6 @@ const styles = () => ({
 class OAuth extends Component {
   state = {
     user: {},
-    disabled: ''
   }
 
   componentDidMount() {
@@ -55,24 +54,10 @@ class OAuth extends Component {
 
     socket.on(provider, user => {
       this.popup.close()
-      this.setState({ user })
-      console.log(user)
+      this.setState({ user });
     })
   }
 
-  checkPopup() {
-    const check = setInterval(() => {
-      const { popup } = this
-      if (!popup || popup.closed || popup.closed === undefined) {
-        clearInterval(check)
-        this.setState({ disabled: '' })
-      }
-    }, 1000)
-  }
-
-  // Launches the popup by making a request to the server and then 
-  // passes along the socket id so it can be used to send back user 
-  // data to the appropriate socket on the connected client.
   openPopup() {
     const { provider, socket } = this.props
     const width = 600, height = 600
@@ -87,36 +72,20 @@ class OAuth extends Component {
     )
   }
 
-  // Kicks off the processes of opening the popup on the server and listening 
-  // to the popup. It also disables the login button so the user can not 
-  // attempt to login to the provider twice.
   startAuth(e) {
-    if (!this.state.disabled) {
       e.preventDefault()
       this.popup = this.openPopup()
-      this.checkPopup()
-      this.setState({ disabled: 'disabled' })
       this.props.update();
-    }
   }
 
   render() {
     const { name } = this.state.user;
     const { provider, classes } = this.props;
-    const { disabled } = this.state;
 
     return (
       <div>
         {name
-          ? (
-            <h4>
-              {provider}
-              {' '}
-              - Logged In -
-              {' '}
-              {name}
-            </h4>
-          )
+          ?  <h4>{`${provider} - Logged In - ${name}`}</h4>
           : (
             <Button
               variant="contained"
