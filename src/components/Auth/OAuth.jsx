@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
-
 const { REACT_APP_API_ROOT: API_ROOT } = process.env;
 const API_URL = API_ROOT + '/users';
 

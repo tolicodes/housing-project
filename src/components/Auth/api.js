@@ -9,8 +9,7 @@ export const setToken = (token) => {
   localStorage.setItem('token', token);
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
-
-export const getSocket = () => io(API_ROOT);
+export const getSocket = () => console.log(API_ROOT) && io(API_ROOT);
 
 export const login = async ({
   email,
@@ -47,7 +46,7 @@ export const register = async ({
   name,
   phone,
   company,
-  mls_number,
+  nmls_number,
   li_id,
   fb_id,
   google_id,
@@ -65,7 +64,7 @@ export const register = async ({
       name,
       phone,
       company,
-      mls_number,
+      nmls_number,
       li_id,
       fb_id,
       google_id,
