@@ -22,6 +22,9 @@ const styles = () => ({
   root: {
     display: 'flex',
   },
+  heading: {
+    fontWeight: 'bold',
+  },
   borrowers: {
     paddingTop: '64px',
   },
@@ -63,44 +66,23 @@ function ClippedDrawer(props) {
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>
             {`Borrower ${i + 1}:`}
-            &nbsp;
+              &nbsp;
           </Typography>
           <Typography className={classes.secondaryHeading}>{name}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.neighborhoods}>
-          <Typography>
-            Neighborhoods:
+          <Typography className={classes.heading}>
+              Neighborhoods:
             {' '}
           </Typography>
-
-          {neighborhoods.map(hood => (
-            <div key={hood}>
-              <Map
-                className={classes.map}
-                zoomControl={false}
-                scrollWheelZoom={false}
-                touchZoom={false}
-                doubleClickZoom={false}
-
-                zoom={ZOOM}
-                center={getCenter(city, hood)}
-              >
-                <TitleLayer />
-
-                <GeoJSON
-                  data={{
-                    type: 'FeatureCollection',
-                    features: MAPS[city].features.filter(({ properties: { name } }) => name === hood),
-                  }}
-                />
-              </Map>
-              {hood}
-            </div>
-          ))}
+          {neighborhoods.join(', ')}
         </ExpansionPanelDetails>
         <ExpansionPanelDetails>
+          <Typography className={classes.heading}>
+              Amount:
+            {' '}
+          </Typography>
           <Typography>
-            Amount:
             {' '}
             {preapprovalAmount}
           </Typography>

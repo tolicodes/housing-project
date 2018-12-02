@@ -20,7 +20,8 @@ const styles = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: 'white',
+    backgroundColor: '#f5f5f5',
+    border: '1px solid #c2c2c2',
     padding: 20,
   },
   textField: {

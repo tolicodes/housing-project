@@ -96,6 +96,7 @@ class OAuth extends Component {
       this.popup = this.openPopup()
       this.checkPopup()
       this.setState({ disabled: 'disabled' })
+      this.props.update();
     }
   }
 

@@ -1,20 +1,23 @@
 
 import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+
+import Button from '@material-ui/core/Button';
+
 import { Map, GeoJSON } from 'react-leaflet';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import TitleLayer from './maps/TitleLayer';
 import { updateBorrower } from './App/actions';
 
 import { getCenter, MAPS, CENTERS, LA_CENTER } from './maps/utils';
 import la from './maps/la';
+import TitleLayer from './maps/TitleLayer';
 
-// import CityDetailsBox from './CityDetailsBox';
+import HoodDetailsBox from './HoodDetailsBox';
 
 /* Neighborhood */
-const defaultStyle = {
+let defaultStyle = {
   color: '#2262CC',
   weight: 2,
   opacity: 0.6,
@@ -28,14 +31,30 @@ const highlightStyle = {
   fillOpacity: 0.65,
 };
 
+const styles = () => ({
+  mapContainer: {
+    marginRight: '300px',
+    paddingTop: '20px',
+  },
+  backButton: {
+    marginLeft: '50px',
+    marginTop: '5px',
+  }
+})
+
 class CityMap extends Component {
   state = {
     currentCity: null,
-    currentNeighborhoods: []
+    currentNeighborhoods: [],
+    displayHoodDetails: false,
   }
 
-  onEachFeature = (feature, layer) => {
-    const { city } = this.props.borrower;
+  onEachCityFeature = (feature, layer) => this.onEachFeature('city', feature, layer)
+
+  onEachNeighborhoodFeature = (feature, layer) => this.onEachFeature('neighborhood', feature, layer)
+
+  onEachFeature = (type, feature, layer) => {
+    const { city, neighborhoods } = this.props.borrower;
 
     // Load the default style.
     layer.setStyle(defaultStyle);
@@ -43,6 +62,19 @@ class CityMap extends Component {
     const properties = feature.properties;
 
     layer.on('mouseover', () => {
+      // check to see if we are hovering over a neighborhood or not
+      if (type === 'neighborhood') {
+        console.log("Neighborhood is: ", feature.properties.name);
+        this.setState({
+          displayHoodDetails: true,
+          currentCity: feature.properties.name
+        })
+      } else {
+        console.log("City is: ", feature.properties.name);
+        this.setState({
+          displayHoodDetails: false,
+        })
+      }
       layer.setStyle(highlightStyle);
     });
 
@@ -53,38 +85,77 @@ class CityMap extends Component {
     });
 
     layer.on('click', () => {
-      if (!city) {
+      const { city, neighborhoods } = this.props.borrower;
+
+      if (type === 'city') {
         this.props.updateBorrower({
           ...this.props.borrower,
           city: properties.name,
           neighborhoods: [],
         })
       } else {
-        this.props.updateBorrower({
-          ...this.props.borrower,
-          neighborhoods: [
-            ...this.props.borrower.neighborhoods,
-            properties.name,
-          ]
-        })
+        // if we click on a neighborhood that is already selected, remove it from the list of selected neighborhoods
+        if (neighborhoods.includes(properties.name)) {
+          const index = neighborhoods.indexOf(properties.name);
+          neighborhoods.splice(index, 1)
 
-        layer.setStyle(highlightStyle);
-      }
+          this.props.updateBorrower({
+            ...this.props.borrower,
+            neighborhoods,
+          })
+        } else {
+          this.props.updateBorrower({
+            ...this.props.borrower,
+            neighborhoods: [
+              ...this.props.borrower.neighborhoods,
+              properties.name,
+            ]
+          })
+
+        }
+      };
     });
   };
 
+  handleBackButton = () => {
+
+    const { neighborhoods } = this.props.borrower;
+
+    if (neighborhoods.length) {
+      this.props.updateBorrower({
+        ...this.props.borrower,
+        neighborhoods: [],
+      })
+    } else {
+      this.props.updateBorrower({
+        ...this.props.borrower,
+        city: '',
+        neighborhoods: [],
+      })
+    }
+
+    this.setState({
+      displayHoodDetails: false,
+    })
+  };
+
   render() {
+
+    const { classes } = this.props;
+
     const { city, neighborhoods } = this.props.borrower;
 
     let zoomLevel = !city ? 10 : 11;
+
+    let lastNeighborhood;
 
     let centerPoint = !city ?
       LA_CENTER
       : CENTERS[city];
 
     if (neighborhoods.length) {
-      const lastNeighborhood = neighborhoods[neighborhoods.length - 1];
-
+      lastNeighborhood = neighborhoods[neighborhoods.length - 1];
+      console.log('yo', neighborhoods, city);
       centerPoint = getCenter(city, lastNeighborhood);
 
       zoomLevel = 12;
@@ -93,44 +164,73 @@ class CityMap extends Component {
     const mapData = !city ? la : MAPS[city];
     const mapKey = city || 'la';
 
-    return (
-      <Map
-        style={{
-          height: 'calc(100vh - 200px)',
-          marginRight: '300px',
-        }}
+    city && console.log({
+      type: 'FeatureCollection',
+      features: MAPS[city].features.filter(({ properties: { name } }) => lastNeighborhood === name),
+    })
 
-        zoomControl={false}
-        scrollWheelZoom={false}
-        touchZoom={false}
-        doubleClickZoom={false}
-
-        zoom={zoomLevel}
-        center={centerPoint}
+    const button = !city ?
+      null
+      : <Button
+        size="small"
+        variant="contained"
+        className={classes.backButton}
+        onClick={this.handleBackButton}
       >
-        
-        <TitleLayer/>
+        Zoom Out
+      </Button>;
 
-        <GeoJSON
-          key="la"
-          data={la}
-          onEachFeature={this.onEachFeature}
-        />
-        {city && <GeoJSON
-          key={mapKey}
-          data={mapData}
-          onEachFeature={this.onEachFeature}
-        />}
-      </Map>
+    return (
+      <div className={classes.mapContainer}>
+        <Map
+          style={{
+            height: 'calc(100vh - 260px)',
+            marginRight: '50px',
+            marginLeft: '50px',
+          }}
+          zoomControl={false}
+          scrollWheelZoom={false}
+          touchZoom={false}
+          doubleClickZoom={false}
+
+          zoom={zoomLevel}
+          center={centerPoint}
+        >
+
+          <TitleLayer />
+
+          {neighborhoods.length === 0 && <GeoJSON
+            key="la"
+            data={la}
+            onEachFeature={this.onEachCityFeature}
+          />}
+
+          {city && neighborhoods.length === 0 && <GeoJSON
+            key={mapKey}
+            data={mapData}
+            onEachFeature={this.onEachNeighborhoodFeature}
+          />}
+
+          {city && neighborhoods.length && <GeoJSON
+            key={neighborhoods}
+            data={{
+              type: 'FeatureCollection',
+              features: MAPS[city].features.filter(({ properties: { name } }) => lastNeighborhood === name),
+            }}
+          />}
+        </Map>
+        {button}
+        <HoodDetailsBox displayHoodDetails={this.state.displayHoodDetails} name={this.state.currentCity} />
+      </div>
     );
   }
 }
 
-export default connect(
+export default withStyles(styles)(connect(
   ({ app: { borrowers } }) => ({
     borrower: borrowers[borrowers.length - 1],
   }),
   dispatch => bindActionCreators({
     updateBorrower,
   }, dispatch),
-)(CityMap);
+)(CityMap));
