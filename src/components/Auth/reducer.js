@@ -1,30 +1,24 @@
-// import {
-// } from './actions';
+import {
+  SET_USER,
+  DO_LOGOUT,
+} from './actions';
 
 const initialState = {
-  loggedIn: false,
   user: null,
 };
 
-export default function (state = initialState, action) {
-  switch (action.type) {
-    // case SET_LOGGED_IN: {
-    //   return {
-    //     ...state,
-    //     loggedIn: action.loggedIn,
-    //   };
-    // }
+export default function (state = initialState, { type, data }) {
+  switch (type) {
+    case SET_USER: {
+      return {
+        ...state,
+        user: data,
+      };
+    }
 
-    // case SET_ME: {
-    //   return {
-    //     ...state,
-    //     user: action.user,
-    //   };
-    // }
-
-    // case DO_LOGOUT: {
-    //   return initialState;
-    // }
+    case DO_LOGOUT: {
+      return initialState;
+    }
 
     default: {
       return state;

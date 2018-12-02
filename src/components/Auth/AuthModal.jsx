@@ -1,15 +1,16 @@
-import { withStyles } from '@material-ui/core/styles';
 import React from 'react';
-
-// import LoginForm from './LoginForm';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
 import SocialLogins from './SocialLogins';
+import { setUser } from './actions';
 
 const styles = {
   modal: {
@@ -71,4 +72,10 @@ class AuthModal extends React.Component {
   }
 }
 
-export default withStyles(styles)(AuthModal);
+export default connect(
+  null,
+  dispatch => bindActionCreators({
+    setUser,
+  }, dispatch)
+)(withStyles(styles)(AuthModal));
+

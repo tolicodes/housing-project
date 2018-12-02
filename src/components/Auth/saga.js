@@ -1,15 +1,22 @@
 import {
   all,
+  put,
 } from 'redux-saga/effects';
 
-import { setToken } from './api';
+import { setToken, getCurrentUser } from './api';
+
+import { setUser } from './actions';
 
 
-function doGetUser() {
+function* doGetUser() {
   const token = localStorage.getItem('token');
 
   if (token) {
     setToken(token);
+
+    const { data: { user } } = yield getCurrentUser();
+
+    yield put(setUser(user));
   }
 }
 

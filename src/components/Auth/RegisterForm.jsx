@@ -37,9 +37,9 @@ class LoginForm extends React.Component {
     socket = getSocket()
 
     updateRegistrationView = () => {
-      this.setState({
-        isLoggedInWithSocial: !this.state.isLoggedInWithSocial
-      })
+        this.setState({
+            isLoggedInWithSocial: !this.state.isLoggedInWithSocial
+        })
     }
 
     handleChange = name => event => {
@@ -49,7 +49,15 @@ class LoginForm extends React.Component {
     };
 
     onClickSubmit = () => {
-        const { email, password, confirmPassword, mlsNumber, phone } = this.state;
+        const {
+            email,
+            password,
+            confirmPassword,
+            phone,
+            name,
+            company,
+            mlsNumber,
+         } = this.state;
 
         if (password !== confirmPassword) {
             return alert('Passwords must match');
@@ -58,8 +66,10 @@ class LoginForm extends React.Component {
         register({
             email,
             password,
-            mlsNumber,
             phone,
+            name,
+            company,
+            mls_number: mlsNumber,
         });
     }
 
@@ -169,7 +179,7 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        return this.state.isLoggedInWithSocial 
+        return this.state.isLoggedInWithSocial
             ? this.renderIsLoggedInWithSocial()
             : this.renderIsNotLoggedInWithSocial();
     }
