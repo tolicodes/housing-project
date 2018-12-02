@@ -9,7 +9,7 @@ export const setToken = (token) => {
   localStorage.setItem('token', token);
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
-export const getSocket = () => console.log(API_ROOT) && io(API_ROOT);
+export const getSocket = () => io(API_ROOT);
 
 export const login = async ({
   email,

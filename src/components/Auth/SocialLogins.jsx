@@ -26,8 +26,22 @@ class SocialLogins extends React.Component {
 
   socket = getSocket()
 
+  updateUser = provider => ({ name, id, exists }) => {
+    if (exists) {
+      this.props.setUser({
+        name,
+        id,
+      });
+      this.props.closeModal();
+    } else {
+      alert('You are not registered yet. Go to the register tab');
+    }
+  }
+
   render() {
     const { classes } = this.props;
+
+    console.log(this.socket)
 
     return (
       <div className={classes.socialButtonsContainer}>
@@ -36,6 +50,7 @@ class SocialLogins extends React.Component {
             provider={provider}
             key={provider}
             socket={this.socket}
+            updateUser={this.updateUser('provider')}
           />
         )}
       </div>

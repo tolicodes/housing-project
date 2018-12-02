@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button'
 
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
@@ -60,6 +61,7 @@ class AuthModal extends React.Component {
 
     return (
       <div className={classes.modal}>
+        <Button onClick={this.handleModalClose}>x</Button>
         <Tabs
           value={tabNumber}
           onChange={this.handleChange}
@@ -72,12 +74,21 @@ class AuthModal extends React.Component {
         </Tabs>
         {tabNumber === 0 &&
           <>
-            <SocialLogins />
+            <SocialLogins
+              setUser={this.props.setUser}
+              closeModal={this.handleModalClose}
+              />
             <Typography className={classes.or}>OR</Typography>
-            <LoginForm />
+            <LoginForm
+              closeModal={this.handleModalClose}
+              setUser={this.props.setUser}
+            />
           </>
         }
-        {tabNumber === 1 && <RegisterForm />}
+        {tabNumber === 1 && <RegisterForm
+          setUser={this.props.setUser}
+          closeModal={this.handleModalClose}
+          />}
       </div>
     );
   }
