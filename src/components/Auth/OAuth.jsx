@@ -73,9 +73,10 @@ class OAuth extends Component {
   }
 
   startAuth(e) {
-      e.preventDefault()
-      this.popup = this.openPopup()
-      this.props.update();
+    e.preventDefault()
+    this.popup = this.openPopup()
+    const { name } = this.state;
+    this.props.update(name);
   }
 
   render() {
@@ -85,7 +86,7 @@ class OAuth extends Component {
     return (
       <div>
         {name
-          ?  <h4>{`${provider} - Logged In - ${name}`}</h4>
+          ? <h4>{`${provider} - Logged In - ${name}`}</h4>
           : (
             <Button
               variant="contained"

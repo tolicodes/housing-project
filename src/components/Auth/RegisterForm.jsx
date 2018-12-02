@@ -53,9 +53,10 @@ class LoginForm extends React.Component {
 
   socket = getSocket()
 
-  updateRegistrationView = () => {
+  updateRegistrationView = (name) => {
     this.setState({
-      isLoggedInWithSocial: !this.state.isLoggedInWithSocial
+      isLoggedInWithSocial: !this.state.isLoggedInWithSocial,
+      name,
     })
   }
 
@@ -66,13 +67,22 @@ class LoginForm extends React.Component {
   };
 
   onClickSubmit = () => {
-    const { email, password, confirmPassword, mlsNumber, phone } = this.state;
+    const { isLoggedInWithSocial, name, email, password, confirmPassword, company, mlsNumber, phone } = this.state;
+    const checkFields = [name, company, email, mlsNumber, phone];
 
-    if (password !== confirmPassword) {
-      return alert('Passwords must match');
+    if (!isLoggedInWithSocial) {
+      if (password !== confirmPassword) {
+        return alert('Passwords must match');
+      }
     }
 
+    checkFields.forEach(field => {
+      if (!field) return alert("Oops! Please make sure every field is filled in");
+    });
+
     register({
+      name,
+      company,
       email,
       password,
       mlsNumber,
