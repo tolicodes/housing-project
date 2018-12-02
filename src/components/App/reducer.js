@@ -11,8 +11,8 @@ let borrowerCounter = 0;
 
 const createBorrower = () => ({
   uuid: uuid(),
-  borrowerAmount: '$',
-  borrowerName: `Borrower ${borrowerCounter += 1}`,
+  preapprovalAmount: '$',
+  name: `Borrower ${borrowerCounter += 1}`,
   neighborhoods: [],
   city: '',
 });
@@ -44,8 +44,8 @@ export default function (state = initialState, action) {
     case DO_UPDATE_BORROWER: {
       const {
         uuid,
-        borrowerAmount,
-        borrowerName,
+        preapprovalAmount,
+        name,
         neighborhoods,
         city,
       } = data;
@@ -58,8 +58,8 @@ export default function (state = initialState, action) {
             [findIndexById(state, uuid)]: {
               $set: {
                 uuid,
-                borrowerAmount,
-                borrowerName,
+                preapprovalAmount,
+                name,
                 neighborhoods,
                 city,
               },

@@ -40,17 +40,12 @@ const styles = {
 };
 
 class AuthModal extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    tabNumber: 0,
+  };
 
-    this.state = {
-      value: 0,
-    };
-  }
-
-  handleChange = (event, value) => {
-    console.log("EVENT IS: ", event, "VALUE IS: ", value)
-    this.setState({ value });
+  handleChange = (event, tabNumber) => {
+    this.setState({ tabNumber });
   };
 
   handleModalClose = () => {
@@ -60,12 +55,12 @@ class AuthModal extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { value } = this.state;
+    const { tabNumber } = this.state;
 
     return (
       <div className={classes.modal}>
         <Tabs
-          value={value}
+          value={tabNumber}
           onChange={this.handleChange}
           indicatorColor="primary"
           textColor="primary"
@@ -74,18 +69,14 @@ class AuthModal extends React.Component {
           <Tab label="Login" />
           <Tab label="Register" />
         </Tabs>
-        {value === 0 &&
-          <div>
+        {tabNumber === 0 &&
+          <>
             <SocialLogins />
             <Typography className={classes.or}>OR</Typography>
             <LoginForm />
-          </div>
+          </>
         }
-        {value === 1 && <RegisterForm />}
-
-        <Button variant="transparent" mini aria-label="Close" className={classes.closeButton} onClick={this.handleModalClose}>
-          <CloseIcon />
-        </Button>
+        {tabNumber === 1 && <RegisterForm />}
       </div>
     );
   }

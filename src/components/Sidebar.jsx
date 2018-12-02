@@ -54,62 +54,41 @@ function ClippedDrawer(props) {
   const { classes, borrowers } = props;
 
   const borrowersHTML = borrowers.map(({
-    borrowerName,
-    borrowerAmount,
+    name,
+    preapprovalAmount,
     neighborhoods,
     city,
   }, i) => (
     <ListItem
-        key={borrowerName}
-      >
-        <ExpansionPanel className={classes.expansionPanel}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>
-              {`Borrower ${i + 1}:`}
+      key={name}
+    >
+      <ExpansionPanel className={classes.expansionPanel}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>
+            {`Borrower ${i + 1}:`}
               &nbsp;
-            </Typography>
-            <Typography className={classes.secondaryHeading}>{borrowerName}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.neighborhoods}>
-            <Typography className={classes.heading}>
+          </Typography>
+          <Typography className={classes.secondaryHeading}>{name}</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={classes.neighborhoods}>
+          <Typography className={classes.heading}>
               Neighborhoods:
-              {' '}
-            </Typography>
-            {neighborhoods.map(hood => (
-              <div key={hood}>
-                <Map
-                  className={classes.map}
-                  zoomControl={false}
-                  scrollWheelZoom={false}
-                  touchZoom={false}
-                  doubleClickZoom={false}
-                  zoom={ZOOM}
-                  center={getCenter(city, hood)}
-                >
-                  <TitleLayer />
-                  <GeoJSON
-                    data={{
-                      type: 'FeatureCollection',
-                      features: MAPS[city].features.filter(({ properties: { name } }) => name === hood),
-                    }}
-                  />
-                </Map>
-                {hood}
-              </div>
-            ))}
-          </ExpansionPanelDetails>
-          <ExpansionPanelDetails>
-            <Typography className={classes.heading}>
+            {' '}
+          </Typography>
+          {neighborhoods.join(', ')}
+        </ExpansionPanelDetails>
+        <ExpansionPanelDetails>
+          <Typography className={classes.heading}>
               Amount:
-              {' '}
-            </Typography>
-            <Typography>
-              {' '}
-              {borrowerAmount}
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </ListItem>
+            {' '}
+          </Typography>
+          <Typography>
+            {' '}
+            {preapprovalAmount}
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    </ListItem>
   ));
 
   return (

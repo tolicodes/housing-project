@@ -64,13 +64,11 @@ class CityMap extends Component {
     layer.on('mouseover', () => {
       // check to see if we are hovering over a neighborhood or not
       if (type === 'neighborhood') {
-        console.log("Neighborhood is: ", feature.properties.name);
         this.setState({
           displayHoodDetails: true,
           currentCity: feature.properties.name
         })
       } else {
-        console.log("City is: ", feature.properties.name);
         this.setState({
           displayHoodDetails: false,
         })
@@ -155,7 +153,6 @@ class CityMap extends Component {
 
     if (neighborhoods.length) {
       lastNeighborhood = neighborhoods[neighborhoods.length - 1];
-      console.log('yo', neighborhoods, city);
       centerPoint = getCenter(city, lastNeighborhood);
 
       zoomLevel = 12;
@@ -163,11 +160,6 @@ class CityMap extends Component {
 
     const mapData = !city ? la : MAPS[city];
     const mapKey = city || 'la';
-
-    city && console.log({
-      type: 'FeatureCollection',
-      features: MAPS[city].features.filter(({ properties: { name } }) => lastNeighborhood === name),
-    })
 
     const button = !city ?
       null
