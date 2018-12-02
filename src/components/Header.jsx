@@ -34,6 +34,12 @@ class Header extends Component {
     })
   }
 
+  closeLogin = () => {
+    this.setState({
+      showLogin: false,
+    })
+  }
+
   render() {
     const { classes, user } = this.props;
     const { showLogin } = this.state;
@@ -41,7 +47,6 @@ class Header extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="fixed" style={{ zIndex: 10000 }}>
-
           <Toolbar>
             <Typography variant="h6" color="inherit" className={classes.grow}>
               Edison Blvd.
@@ -59,7 +64,7 @@ class Header extends Component {
           </Toolbar>
         </AppBar>
 
-        {showLogin && <AuthModal />}
+        {showLogin && <AuthModal closeLogin={this.closeLogin} />}
       </div>
     );
   }

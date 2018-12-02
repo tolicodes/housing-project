@@ -31,6 +31,12 @@ const styles = {
   or: {
     textAlign: 'center',
     fontWeight: 'bold'
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    color: 'red',
   }
 };
 
@@ -42,6 +48,11 @@ class AuthModal extends React.Component {
   handleChange = (event, tabNumber) => {
     this.setState({ tabNumber });
   };
+
+  handleModalClose = () => {
+    // call our close login prop
+    this.props.closeLogin();
+  }
 
   render() {
     const { classes } = this.props;
