@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
@@ -45,7 +45,6 @@ class LoginForm extends React.Component {
                 email,
                 password
             });
-            console.log("FRigging user: ", user)
             this.props.closeModal();
             this.props.setUser(user);
         } catch (e) { }
