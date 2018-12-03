@@ -67,10 +67,16 @@ class AuthModal extends React.Component {
           textColor="primary"
           centered
         >
-          <Tab label="Login" />
           <Tab label="Register" />
+          <Tab label="Login" />
         </Tabs>
         {tabNumber === 0 &&
+          <RegisterForm
+            setUser={this.props.setUser}
+            closeModal={this.handleModalClose}
+          />
+        }
+        {tabNumber === 1 &&
           <>
             <SocialLogins
               setUser={this.props.setUser}
@@ -83,10 +89,6 @@ class AuthModal extends React.Component {
             />
           </>
         }
-        {tabNumber === 1 && <RegisterForm
-          setUser={this.props.setUser}
-          closeModal={this.handleModalClose}
-        />}
       </div>
     );
   }
