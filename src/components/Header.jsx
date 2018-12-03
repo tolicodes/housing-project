@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,7 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import AuthModal from './Auth/AuthModal';
+import { logout } from './Auth/api';
 
+import { setUser } from './Auth/actions';
 
 const styles = {
   root: {
@@ -29,9 +32,16 @@ class Header extends Component {
   }
 
   onClickLogin = () => {
-    this.setState({
-      showLogin: true,
-    })
+
+    const { user } = this.props;
+    if (user) {
+      logout();
+      this.props.setUser(null)
+    } else {
+      this.setState({
+        showLogin: true,
+      })
+    }
   }
 
   closeLogin = () => {
@@ -57,8 +67,8 @@ class Header extends Component {
             >
               {
                 user
-                ? `${user.name} - Logout`
-                : 'Login / Register'
+                  ? `${user.name} - Logout`
+                  : 'Login / Register'
               }
             </Button>
           </Toolbar>
@@ -74,4 +84,7 @@ export default connect(
   ({ auth: { user } }) => ({
     user,
   }),
+  dispatch => bindActionCreators({
+    setUser,
+  }, dispatch)
 )(withStyles(styles)(Header));

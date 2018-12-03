@@ -44,7 +44,7 @@ const PROVIDERS = [
   'google'
 ];
 
-class LoginForm extends React.Component {
+class RegisterForm extends React.Component {
   state = {
     email: '',
     password: '',
@@ -55,7 +55,7 @@ class LoginForm extends React.Component {
 
   updateUser = provider => ({ name, id, exists }) => {
     if (exists) {
-        return alert('You are already registered. Please go to the login tab')    
+      return alert('You are already registered. Please go to the login tab')
     }
 
     this.setState({
@@ -66,8 +66,8 @@ class LoginForm extends React.Component {
     });
 
     this.props.setUser({
-        name,
-        id,
+      name,
+      id,
     })
   }
 
@@ -120,6 +120,9 @@ class LoginForm extends React.Component {
       phone,
       ...providerId
     });
+
+    this.props.setUser({ name });
+    this.props.closeModal();
   }
 
   renderSocial = () => {
@@ -218,7 +221,7 @@ class LoginForm extends React.Component {
           />
           <TextField
             className={classes.textField2}
-            label="MLS #"
+            label="NMLS #"
             value={nmlsNumber}
             onChange={this.handleChange('nmlsNumber')}
           />
@@ -247,4 +250,4 @@ class LoginForm extends React.Component {
       : this.renderIsNotLoggedInWithSocial();
   }
 }
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(RegisterForm);

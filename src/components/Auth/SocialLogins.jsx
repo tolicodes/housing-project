@@ -26,7 +26,7 @@ class SocialLogins extends React.Component {
 
   socket = getSocket()
 
-  updateUser = provider => ({ name, id, exists }) => {
+  updateUser = ({ name, id, exists }) => {
     if (exists) {
       this.props.setUser({
         name,
@@ -41,8 +41,6 @@ class SocialLogins extends React.Component {
   render() {
     const { classes } = this.props;
 
-    console.log(this.socket)
-
     return (
       <div className={classes.socialButtonsContainer}>
         {PROVIDERS.map(provider =>
@@ -50,7 +48,7 @@ class SocialLogins extends React.Component {
             provider={provider}
             key={provider}
             socket={this.socket}
-            updateUser={this.updateUser('provider')}
+            updateUser={this.updateUser}
           />
         )}
       </div>
