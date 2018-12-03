@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
@@ -33,17 +33,22 @@ class LoginForm extends React.Component {
         });
     };
 
-    onClickSubmit = () => {
+    onClickSubmit = async () => {
         const { email, password } = this.state;
 
         if (!email || !password) {
             return alert("Please enter a valid email and password combination")
         }
 
-        login({
-            email,
-            password
-        });
+        try {
+            const user = await login({
+                email,
+                password
+            });
+            console.log("FRigging user: ", user)
+            this.props.closeModal();
+            this.props.setUser(user);
+        } catch (e) { }
     }
 
     render() {

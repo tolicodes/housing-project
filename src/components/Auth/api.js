@@ -20,6 +20,7 @@ export const login = async ({
       data: {
         user: {
           token,
+          name,
         },
       },
     } = await axios.post(`${API_ROOT}/users/login`, {
@@ -28,6 +29,10 @@ export const login = async ({
     });
 
     setToken(token);
+
+    return {
+      name,
+    };
   } catch (e) {
     alert(e.message);
   }

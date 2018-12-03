@@ -52,6 +52,7 @@ class OAuth extends Component {
     const { socket, provider } = this.props
 
     socket.on(provider, user => {
+      console.log(user);
       this.popup.close()
       setTimeout(() => this.props.updateUser(user), 100);
     });
