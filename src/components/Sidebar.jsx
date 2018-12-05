@@ -51,14 +51,16 @@ function ClippedDrawer(props) {
   // eslint-disable-next-line
   const { classes, borrowers } = props;
 
+
   const borrowersHTML = borrowers
+    .reverse()
     .map(({
       name,
       preapprovalAmount,
       neighborhoods,
-    }, i) => (
+    }) => (
       <ListItem
-          key={i}
+          key={name}
         >
           <ExpansionPanel className={classes.expansionPanel}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -88,8 +90,6 @@ function ClippedDrawer(props) {
           </ExpansionPanel>
         </ListItem>
     ));
-
-  borrowersHTML.sort((a, b) => b.key - a.key);
 
   return (
     <div className={classes.root}>
