@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 
 import Button from '@material-ui/core/Button';
 
@@ -25,15 +23,13 @@ class SubmitModal extends React.Component {
         open={this.props.open}
       >
         <DialogTitle>Thank you for your submission!</DialogTitle>
-        
-        <DialogContent>
-          <DialogContentText>If you want to add an additional location for the current borrower, click here</DialogContentText>
-          <DialogContentText>If you have a new borrower to add, click here</DialogContentText>
-        </DialogContent>
-
+      
         <DialogActions>
-          <Button onClick={this.props.modalClose} color="primary">
+          <Button onClick={this.props.modalClose} color="primary" variant="contained">
             Cancel
+          </Button>
+          <Button onClick={this.props.addNeighborhood} color="primary"  variant="contained">
+            Add Another Neighborhood
           </Button>
           <Button onClick={this.onClickFinish} color="primary" variant="contained">
             I'm Finished

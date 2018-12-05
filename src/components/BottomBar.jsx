@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import SubmitModal from './SubmitModal';
@@ -26,17 +24,12 @@ const styles = theme => ({
     top: 'auto',
     bottom: 0,
     paddingRight: '300px',
-  },
-  toolbar: {
     padding: '10px',
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
   submitButton: {
-
-  },
-  submitText: {
     fontWeight: 'bold',
     color: '#000',
   },
@@ -64,23 +57,34 @@ class BottomAppBar extends Component {
     })
   }
 
+  addNeighborhood = () => { 
+    this.modalClose();
+    this.props.addNeighborhood();
+  }
+
   render() {
     // eslint-disable-next-line
     const { classes } = this.props;
-
     const { modalOpen } = this.state;
 
     return (
       <React.Fragment>
-        <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
-          <div className={classes.toolbar}>
-            <Button variant="contained" size="large" aria-label="Submit" className={classes.submitButton} onClick={this.onSubmit}>
-              <Typography className={classes.submitText}>Submit</Typography>
-            </Button>
-          </div>
+          <Button
+            variant="contained"
+            size="large"
+            className={classes.submitButton}
+            onClick={this.onSubmit}
+          >
+            Submit
+          </Button>
         </AppBar>
-        <SubmitModal open={modalOpen} modalClose={this.modalClose} />
+
+        <SubmitModal
+          open={modalOpen}
+          modalClose={this.modalClose}
+          addNeighborhood={this.addNeighborhood}
+        />
       </React.Fragment>
     );
   }

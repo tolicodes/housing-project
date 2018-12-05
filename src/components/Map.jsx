@@ -105,15 +105,17 @@ class CityMap extends Component {
               ...this.props.borrower.neighborhoods,
               properties.name,
             ]
-          })
+          });
 
+          if (this.props.view === 'city') {
+            this.props.changeView('');
+          }
         }
       };
     });
   };
 
   handleBackButton = () => {
-
     const { neighborhoods } = this.props.borrower;
 
     if (neighborhoods.length) {
@@ -135,8 +137,7 @@ class CityMap extends Component {
   };
 
   render() {
-
-    const { classes } = this.props;
+    const { classes, view } = this.props;
 
     const { city, neighborhoods } = this.props.borrower;
 
@@ -148,7 +149,7 @@ class CityMap extends Component {
       LA_CENTER
       : CENTERS[city];
 
-    if (neighborhoods.length) {
+    if (neighborhoods.length && this.props.view !== 'city') {
       lastNeighborhood = neighborhoods[neighborhoods.length - 1];
       centerPoint = getCenter(city, lastNeighborhood);
 
@@ -194,7 +195,7 @@ class CityMap extends Component {
             onEachFeature={this.onEachCityFeature}
           />}
 
-          {city && neighborhoods.length === 0 && <GeoJSON
+          {city && (neighborhoods.length === 0 || view === 'city') && <GeoJSON
             key={mapKey}
             data={mapData}
             onEachFeature={this.onEachNeighborhoodFeature}
