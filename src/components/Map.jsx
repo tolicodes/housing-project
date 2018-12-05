@@ -206,8 +206,14 @@ class CityMap extends Component {
             }}
           />}
         </Map>
+
+        {neighborhoods.length === 0 && city &&
+          <HoodDetailsBox
+            displayHoodDetails={this.state.displayHoodDetails}
+            name={this.state.currentCity}
+          />
+        }
         {button}
-        <HoodDetailsBox displayHoodDetails={this.state.displayHoodDetails} name={this.state.currentCity} />
       </div>
     );
   }

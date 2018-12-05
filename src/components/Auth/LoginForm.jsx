@@ -33,13 +33,21 @@ class LoginForm extends React.Component {
         });
     };
 
-    onClickSubmit = () => {
+    onClickSubmit = async () => {
         const { email, password } = this.state;
 
-        login({
-            email,
-            password
-        });
+        if (!email || !password) {
+            return alert("Please enter a valid email and password combination")
+        }
+
+        try {
+            const user = await login({
+                email,
+                password
+            });
+            this.props.closeModal();
+            this.props.setUser(user);
+        } catch (e) { }
     }
 
     render() {
