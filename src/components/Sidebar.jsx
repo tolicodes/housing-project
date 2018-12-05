@@ -10,6 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Divider from '@material-ui/core/Divider';
 
 const drawerWidth = '300px';
 
@@ -17,11 +18,15 @@ const styles = () => ({
   root: {
     display: 'flex',
   },
+  header: {
+    marginTop: '95px',
+    textAlign: 'center',
+  },
   heading: {
     fontWeight: 'bold',
   },
   borrowers: {
-    paddingTop: '64px',
+    marginTop: '5px',
   },
   drawer: {
     width: drawerWidth,
@@ -46,43 +51,45 @@ function ClippedDrawer(props) {
   // eslint-disable-next-line
   const { classes, borrowers } = props;
 
-  const borrowersHTML = borrowers.map(({
-    name,
-    preapprovalAmount,
-    neighborhoods,
-    city,
-  }, i) => (
-    <ListItem
-      key={name}
-    >
-      <ExpansionPanel className={classes.expansionPanel}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>
-            {`Borrower ${i + 1}:`}
-              &nbsp;
-          </Typography>
-          <Typography className={classes.secondaryHeading}>{name}</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.neighborhoods}>
-          <Typography className={classes.heading}>
-              Neighborhoods:
-            {' '}
-          </Typography>
-          {neighborhoods.join(', ')}
-        </ExpansionPanelDetails>
-        <ExpansionPanelDetails>
-          <Typography className={classes.heading}>
-              Amount:
-            {' '}
-          </Typography>
-          <Typography>
-            {' '}
-            {preapprovalAmount}
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    </ListItem>
-  ));
+  const borrowersHTML = borrowers
+    .map(({
+      name,
+      preapprovalAmount,
+      neighborhoods,
+    }, i) => (
+      <ListItem
+          key={i}
+        >
+          <ExpansionPanel className={classes.expansionPanel}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading}>
+                {'Borrower:'}
+                &nbsp;
+              </Typography>
+              <Typography className={classes.secondaryHeading}>{name}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.neighborhoods}>
+              <Typography className={classes.heading}>
+                Neighborhoods:
+                {' '}
+              </Typography>
+              {neighborhoods.join(', ')}
+            </ExpansionPanelDetails>
+            <ExpansionPanelDetails>
+              <Typography className={classes.heading}>
+                Amount:
+                {' '}
+              </Typography>
+              <Typography>
+                {' '}
+                {preapprovalAmount}
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </ListItem>
+    ));
+
+  borrowersHTML.sort((a, b) => b.key - a.key);
 
   return (
     <div className={classes.root}>
@@ -93,6 +100,8 @@ function ClippedDrawer(props) {
           paper: classes.drawerPaper,
         }}
       >
+        <h4 className={classes.header}>Your Borrowers</h4>
+        <Divider />
         <List className={classes.borrowers}>
           {borrowersHTML}
         </List>

@@ -36,10 +36,10 @@ function* doSaveBorrower() {
 
   if (!user) return yield put(setAuthModalShown(true));
 
-  if (!name) return alert('Borrower name required');
+  if (!name) return alert('Borrower name is required');
   if (!preapprovalAmount || preapprovalAmount === '$') return alert('Preapproval Amount required');
-  if (!city) return alert('Select a city');
-  if (!neighborhoods.length) return alert('You must select at least 1 neighborhood');
+  if (!city) return alert('Please select a city');
+  if (!neighborhoods.length) return alert('You must select at least 1 neighborhood per borrower');
 
   try {
     yield saveBorrower({
