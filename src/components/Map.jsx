@@ -106,10 +106,10 @@ class CityMap extends Component {
               properties.name,
             ]
           });
+        }
 
-          if (this.props.view === 'city') {
-            this.props.changeView('');
-          }
+        if (this.props.view === 'city') {
+          this.props.changeView('');
         }
       };
     });
@@ -138,19 +138,16 @@ class CityMap extends Component {
 
   render() {
     const { classes, view } = this.props;
-
     const { city, neighborhoods } = this.props.borrower;
 
     let zoomLevel = !city ? 10 : 11;
-
-    let lastNeighborhood;
 
     let centerPoint = !city ?
       LA_CENTER
       : CENTERS[city];
 
     if (neighborhoods.length && this.props.view !== 'city') {
-      lastNeighborhood = neighborhoods[neighborhoods.length - 1];
+      const lastNeighborhood = neighborhoods[neighborhoods.length - 1];
       centerPoint = getCenter(city, lastNeighborhood);
 
       zoomLevel = 12;
@@ -205,7 +202,7 @@ class CityMap extends Component {
             key={neighborhoods}
             data={{
               type: 'FeatureCollection',
-              features: MAPS[city].features.filter(({ properties: { name } }) => lastNeighborhood === name),
+              features: MAPS[city].features.filter(({ properties: { name } }) => neighborhoods.includes(name)),
             }}
           />}
         </Map>
