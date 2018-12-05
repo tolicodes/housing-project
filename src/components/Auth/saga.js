@@ -14,9 +14,10 @@ function* doGetUser() {
   if (token) {
     setToken(token);
 
-    const { data: { user } } = yield getCurrentUser();
-
-    yield put(setUser(user));
+    try {
+      const { data: { user } } = yield getCurrentUser();
+      yield put(setUser(user));
+    } catch (e) {}
   }
 }
 

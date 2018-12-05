@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import AuthModal from './Auth/AuthModal';
 import { logout } from './Auth/api';
 
-import { setUser } from './Auth/actions';
+import { setUser, setAuthModalShown } from './Auth/actions';
 
 const styles = {
   root: {
@@ -27,10 +27,6 @@ const styles = {
 };
 
 class Header extends Component {
-  state = {
-    showLogin: false,
-  }
-
   onClickLogin = () => {
 
     const { user } = this.props;
@@ -38,21 +34,16 @@ class Header extends Component {
       logout();
       this.props.setUser(null)
     } else {
-      this.setState({
-        showLogin: true,
-      })
+      this.props.setAuthModalShown(true)
     }
   }
 
   closeLogin = () => {
-    this.setState({
-      showLogin: false,
-    })
+    this.props.setAuthModalShown(false);
   }
 
   render() {
-    const { classes, user } = this.props;
-    const { showLogin } = this.state;
+    const { classes, user, authModalShown } = this.props;
 
     return (
       <div className={classes.root}>
@@ -74,17 +65,19 @@ class Header extends Component {
           </Toolbar>
         </AppBar>
 
-        {showLogin && <AuthModal closeLogin={this.closeLogin} />}
+        {authModalShown && <AuthModal closeLogin={this.closeLogin} />}
       </div>
     );
   }
 }
 
 export default connect(
-  ({ auth: { user } }) => ({
+  ({ auth: { user, authModalShown } }) => ({
     user,
+    authModalShown,
   }),
   dispatch => bindActionCreators({
     setUser,
+    setAuthModalShown,
   }, dispatch)
 )(withStyles(styles)(Header));

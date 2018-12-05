@@ -14,6 +14,7 @@ import {
 
 class SubmitModal extends React.Component {
   onClickFinish = () => {
+    this.props.modalClose();
     this.props.saveBorrower();
   }
 

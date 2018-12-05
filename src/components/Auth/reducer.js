@@ -1,6 +1,7 @@
 import {
   SET_USER,
   DO_LOGOUT,
+  AUTH_MODAL_SHOWN,
 } from './actions';
 
 const initialState = {
@@ -18,6 +19,13 @@ export default function (state = initialState, { type, data }) {
 
     case DO_LOGOUT: {
       return initialState;
+    }
+
+    case AUTH_MODAL_SHOWN: {
+      return {
+        ...state,
+        authModalShown: data,
+      };
     }
 
     default: {
