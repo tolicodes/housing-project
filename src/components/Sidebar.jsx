@@ -52,7 +52,7 @@ function ClippedDrawer(props) {
   const { classes, borrowers } = props;
 
 
-  const borrowersHTML = borrowers
+  const borrowersHTML = [...borrowers]
     .reverse()
     .map(({
       name,
@@ -60,9 +60,9 @@ function ClippedDrawer(props) {
       neighborhoods,
     }) => (
       <ListItem
-          key={name}
-        >
-          <ExpansionPanel className={classes.expansionPanel}>
+        key={name}
+      >
+        <ExpansionPanel className={classes.expansionPanel}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>
                 {'Borrower:'}
@@ -88,7 +88,7 @@ function ClippedDrawer(props) {
               </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-        </ListItem>
+      </ListItem>
     ));
 
   return (
