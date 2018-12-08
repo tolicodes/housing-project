@@ -49,8 +49,6 @@ function* doSaveBorrower() {
       neighborhoods,
     });
 
-    console.log('y');
-
     yield put(addBorrower());
   } catch (e) {
     alert(e.message);
