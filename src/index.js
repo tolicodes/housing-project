@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import './index.css';
 import App from './App';
+import Admin from './components/Admin';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -37,6 +38,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path="/" exact component={App} />
+        <Route path="/admin" exact component={Admin} />
       </Switch>
     </Router>
   </Provider>,

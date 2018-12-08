@@ -63,31 +63,31 @@ function ClippedDrawer(props) {
         key={name}
       >
         <ExpansionPanel className={classes.expansionPanel}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>
                 {'Borrower:'}
                 &nbsp;
               </Typography>
-              <Typography className={classes.secondaryHeading}>{name}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.neighborhoods}>
-              <Typography className={classes.heading}>
+            <Typography className={classes.secondaryHeading}>{name}</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails className={classes.neighborhoods}>
+            <Typography className={classes.heading}>
                 Neighborhoods:
                 {' '}
               </Typography>
-              {neighborhoods.join(', ')}
-            </ExpansionPanelDetails>
-            <ExpansionPanelDetails>
-              <Typography className={classes.heading}>
+            {neighborhoods.join(', ')}
+          </ExpansionPanelDetails>
+          <ExpansionPanelDetails>
+            <Typography className={classes.heading}>
                 Amount:
                 {' '}
               </Typography>
-              <Typography>
+            <Typography>
                 {' '}
                 {preapprovalAmount}
               </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
       </ListItem>
     ));
 
