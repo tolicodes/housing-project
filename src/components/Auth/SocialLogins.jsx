@@ -26,11 +26,12 @@ class SocialLogins extends React.Component {
 
   socket = getSocket()
 
-  updateUser = ({ name, id, exists }) => {
+  updateUser = ({ name, id, exists, photo }) => {
     if (exists) {
       this.props.setUser({
         name,
         id,
+        photo,
       });
       this.props.closeModal();
     } else {

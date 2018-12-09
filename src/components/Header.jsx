@@ -58,7 +58,12 @@ class Header extends Component {
             >
               {
                 user
-                  ? `${user.name} - Logout`
+                  ? (
+                    <div>
+                      <img src={user.photo}/>
+                      {user.name} - Logout
+                    </div>
+                  )
                   : 'Login / Register'
               }
             </Button>

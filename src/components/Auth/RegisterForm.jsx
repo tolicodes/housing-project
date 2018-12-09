@@ -53,7 +53,7 @@ class RegisterForm extends React.Component {
 
   socket = getSocket()
 
-  updateUser = provider => ({ name, id, exists }) => {
+  updateUser = provider => ({ name, id, exists, photo }) => {
     if (exists) {
       return alert('You are already registered. Please go to the login tab')
     }
@@ -62,7 +62,8 @@ class RegisterForm extends React.Component {
       isLoggedInWithSocial: !this.state.isLoggedInWithSocial,
       name,
       id,
-      provider
+      provider,
+      photo,
     });
 
     this.props.setUser({
@@ -156,7 +157,7 @@ class RegisterForm extends React.Component {
       />
       <TextField
         className={classes.textField}
-        label="NMLS #"
+        label="NMLS # or BRE #"
         value={nmlsNumber}
         onChange={this.handleChange('nmlsNumber')}
       />
