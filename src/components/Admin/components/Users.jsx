@@ -12,8 +12,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Toolbar } from '@material-ui/core';
+
+const { REACT_APP_API_ROOT: API_ROOT } = process.env;
 
 const styles = {
   root: {
@@ -54,11 +54,7 @@ class Users extends Component {
   }
 
   getAllUsers = async () => {
-
-    const { classes } = this.props;
-
-    const { data: allUsers } = await axios.get('https://localhost:8081/users');
-    console.log("Users are: ", allUsers);
+    const { data: allUsers } = await axios.get(API_ROOT + '/users');
 
     this.setState({ allUsers });
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
-import { getSocket } from './api';
+import { getSocket, setToken } from './api';
 import OAuth from './OAuth';
 
 const styles = {
@@ -26,13 +26,16 @@ class SocialLogins extends React.Component {
 
   socket = getSocket()
 
-  updateUser = ({ name, id, exists, photo }) => {
+  updateUser = ({ name, id, exists, photo, token }) => {
     if (exists) {
       this.props.setUser({
         name,
         id,
         photo,
+        token,
       });
+      
+      setToken(token);
       this.props.closeModal();
     } else {
       alert('You are not registered yet. Go to the register tab');
