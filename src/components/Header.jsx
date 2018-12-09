@@ -7,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 
 import AuthModal from './Auth/AuthModal';
 import { logout } from './Auth/api';
@@ -23,6 +24,14 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+  },
+  span: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  avatar: {
+    display: 'inline-block',
+    marginRight: '5px',
   },
 };
 
@@ -54,15 +63,16 @@ class Header extends Component {
             </Typography>
             <Button
               color="inherit"
+              size="large"
               onClick={this.onClickLogin}
             >
               {
                 user
                   ? (
-                    <div>
-                      <img src={user.photo}/>
+                    <span className={classes.span}>
+                      <Avatar alt={user.name} src={user.photo} className={classes.avatar} />
                       {user.name} - Logout
-                    </div>
+                    </span>
                   )
                   : 'Login / Register'
               }
