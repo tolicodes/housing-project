@@ -11,6 +11,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
+import withWidth from '@material-ui/core/withWidth';
 
 const drawerWidth = '300px';
 
@@ -49,8 +50,9 @@ const styles = () => ({
 
 function ClippedDrawer(props) {
   // eslint-disable-next-line
-  const { classes, borrowers } = props;
+  const { classes, borrowers, width } = props;
 
+  if ((['sm', 'xs'].includes(width))) return null;
 
   const borrowersHTML = [...borrowers]
     .reverse()
@@ -65,27 +67,27 @@ function ClippedDrawer(props) {
         <ExpansionPanel className={classes.expansionPanel}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>
-                {'Borrower:'}
+              {'Borrower:'}
                 &nbsp;
-              </Typography>
+            </Typography>
             <Typography className={classes.secondaryHeading}>{name}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.neighborhoods}>
             <Typography className={classes.heading}>
                 Neighborhoods:
-                {' '}
-              </Typography>
+              {' '}
+            </Typography>
             {neighborhoods.join(', ')}
           </ExpansionPanelDetails>
           <ExpansionPanelDetails>
             <Typography className={classes.heading}>
                 Amount:
-                {' '}
-              </Typography>
+              {' '}
+            </Typography>
             <Typography>
-                {' '}
-                {preapprovalAmount}
-              </Typography>
+              {' '}
+              {preapprovalAmount}
+            </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </ListItem>
@@ -110,8 +112,8 @@ function ClippedDrawer(props) {
   );
 }
 
-export default withStyles(styles)(connect(
+export default withWidth()(withStyles(styles)(connect(
   ({ app: { borrowers } }) => ({
     borrowers,
   }),
-)(ClippedDrawer));
+)(ClippedDrawer)));

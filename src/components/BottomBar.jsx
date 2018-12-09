@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import withWidth from '@material-ui/core/withWidth';
 
 import SubmitModal from './SubmitModal';
 
@@ -28,6 +29,9 @@ const styles = theme => ({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  fullWidth: {
+    paddingRight: 0,
   },
   submitButton: {
     fontWeight: 'bold',
@@ -64,12 +68,14 @@ class BottomAppBar extends Component {
 
   render() {
     // eslint-disable-next-line
-    const { classes } = this.props;
+    const { classes, width } = this.props;
     const { modalOpen } = this.state;
+
+    const fullWidth = (['sm', 'xs'].includes(width)) ? classes.fullWidth : '';
 
     return (
       <React.Fragment>
-        <AppBar position="fixed" className={classes.appBar}>
+        <AppBar position="fixed" className={classes.appBar + ' ' + fullWidth}>
           <Button
             variant="contained"
             size="large"
@@ -90,4 +96,4 @@ class BottomAppBar extends Component {
   }
 }
 
-export default withStyles(styles)(BottomAppBar);
+export default withWidth()(withStyles(styles)(BottomAppBar));

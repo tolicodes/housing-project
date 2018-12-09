@@ -8,6 +8,7 @@ import { updateBorrower } from './App/actions'
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import withWidth from '@material-ui/core/withWidth';
 
 const styles = theme => ({
   container: {
@@ -37,13 +38,16 @@ class BorrowerInfo extends React.Component {
   };
 
   render() {
-    const { classes, borrower: {
+    const { width, classes, borrower: {
       name,
       preapprovalAmount
     } } = this.props;
 
     return (
-      <Paper style={{ marginTop: '64px', marginRight: '300px' }}>
+      <Paper style={{
+        marginTop: '64px',
+        marginRight: (['sm', 'xs'].includes(width)) ? 0: '300px'
+      }}>
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             label="Borrower Name"
@@ -66,7 +70,7 @@ class BorrowerInfo extends React.Component {
   }
 }
 
-export default withStyles(styles)(connect(
+export default withWidth()(withStyles(styles)(connect(
   ({ app: { borrowers } }) => {
     return {
       borrower: borrowers[borrowers.length - 1]
@@ -75,4 +79,4 @@ export default withStyles(styles)(connect(
   dispatch => bindActionCreators({
     updateBorrower,
   }, dispatch),
-)(BorrowerInfo));
+)(BorrowerInfo)));

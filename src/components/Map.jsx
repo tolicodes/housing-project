@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 
 import Button from '@material-ui/core/Button';
 
@@ -34,6 +35,9 @@ const styles = () => ({
   mapContainer: {
     marginRight: '300px',
     paddingTop: '20px',
+  },
+  fullWidth: {
+    marginRight: 0,
   },
   backButton: {
     marginLeft: '50px',
@@ -137,8 +141,10 @@ class CityMap extends Component {
   };
 
   render() {
-    const { classes, view } = this.props;
+    const { classes, view, width } = this.props;
     const { city, neighborhoods } = this.props.borrower;
+
+    const fullWidth = (['sm', 'xs'].includes(width)) ? classes.fullWidth : '';
 
     let zoomLevel = !city ? 10 : 11;
 
@@ -168,7 +174,7 @@ class CityMap extends Component {
       </Button>;
 
     return (
-      <div className={classes.mapContainer}>
+      <div className={classes.mapContainer + ' ' + fullWidth}>
         <Map
           style={{
             height: 'calc(100vh - 260px)',
@@ -219,11 +225,11 @@ class CityMap extends Component {
   }
 }
 
-export default withStyles(styles)(connect(
+export default withWidth()(withStyles(styles)(connect(
   ({ app: { borrowers } }) => ({
     borrower: borrowers[borrowers.length - 1],
   }),
   dispatch => bindActionCreators({
     updateBorrower,
   }, dispatch),
-)(CityMap));
+)(CityMap)));
