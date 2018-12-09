@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import Header from './components/Header';
+import Users from './components/Users';
 
 const styles = {};
 
@@ -17,7 +18,11 @@ class Admin extends Component {
 
   render() {
     return (
-      <Header />
+      <div>
+        <Header />
+        <Users />
+      </div>
+
     );
   }
 }
