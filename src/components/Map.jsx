@@ -162,17 +162,6 @@ class CityMap extends Component {
     const mapData = !city ? la : MAPS[city];
     const mapKey = city || 'la';
 
-    const button = !city ?
-      null
-      : <Button
-        size="small"
-        variant="contained"
-        className={classes.backButton}
-        onClick={this.handleBackButton}
-      >
-        Zoom Out
-      </Button>;
-
     return (
       <div className={classes.mapContainer + ' ' + fullWidth}>
         <Map
@@ -219,7 +208,23 @@ class CityMap extends Component {
             name={this.state.currentCity}
           />
         }
-        {button}
+        {city && <Button
+          size="small"
+          variant="contained"
+          className={classes.backButton}
+          onClick={this.handleBackButton}
+        >
+          Zoom Out
+        </Button>}
+
+        {!!neighborhoods.length && <Button
+          size="small"
+          variant="contained"
+          className={classes.backButton}
+          onClick={this.showMarketReport}
+        >
+          Market Report
+        </Button>}
       </div>
     );
   }
