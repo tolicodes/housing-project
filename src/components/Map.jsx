@@ -41,7 +41,11 @@ const styles = () => ({
   },
   backButton: {
     marginLeft: '50px',
-    marginTop: '5px',
+    marginRight: '10px'
+  },
+  marketReportLink: {
+    color: 'inherit',
+    textDecoration: 'none'
   }
 })
 
@@ -152,11 +156,19 @@ class CityMap extends Component {
       LA_CENTER
       : CENTERS[city];
 
+    let lastNeighborhood;
     if (neighborhoods.length && this.props.view !== 'city') {
-      const lastNeighborhood = neighborhoods[neighborhoods.length - 1];
+      lastNeighborhood = neighborhoods[neighborhoods.length - 1];
       centerPoint = getCenter(city, lastNeighborhood);
 
       zoomLevel = 12;
+    }
+
+    let iHomeFinderId;
+    if (lastNeighborhood) {
+      iHomeFinderId = MAPS[city].features.find(({ properties: { name } }) => 
+        lastNeighborhood === name).properties.iHomeFinderId;
+      console.log(iHomeFinderId)
     }
 
     const mapData = !city ? la : MAPS[city];
@@ -217,14 +229,17 @@ class CityMap extends Component {
           Zoom Out
         </Button>}
 
-        {!!neighborhoods.length && <Button
+        {iHomeFinderId && <Button
           size="small"
           variant="contained"
-          className={classes.backButton}
-          onClick={this.showMarketReport}
+          color="primary"
+        ><a
+          className={classes.marketReportLink}
+          target="_blank"
+          href={`http://www.idxhome.com/report/listing-report/Agoura-Hills/121429/${iHomeFinderId}`}
         >
           Market Report
-        </Button>}
+        </a></Button>}
       </div>
     );
   }
