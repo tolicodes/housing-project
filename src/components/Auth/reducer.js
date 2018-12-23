@@ -11,6 +11,10 @@ const initialState = {
 export default function (state = initialState, { type, data }) {
   switch (type) {
     case SET_USER: {
+      if (data.photo) {
+        localStorage.setItem('photo', data.photo);
+      }
+
       return {
         ...state,
         user: data,

@@ -236,7 +236,7 @@ class CityMap extends Component {
         ><a
           className={classes.marketReportLink}
           target="_blank"
-          href={`http://www.idxhome.com/report/listing-report/Agoura-Hills/121429/${iHomeFinderId}`}
+          href={`http://www.idxhome.com/report/market-report/Agoura-Hills/121429/${iHomeFinderId}`}
         >
           Market Report
         </a></Button>}
