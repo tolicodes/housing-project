@@ -11,6 +11,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 import withWidth from '@material-ui/core/withWidth';
 
 const drawerWidth = '300px';
@@ -46,70 +47,92 @@ const styles = () => ({
   neighborhoods: {
     flexDirection: 'column',
   },
+  editButton: {
+    width: '100%',
+  }
 });
 
-function ClippedDrawer(props) {
-  // eslint-disable-next-line
-  const { classes, borrowers, width } = props;
+class ClippedDrawer extends React.Component {
+  onClickEdit = name => () => {
 
-  if ((['sm', 'xs'].includes(width))) return null;
+  }
 
-  const borrowersHTML = [...borrowers]
-    .reverse()
-    .map(({
-      name,
-      preapprovalAmount,
-      neighborhoods,
-    }) => (
-      <ListItem
-        key={name}
-      >
-        <ExpansionPanel className={classes.expansionPanel}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>
-              {'Borrower:'}
-                &nbsp;
-            </Typography>
-            <Typography className={classes.secondaryHeading}>{name}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.neighborhoods}>
-            <Typography className={classes.heading}>
-                Neighborhoods:
-              {' '}
-            </Typography>
-            {neighborhoods.join(', ')}
-          </ExpansionPanelDetails>
-          <ExpansionPanelDetails>
-            <Typography className={classes.heading}>
-                Preapproval Amount:
-              {' '}
-            </Typography>
-            <Typography>
-              {' '}
-              {preapprovalAmount}
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </ListItem>
-    ));
+  render() {
+    const {
+      props,
+    } = this;
 
-  return (
-    <div className={classes.root}>
-      <Drawer
-        anchor="right"
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <h4 className={classes.header}>Your Borrowers</h4>
-        <Divider />
-        <List className={classes.borrowers}>
-          {borrowersHTML}
-        </List>
-      </Drawer>
-    </div>
-  );
+    // eslint-disable-next-line
+    const { classes, borrowers, width } = props;
+
+    if ((['sm', 'xs'].includes(width))) return null;
+
+    const borrowersHTML = [...borrowers]
+      .reverse()
+      .map(({
+        name,
+        preapprovalAmount,
+        neighborhoods,
+      }) => (
+        <ListItem
+          key={name}
+        >
+          <ExpansionPanel className={classes.expansionPanel}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading}>
+                {'Borrower:'}
+                  &nbsp;
+              </Typography>
+              <Typography className={classes.secondaryHeading}>{name}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.neighborhoods}>
+              <Typography className={classes.heading}>
+                  Neighborhoods:
+                {' '}
+              </Typography>
+              {neighborhoods.join(', ')}
+            </ExpansionPanelDetails>
+            <ExpansionPanelDetails>
+              <Typography className={classes.heading}>
+                  Preapproval Amount:
+                {' '}
+              </Typography>
+              <Typography>
+                {' '}
+                {preapprovalAmount}
+              </Typography>
+            </ExpansionPanelDetails>
+
+            <Button
+                className={classes.editButton}
+                variant="contained"
+                color="primary"
+                onClick={this.onClickEdit(name)}
+              >
+                Edit
+            </Button>
+          </ExpansionPanel>
+        </ListItem>
+      ));
+
+    return (
+      <div className={classes.root}>
+        <Drawer
+          anchor="right"
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <h4 className={classes.header}>Your Borrowers</h4>
+          <Divider />
+          <List className={classes.borrowers}>
+            {borrowersHTML}
+          </List>
+        </Drawer>
+      </div>
+    );
+  }
 }
 
 export default withWidth()(withStyles(styles)(connect(
