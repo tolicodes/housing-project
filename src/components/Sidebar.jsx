@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -7,6 +7,7 @@ import Drawer from '@material-ui/core/Drawer';
 import { Typography, ExpansionPanel } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -48,76 +49,129 @@ const styles = () => ({
   neighborhoods: {
     flexDirection: 'column',
   },
+  editButton: {
+    width: '100%',
+  }
 });
 
-function ClippedDrawer(props) {
-  // eslint-disable-next-line
-  const { classes, borrowers, width } = props;
+class ClippedDrawer extends React.Component {
+  state = {
+    sidebarOpen: false,
+  }
+  onClickEdit = name => () => {
 
-  if ((['sm', 'xs'].includes(width))) {
-    return (
-      <Button variant="fab" color="secondary" aria-label="Add" className={classes.button}>
-        <KeyboardArrowLeft />
-      </Button>
-    );
   }
 
-  const borrowersHTML = [...borrowers]
-    .reverse()
-    .map(({
-      name,
-      preapprovalAmount,
-      neighborhoods,
-    }) => (
-      <ListItem
-          key={name}
-        >
-          <ExpansionPanel className={classes.expansionPanel}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>
-                {'Borrower:'}
-                &nbsp;
-              </Typography>
-              <Typography className={classes.secondaryHeading}>{name}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.neighborhoods}>
-              <Typography className={classes.heading}>
-                Neighborhoods:
-                {' '}
-              </Typography>
-              {neighborhoods.join(', ')}
-            </ExpansionPanelDetails>
-            <ExpansionPanelDetails>
-              <Typography className={classes.heading}>
-                Amount:
-                {' '}
-              </Typography>
-              <Typography>
-                {' '}
-                {preapprovalAmount}
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        </ListItem>
-    ));
+  onToggleSidebar = () => {
+    this.setState({
+      sidebarOpen: !this.state.sidebarOpen
+    })
+  }
 
-  return (
-    <div className={classes.root}>
-      <Drawer
-        anchor="right"
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <h4 className={classes.header}>Your Borrowers</h4>
-        <Divider />
-        <List className={classes.borrowers}>
-          {borrowersHTML}
-        </List>
-      </Drawer>
-    </div>
-  );
+  render() {
+    const {
+      props,
+    } = this;
+
+    // eslint-disable-next-line
+    const { classes, borrowers, width } = props;
+    const { sidebarOpen } = this.state;
+
+    const borrowersHTML = [...borrowers]
+      .reverse()
+      .map(({
+        name,
+        preapprovalAmount,
+        neighborhoods,
+      }) => (
+          <ListItem
+            key={name}
+          >
+            <ExpansionPanel className={classes.expansionPanel}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>
+                  {'Borrower:'}
+                  &nbsp;
+              </Typography>
+                <Typography className={classes.secondaryHeading}>{name}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.neighborhoods}>
+                <Typography className={classes.heading}>
+                  Neighborhoods:
+                {' '}
+                </Typography>
+                {neighborhoods.join(', ')}
+              </ExpansionPanelDetails>
+              <ExpansionPanelDetails>
+                <Typography className={classes.heading}>
+                  Preapproval Amount:
+                {' '}
+                </Typography>
+                <Typography>
+                  {' '}
+                  {preapprovalAmount}
+                </Typography>
+              </ExpansionPanelDetails>
+
+              <Button
+                className={classes.editButton}
+                variant="contained"
+                color="primary"
+                onClick={this.onClickEdit(name)}
+              >
+                Edit
+            </Button>
+            </ExpansionPanel>
+          </ListItem>
+        ));
+
+    const Sidebar = (
+      <div className={classes.root}>
+        <Drawer
+          anchor="right"
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <h4 className={classes.header}>Your Borrowers</h4>
+          <Divider />
+          <List className={classes.borrowers}>
+            {borrowersHTML}
+          </List>
+        </Drawer>
+      </div>
+    );
+
+    const icon = sidebarOpen ? (
+      <KeyboardArrowRight />
+    ) : (
+        <KeyboardArrowLeft />
+      );
+
+    if ((['sm', 'xs'].includes(width))) {
+      if (sidebarOpen) {
+        return (
+          <>
+            {Sidebar}
+            <Button variant="fab" color="secondary" aria-label="Add" className={classes.button} onClick={this.onToggleSidebar}>
+              {icon}
+            </Button>
+          </>
+        )
+      } else {
+        return (
+          <Button variant="fab" color="secondary" aria-label="Add" className={classes.button} onClick={this.onToggleSidebar}>
+            {icon}
+          </Button>
+        )
+      }
+    }
+
+    return (
+      Sidebar
+    );
+  }
 }
 
 export default withWidth()(withStyles(styles)(connect(

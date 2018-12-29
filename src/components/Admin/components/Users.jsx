@@ -12,6 +12,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Input from '@material-ui/core/Input';
 
 const { REACT_APP_API_ROOT: API_ROOT } = process.env;
 
@@ -38,6 +39,10 @@ const styles = {
       backgroundColor: '#f5f5f5',
     },
   },
+  search: {
+    width: '100%',
+    marginBottom: '10px',
+  }
 };
 
 class Users extends Component {
@@ -46,6 +51,8 @@ class Users extends Component {
 
     this.state = {
       allUsers: [],
+      search: '',
+      filteredUsers: [],
     };
   }
 
@@ -56,16 +63,36 @@ class Users extends Component {
   getAllUsers = async () => {
     const { data: allUsers } = await axios.get(API_ROOT + '/users');
 
-    this.setState({ allUsers });
+    this.setState({
+      allUsers,
+      filteredUsers: [...allUsers]
+    });
+  }
+
+  onChangeSearch = ({ target: {value} }) => {
+    const { allUsers } = this.state;
+    const filteredUsers = allUsers.filter(user => {
+      const search = value.toLowerCase();
+      return (
+        user.name.toLowerCase().includes(search) ||
+        user.email.toLowerCase().includes(search) ||
+        user.company.toLowerCase().includes(search) ||
+        user.nmls_number.toLowerCase().includes(search) ||
+        user.phone.toLowerCase().includes(search)
+      );
+    });
+
+    this.setState({
+      search: value,
+      filteredUsers: value ? filteredUsers : allUsers,
+    })
   }
 
   render() {
     const { classes } = this.props;
-    const { allUsers } = this.state;
+    const { filteredUsers, search } = this.state;
 
-    console.log(allUsers)
-
-    const displayUsers = allUsers.map((user, i) => {
+    const displayUsers = filteredUsers.map((user, i) => {
       return (
         <ExpansionPanel key={i}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -99,7 +126,7 @@ class Users extends Component {
                 <TableRow>
                   <TableCell className={classes.tableHeadCell}>Borrower Name</TableCell>
                   <TableCell className={classes.tableHeadCell}>Neighborhoods</TableCell>
-                  <TableCell className={classes.tableHeadCell}>Amount</TableCell>
+                  <TableCell className={classes.tableHeadCell}>Preapproval Amount</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -122,6 +149,12 @@ class Users extends Component {
     return (
       <div className={classes.root}>
         <h3>Users</h3>
+        <Input
+          className={classes.search}
+          value={search}
+          onChange={this.onChangeSearch}
+          placeholder="Search users by name, email, company, nmls, or phone"
+        />
         {displayUsers}
       </div>
     );
