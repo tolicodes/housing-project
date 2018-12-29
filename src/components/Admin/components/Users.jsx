@@ -126,7 +126,7 @@ class Users extends Component {
                 <TableRow>
                   <TableCell className={classes.tableHeadCell}>Borrower Name</TableCell>
                   <TableCell className={classes.tableHeadCell}>Neighborhoods</TableCell>
-                  <TableCell className={classes.tableHeadCell}>Amount</TableCell>
+                  <TableCell className={classes.tableHeadCell}>Preapproval Amount</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

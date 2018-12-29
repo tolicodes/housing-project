@@ -81,7 +81,7 @@ function ClippedDrawer(props) {
           </ExpansionPanelDetails>
           <ExpansionPanelDetails>
             <Typography className={classes.heading}>
-                Amount:
+                Preapproval Amount:
               {' '}
             </Typography>
             <Typography>
