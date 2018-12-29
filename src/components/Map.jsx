@@ -152,6 +152,10 @@ class CityMap extends Component {
 
     let zoomLevel = !city ? 10 : 11;
 
+    if (fullWidth) {
+      zoomLevel -= 1;
+    }
+
     let centerPoint = !city ?
       LA_CENTER
       : CENTERS[city];
@@ -166,7 +170,7 @@ class CityMap extends Component {
 
     let iHomeFinderId;
     if (lastNeighborhood) {
-      iHomeFinderId = MAPS[city].features.find(({ properties: { name } }) => 
+      iHomeFinderId = MAPS[city].features.find(({ properties: { name } }) =>
         lastNeighborhood === name).properties.iHomeFinderId;
       console.log(iHomeFinderId)
     }
@@ -178,9 +182,9 @@ class CityMap extends Component {
       <div className={classes.mapContainer + ' ' + fullWidth}>
         <Map
           style={{
-            height: 'calc(100vh - 260px)',
-            marginRight: '50px',
-            marginLeft: '50px',
+            height: `calc(100vh - ${fullWidth ? 340 : 260}px)`,
+            marginRight: `${fullWidth ? 50 : 20}px`,
+            marginLeft: `${fullWidth ? 50 : 20}px`,
           }}
           zoomControl={false}
           scrollWheelZoom={false}
@@ -238,7 +242,7 @@ class CityMap extends Component {
           target="_blank"
           href={`http://www.idxhome.com/report/market-report/Agoura-Hills/121429/${iHomeFinderId}`}
         >
-          Market Report
+            Market Report
         </a></Button>}
       </div>
     );

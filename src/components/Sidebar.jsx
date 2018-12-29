@@ -51,6 +51,16 @@ const styles = () => ({
   },
   editButton: {
     width: '100%',
+  },
+  toggleButton1: {
+    position: 'absolute',
+    bottom: 65,
+    right: 20,
+  },
+  toggleButton2: {
+    position: 'absolute',
+    bottom: 65,
+    right: 320,
   }
 });
 
@@ -154,14 +164,14 @@ class ClippedDrawer extends React.Component {
         return (
           <>
             {Sidebar}
-            <Button variant="fab" color="secondary" aria-label="Add" className={classes.button} onClick={this.onToggleSidebar}>
+            <Button variant="fab" mini color="secondary" aria-label="Add" className={classes.toggleButton2} onClick={this.onToggleSidebar}>
               {icon}
             </Button>
           </>
         )
       } else {
         return (
-          <Button variant="fab" color="secondary" aria-label="Add" className={classes.button} onClick={this.onToggleSidebar}>
+          <Button variant="fab" mini color="secondary" aria-label="Add" className={classes.toggleButton1} onClick={this.onToggleSidebar}>
             {icon}
           </Button>
         )
