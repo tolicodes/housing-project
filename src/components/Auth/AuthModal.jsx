@@ -13,6 +13,28 @@ import LoginForm from './LoginForm';
 import SocialLogins from './SocialLogins';
 import { setUser } from './actions';
 
+const size = {
+  mobileS: '320px',
+  mobileM: '375px',
+  mobileL: '425px',
+  tablet: '768px',
+  laptop: '1024px',
+  laptopL: '1440px',
+  desktop: '2560px'
+}
+
+const device = {
+  mobileS: `(min-width: ${size.mobileS})`,
+  mobileM: `(min-width: ${size.mobileM})`,
+  mobileL: `(min-width: ${size.mobileL})`,
+  tablet: `(min-width: ${size.tablet})`,
+  laptop: `(min-width: ${size.laptop})`,
+  laptopL: `(min-width: ${size.laptopL})`,
+  desktop: `(min-width: ${size.desktop})`,
+  desktopL: `(min-width: ${size.desktop})`
+};
+
+
 const styles = {
   modal: {
     position: 'fixed',
@@ -25,6 +47,10 @@ const styles = {
     backgroundColor: '#f5f5f5',
     border: '1px solid #c2c2c2',
     padding: 20,
+    '@media screen and (max-width: 425px)': {
+      width: 380,
+      height: 550,
+    },
   },
   textField: {
     width: '100%',
