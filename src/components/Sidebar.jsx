@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,6 +14,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import withWidth from '@material-ui/core/withWidth';
+
+import {
+  editBorrower
+} from './App/actions';
 
 const drawerWidth = '300px';
 
@@ -48,13 +53,14 @@ const styles = () => ({
     flexDirection: 'column',
   },
   editButton: {
-    width: '100%',
+    width: 'calc(100% - 40px)',
+    margin: '10px 20px'
   }
 });
 
 class ClippedDrawer extends React.Component {
-  onClickEdit = name => () => {
-
+  onClickEdit = index => () => {
+    this.props.editBorrower(index)
   }
 
   render() {
@@ -73,6 +79,7 @@ class ClippedDrawer extends React.Component {
         name,
         preapprovalAmount,
         neighborhoods,
+        uuid,
       }) => (
         <ListItem
           key={name}
@@ -107,7 +114,7 @@ class ClippedDrawer extends React.Component {
                 className={classes.editButton}
                 variant="contained"
                 color="primary"
-                onClick={this.onClickEdit(name)}
+                onClick={this.onClickEdit(uuid)}
               >
                 Edit
             </Button>
@@ -139,4 +146,7 @@ export default withWidth()(withStyles(styles)(connect(
   ({ app: { borrowers } }) => ({
     borrowers,
   }),
+  dispatch => bindActionCreators({
+    editBorrower,
+  }, dispatch),
 )(ClippedDrawer)));

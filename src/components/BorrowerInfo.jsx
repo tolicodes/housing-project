@@ -71,9 +71,11 @@ class BorrowerInfo extends React.Component {
 }
 
 export default withWidth()(withStyles(styles)(connect(
-  ({ app: { borrowers } }) => {
+  ({ app: { borrowers, editBorrower } }) => {
     return {
-      borrower: borrowers[borrowers.length - 1]
+      borrower: editBorrower
+        ? borrowers.find(({ uuid }) => uuid === editBorrower)
+        : borrowers[borrowers.length - 1]
     };
   },
   dispatch => bindActionCreators({

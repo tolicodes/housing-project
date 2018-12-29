@@ -5,6 +5,7 @@ import { findKey } from 'lodash';
 import {
   DO_ADD_BORROWER,
   DO_UPDATE_BORROWER,
+  DO_EDIT_BORROWER,
 } from './actions';
 
 let borrowerCounter = 0;
@@ -63,6 +64,18 @@ export default function (state = initialState, action) {
                 city,
               },
             },
+          },
+        },
+      );
+    }
+
+    case DO_EDIT_BORROWER: {
+      console.log(data);
+      return update(
+        state,
+        {
+          editBorrower: {
+            $set: data,
           },
         },
       );

@@ -168,7 +168,6 @@ class CityMap extends Component {
     if (lastNeighborhood) {
       iHomeFinderId = MAPS[city].features.find(({ properties: { name } }) => 
         lastNeighborhood === name).properties.iHomeFinderId;
-      console.log(iHomeFinderId)
     }
 
     const mapData = !city ? la : MAPS[city];
@@ -246,9 +245,13 @@ class CityMap extends Component {
 }
 
 export default withWidth()(withStyles(styles)(connect(
-  ({ app: { borrowers } }) => ({
-    borrower: borrowers[borrowers.length - 1],
-  }),
+  ({ app: { borrowers, editBorrower } }) => {
+    return {
+      borrower: editBorrower
+        ? borrowers.find(({ uuid }) => uuid === editBorrower)
+        : borrowers[borrowers.length - 1]
+    };
+  },
   dispatch => bindActionCreators({
     updateBorrower,
   }, dispatch),
