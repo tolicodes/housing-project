@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import { Typography, ExpansionPanel } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -52,7 +54,13 @@ function ClippedDrawer(props) {
   // eslint-disable-next-line
   const { classes, borrowers, width } = props;
 
-  if ((['sm', 'xs'].includes(width))) return null;
+  if ((['sm', 'xs'].includes(width))) {
+    return (
+      <Button variant="fab" color="secondary" aria-label="Add" className={classes.button}>
+        <KeyboardArrowLeft />
+      </Button>
+    );
+  }
 
   const borrowersHTML = [...borrowers]
     .reverse()
@@ -62,35 +70,35 @@ function ClippedDrawer(props) {
       neighborhoods,
     }) => (
       <ListItem
-        key={name}
-      >
-        <ExpansionPanel className={classes.expansionPanel}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>
-              {'Borrower:'}
+          key={name}
+        >
+          <ExpansionPanel className={classes.expansionPanel}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading}>
+                {'Borrower:'}
                 &nbsp;
-            </Typography>
-            <Typography className={classes.secondaryHeading}>{name}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.neighborhoods}>
-            <Typography className={classes.heading}>
+              </Typography>
+              <Typography className={classes.secondaryHeading}>{name}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.neighborhoods}>
+              <Typography className={classes.heading}>
                 Neighborhoods:
-              {' '}
-            </Typography>
-            {neighborhoods.join(', ')}
-          </ExpansionPanelDetails>
-          <ExpansionPanelDetails>
-            <Typography className={classes.heading}>
+                {' '}
+              </Typography>
+              {neighborhoods.join(', ')}
+            </ExpansionPanelDetails>
+            <ExpansionPanelDetails>
+              <Typography className={classes.heading}>
                 Amount:
-              {' '}
-            </Typography>
-            <Typography>
-              {' '}
-              {preapprovalAmount}
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </ListItem>
+                {' '}
+              </Typography>
+              <Typography>
+                {' '}
+                {preapprovalAmount}
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </ListItem>
     ));
 
   return (
