@@ -20,10 +20,22 @@ import {
 
 const styles = (theme) => ({
   modal: {
-    padding: '20px'
+    padding: '20px',
+    '@media screen and (max-width: 425px)': {
+      width: '100%',
+    }
   },
   actions: {
-    marginTop: '30px'
+    marginTop: '30px',
+    '@media screen and (max-width: 425px)': {
+      display: 'block',
+    }
+  },
+  actionButton: {
+    '@media screen and (max-width: 425px)': {
+      display: 'block',
+      marginBottom: 10,
+    }
   },
   iconLeft: {
     marginRight: '5px'
@@ -42,6 +54,7 @@ class SubmitModal extends React.Component {
     return (
       <Dialog
         open={this.props.open}
+        className={classes.dialog}
       >
         <div className={classes.modal}>
           <DialogTitle>Thank you. Click "I'm Finished" to complete your submission.</DialogTitle>
@@ -54,14 +67,14 @@ class SubmitModal extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions className={classes.actions}>
-            <Button onClick={this.props.modalClose} color="primary">
+            <Button onClick={this.props.modalClose} className={classes.actionButton} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.props.addNeighborhood} variant="contained">
+            <Button onClick={this.props.addNeighborhood} className={classes.actionButton} variant="contained">
               <AddIcon mini className={classes.iconLeft} />
               Neighborhood
             </Button>
-            <Button onClick={this.onClickFinish} color="primary" variant="contained">
+            <Button onClick={this.onClickFinish} className={classes.actionButton} color="primary" variant="contained">
               <DoneIcon mini className={classes.iconLeft} />
               I'm Finished
             </Button>
