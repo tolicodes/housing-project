@@ -33,9 +33,6 @@ function HoodDetailsBox(props) {
         <Typography variant="h5" component="h3">
           {name}
         </Typography>
-        <Typography component="p">
-          This will show some more information
-        </Typography>
       </Paper>
     </div>
   );

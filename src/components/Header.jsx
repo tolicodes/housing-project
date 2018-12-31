@@ -20,6 +20,9 @@ const styles = {
   },
   grow: {
     flexGrow: 1,
+    '@media screen and (max-width: 425px)': {
+      fontSize: 12,
+    }
   },
   menuButton: {
     marginLeft: -12,
@@ -27,11 +30,18 @@ const styles = {
   },
   span: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    '@media screen and (max-width: 425px)': {
+      fontSize: 8,
+    }
   },
   avatar: {
     display: 'inline-block',
     marginRight: '5px',
+    '@media screen and (max-width: 425px)': {
+      width: 20,
+      height: 20,
+    }
   },
 };
 

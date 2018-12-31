@@ -60,12 +60,12 @@ const styles = () => ({
   },
   toggleButton1: {
     position: 'absolute',
-    bottom: 65,
+    bottom: 45,
     right: 20,
   },
   toggleButton2: {
     position: 'absolute',
-    bottom: 65,
+    bottom: 50,
     right: 320,
   }
 });

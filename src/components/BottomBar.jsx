@@ -29,6 +29,9 @@ const styles = theme => ({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    '@media screen and (max-width: 425px)': {
+      height: 40,
+    }
   },
   fullWidth: {
     paddingRight: 0,
@@ -61,7 +64,7 @@ class BottomAppBar extends Component {
     })
   }
 
-  addNeighborhood = () => { 
+  addNeighborhood = () => {
     this.modalClose();
     this.props.addNeighborhood();
   }
@@ -72,13 +75,14 @@ class BottomAppBar extends Component {
     const { modalOpen } = this.state;
 
     const fullWidth = (['sm', 'xs'].includes(width)) ? classes.fullWidth : '';
+    const btnSize = (['sm', 'xs'].includes(width)) ? 'small' : 'large';
 
     return (
       <React.Fragment>
         <AppBar position="fixed" className={classes.appBar + ' ' + fullWidth}>
           <Button
             variant="contained"
-            size="large"
+            size={btnSize}
             className={classes.submitButton}
             onClick={this.onSubmit}
           >

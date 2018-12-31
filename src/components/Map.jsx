@@ -35,13 +35,17 @@ const styles = () => ({
   mapContainer: {
     marginRight: '300px',
     paddingTop: '20px',
+    '@media screen and (max-width: 425px)': {
+      width: '100%',
+      paddingTop: '50px',
+    }
   },
   fullWidth: {
     marginRight: 0,
   },
   backButton: {
     marginLeft: '50px',
-    marginRight: '10px'
+    marginRight: '10px',
   },
   marketReportLink: {
     color: 'inherit',
@@ -189,7 +193,6 @@ class CityMap extends Component {
           scrollWheelZoom={false}
           touchZoom={false}
           doubleClickZoom={false}
-
           zoom={zoomLevel}
           center={centerPoint}
         >

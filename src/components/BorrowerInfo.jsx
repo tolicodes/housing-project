@@ -14,18 +14,18 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    width: '100%',
+    padding: 0
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200,
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
+    padding: 0,
+    '@media screen and (max-width: 425px)': {
+      width: 144,
+    }
+  }
 });
 
 class BorrowerInfo extends React.Component {
@@ -46,7 +46,7 @@ class BorrowerInfo extends React.Component {
     return (
       <Paper style={{
         marginTop: '64px',
-        marginRight: (['sm', 'xs'].includes(width)) ? 0: '300px'
+        marginRight: (['sm', 'xs'].includes(width)) ? 0 : '300px'
       }}>
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
@@ -57,7 +57,7 @@ class BorrowerInfo extends React.Component {
             margin="normal"
           />
           <TextField
-            label="Preapproval Amount"
+            label="Pre-approval Amount"
             className={classes.textField}
             value={preapprovalAmount}
             placeholder="$"
