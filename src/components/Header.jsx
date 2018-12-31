@@ -32,7 +32,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     '@media screen and (max-width: 425px)': {
-      fontSize: 8,
+      fontSize: 9,
     }
   },
   avatar: {

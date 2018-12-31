@@ -11,8 +11,18 @@ const styles = theme => ({
     position: 'absolute',
     bottom: '150px',
     left: '60px',
-    width: '300px',
+    // width: '300px',
     zIndex: '10000',
+    '@media screen and (max-width: 425px)': {
+      // width: '240px',
+      height: '10px',
+      bottom: '180px',
+      left: '20px',
+      textAlign: 'left',
+    },
+  },
+  name: {
+    fontSize: '12px',
   },
   show: {
     display: 'block',
@@ -30,7 +40,7 @@ function HoodDetailsBox(props) {
   return (
     <div>
       <Paper className={`${classes.root} ${showClass}`} elevation={1}>
-        <Typography variant="h5" component="h3">
+        <Typography variant="h5" component="h3" className={classes.name}>
           {name}
         </Typography>
       </Paper>

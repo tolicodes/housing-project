@@ -37,15 +37,21 @@ const styles = () => ({
     paddingTop: '20px',
     '@media screen and (max-width: 425px)': {
       width: '100%',
-      paddingTop: '50px',
+      paddingTop: '30px',
     }
   },
   fullWidth: {
     marginRight: 0,
   },
+  buttons: {
+    marginTop: '5px',
+  },
   backButton: {
     marginLeft: '50px',
     marginRight: '10px',
+    '@media screen and (max-width: 425px)': {
+      marginLeft: '20px',
+    }
   },
   marketReportLink: {
     color: 'inherit',
@@ -154,7 +160,7 @@ class CityMap extends Component {
 
     const fullWidth = (['sm', 'xs'].includes(width)) ? classes.fullWidth : '';
 
-    let zoomLevel = !city ? 10 : 11;
+    let zoomLevel = !city ? 10 - (fullWidth ? 1 : 0) : 11;
 
     let centerPoint = !city ?
       LA_CENTER
@@ -182,8 +188,8 @@ class CityMap extends Component {
         <Map
           style={{
             height: `calc(100vh - ${fullWidth ? 340 : 260}px)`,
-            marginRight: `${fullWidth ? 50 : 20}px`,
-            marginLeft: `${fullWidth ? 50 : 20}px`,
+            marginRight: `${fullWidth ? 10 : 20}px`,
+            marginLeft: `${fullWidth ? 10 : 20}px`,
           }}
           zoomControl={false}
           scrollWheelZoom={false}
@@ -216,32 +222,34 @@ class CityMap extends Component {
           />}
         </Map>
 
-        {neighborhoods.length === 0 && city &&
+        {city &&
           <HoodDetailsBox
             displayHoodDetails={this.state.displayHoodDetails}
             name={this.state.currentCity}
           />
         }
-        {city && <Button
-          size="small"
-          variant="contained"
-          className={classes.backButton}
-          onClick={this.handleBackButton}
-        >
-          Zoom Out
+        <div className={classes.buttons}>
+          {city && <Button
+            size="small"
+            variant="contained"
+            className={classes.backButton}
+            onClick={this.handleBackButton}
+          >
+            Zoom Out
         </Button>}
 
-        {iHomeFinderId && <Button
-          size="small"
-          variant="contained"
-          color="primary"
-        ><a
-          className={classes.marketReportLink}
-          target="_blank"
-          href={`http://www.idxhome.com/report/market-report/Agoura-Hills/121429/${iHomeFinderId}`}
-        >
-            Market Report
+          {iHomeFinderId && <Button
+            size="small"
+            variant="contained"
+            color="primary"
+          ><a
+            className={classes.marketReportLink}
+            target="_blank"
+            href={`http://www.idxhome.com/report/market-report/Agoura-Hills/121429/${iHomeFinderId}`}
+          >
+              Market Report
         </a></Button>}
+        </div>
       </div>
     );
   }

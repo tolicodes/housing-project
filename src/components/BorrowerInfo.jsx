@@ -23,7 +23,7 @@ const styles = theme => ({
     width: 200,
     padding: 0,
     '@media screen and (max-width: 425px)': {
-      width: 144,
+      width: '45%',
     }
   }
 });
