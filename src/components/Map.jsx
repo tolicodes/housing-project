@@ -156,10 +156,6 @@ class CityMap extends Component {
 
     let zoomLevel = !city ? 10 : 11;
 
-    if (fullWidth) {
-      zoomLevel -= 1;
-    }
-
     let centerPoint = !city ?
       LA_CENTER
       : CENTERS[city];

@@ -222,7 +222,7 @@ class RegisterForm extends React.Component {
           />
           <TextField
             className={classes.textField2}
-            label="NMLS #"
+            label="NMLS # or BRE #"
             value={nmlsNumber}
             onChange={this.handleChange('nmlsNumber')}
           />
