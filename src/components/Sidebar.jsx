@@ -20,6 +20,9 @@ import withWidth from '@material-ui/core/withWidth';
 import {
   editBorrower
 } from './App/actions';
+import {
+  deleteBorrower
+} from './App/actions';
 
 const drawerWidth = '300px';
 
@@ -55,8 +58,13 @@ const styles = () => ({
     flexDirection: 'column',
   },
   editButton: {
-    width: 'calc(100% - 40px)',
-    margin: '10px 20px'
+    // width: 'calc(100% - 40px)',
+    margin: '10px 2.5% 2.5%',
+    width: '60%',
+  },
+  deleteButton: {
+    width: '30%',
+    margin: '10px 0px 10px 2.5%'
   },
   toggleButton1: {
     position: 'absolute',
@@ -77,6 +85,12 @@ class ClippedDrawer extends React.Component {
 
   onClickEdit = index => () => {
     this.props.editBorrower(index)
+  }
+
+  onClickDelete = index => () => {
+    console.log("Going to delete borrower: ", index);
+    this.props.deleteBorrower(index);
+    console.log("Got to here too")
   }
 
   onToggleSidebar = () => {
@@ -139,6 +153,13 @@ class ClippedDrawer extends React.Component {
               >
                 Edit
             </Button>
+              <Button
+                className={classes.deleteButton}
+                variant="contained"
+                onClick={this.onClickDelete(uuid)}
+              >
+                Delete
+            </Button>
             </ExpansionPanel>
           </ListItem>
         ));
@@ -198,5 +219,6 @@ export default withWidth()(withStyles(styles)(connect(
   }),
   dispatch => bindActionCreators({
     editBorrower,
+    deleteBorrower
   }, dispatch),
 )(ClippedDrawer)));

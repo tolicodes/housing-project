@@ -6,6 +6,7 @@ import {
   DO_ADD_BORROWER,
   DO_UPDATE_BORROWER,
   DO_EDIT_BORROWER,
+  DO_DELETE_BORROWER,
 } from './actions';
 
 let borrowerCounter = 0;
@@ -76,6 +77,18 @@ export default function (state = initialState, action) {
         {
           editBorrower: {
             $set: data,
+          },
+        },
+      );
+    }
+
+    case DO_DELETE_BORROWER: {
+      console.log(data);
+      return update(
+        state,
+        {
+          deleteBorrower: {
+            $splice: [[findIndexById(state, uuid), 1]],
           },
         },
       );
