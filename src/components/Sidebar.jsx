@@ -64,7 +64,7 @@ const styles = () => ({
   },
   deleteButton: {
     width: '30%',
-    margin: '10px 0px 10px 2.5%'
+    margin: '10px 0px 2.5%'
   },
   toggleButton1: {
     position: 'absolute',
@@ -88,9 +88,13 @@ class ClippedDrawer extends React.Component {
   }
 
   onClickDelete = index => () => {
-    console.log("Going to delete borrower: ", index);
-    this.props.deleteBorrower(index);
-    console.log("Got to here too")
+    const { props } = this;
+    const { borrowers } = props;
+    if (borrowers.length > 1) {
+      this.props.deleteBorrower(index);
+    } else {
+      alert("No borrowers to delete")
+    }
   }
 
   onToggleSidebar = () => {
@@ -148,6 +152,7 @@ class ClippedDrawer extends React.Component {
               <Button
                 className={classes.editButton}
                 variant="contained"
+                size="small"
                 color="primary"
                 onClick={this.onClickEdit(uuid)}
               >
@@ -155,7 +160,9 @@ class ClippedDrawer extends React.Component {
             </Button>
               <Button
                 className={classes.deleteButton}
-                variant="contained"
+                variant="outlined"
+                size="small"
+                color="primary"
                 onClick={this.onClickDelete(uuid)}
               >
                 Delete

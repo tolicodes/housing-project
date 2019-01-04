@@ -87,8 +87,8 @@ export default function (state = initialState, action) {
       return update(
         state,
         {
-          deleteBorrower: {
-            $splice: [[findIndexById(state, uuid), 1]],
+          borrowers: {
+            $splice: [[findIndexById(state, data), 1]],
           },
         },
       );

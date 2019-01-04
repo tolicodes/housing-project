@@ -22,7 +22,9 @@ const styles = (theme) => ({
   modal: {
     padding: '20px',
     '@media screen and (max-width: 425px)': {
-      width: '100%',
+      width: '98%',
+      margin: 'auto',
+      padding: '0px',
     }
   },
   actions: {
@@ -33,7 +35,9 @@ const styles = (theme) => ({
   },
   actionButton: {
     '@media screen and (max-width: 425px)': {
-      display: 'block',
+      width: '80%',
+      marginLeft: '10%',
+      marginRight: '10%',
       marginBottom: 10,
     }
   },
@@ -67,14 +71,14 @@ class SubmitModal extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions className={classes.actions}>
-            <Button onClick={this.props.modalClose} className={classes.actionButton} color="primary">
+            <Button onClick={this.props.modalClose} className={classes.actionButton} variant="outlined" color="primary" size="small">
               Cancel
             </Button>
-            <Button onClick={this.props.addNeighborhood} className={classes.actionButton} variant="contained">
+            <Button onClick={this.props.addNeighborhood} className={classes.actionButton} variant="contained" size="small">
               <AddIcon mini className={classes.iconLeft} />
               Neighborhood
             </Button>
-            <Button onClick={this.onClickFinish} className={classes.actionButton} color="primary" variant="contained">
+            <Button onClick={this.onClickFinish} className={classes.actionButton} color="primary" variant="contained" size="small">
               <DoneIcon mini className={classes.iconLeft} />
               I'm Finished
             </Button>
