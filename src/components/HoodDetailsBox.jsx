@@ -17,7 +17,7 @@ const styles = theme => ({
       bottom: '180px',
       left: '20px',
       textAlign: 'left',
-      zIndex: '1000',
+      zIndex: '5000',
     },
   },
   name: {
