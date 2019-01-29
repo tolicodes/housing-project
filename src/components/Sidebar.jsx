@@ -119,9 +119,10 @@ class ClippedDrawer extends React.Component {
         preapprovalAmount,
         neighborhoods,
         uuid,
+        id,
       }) => (
           <ListItem
-            key={name}
+            key={name + uuid + id}
           >
             <ExpansionPanel className={classes.expansionPanel}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -149,24 +150,29 @@ class ClippedDrawer extends React.Component {
                 </Typography>
               </ExpansionPanelDetails>
 
-              <Button
-                className={classes.editButton}
-                variant="contained"
-                size="small"
-                color="primary"
-                onClick={this.onClickEdit(uuid)}
-              >
-                Edit
-            </Button>
-              <Button
-                className={classes.deleteButton}
-                variant="outlined"
-                size="small"
-                color="primary"
-                onClick={this.onClickDelete(uuid)}
-              >
-                Delete
-            </Button>
+              {id && (
+              <>
+                <Button
+                  className={classes.editButton}
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  onClick={this.onClickEdit(id)}
+                >
+                  Edit
+              </Button>
+                <Button
+                  className={classes.deleteButton}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                  onClick={this.onClickDelete(id)}
+                >
+                  Delete
+                </Button>
+              </>
+              )
+            }
             </ExpansionPanel>
           </ListItem>
         ));

@@ -40,6 +40,8 @@ export const login = async ({
 
 export const getCurrentUser = () => axios.get(`${API_ROOT}/users/current`);
 
+export const getBorrowers = (id) => axios.get(`${API_ROOT}/borrower/current?userId=${id}`);
+
 export const logout = () => {
   axios.defaults.headers.common.Authorization = '';
   localStorage.removeItem('token');
