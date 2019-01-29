@@ -99,7 +99,6 @@ class CityMap extends Component {
     });
 
     layer.on('click', () => {
-      console.log('a')
       const { neighborhoods } = this.props.borrower;
 
       if (type === 'city') {
@@ -109,10 +108,12 @@ class CityMap extends Component {
           neighborhoods: [],
         })
       } else {
-        console.log(neighborhoods, properties.name)
         // if we click on a neighborhood that is already selected, remove it from the list of selected neighborhoods
         if (neighborhoods.includes(properties.name)) {
-          console.log('yo')
+          this.setState({
+            displayHoodDetails: false
+          });
+          
           const index = neighborhoods.indexOf(properties.name);
           neighborhoods.splice(index, 1)
 
@@ -121,6 +122,11 @@ class CityMap extends Component {
             neighborhoods,
           })
         } else {
+          this.setState({
+            displayHoodDetails: true,
+            currentCity: properties.name
+          })
+
           this.props.updateBorrower({
             ...this.props.borrower,
             neighborhoods: [
@@ -227,7 +233,7 @@ class CityMap extends Component {
           />}
         </Map>
 
-        {city &&
+        {
           <HoodDetailsBox
             displayHoodDetails={this.state.displayHoodDetails}
             name={this.state.currentCity}
