@@ -98,6 +98,7 @@ class CityMap extends Component {
     });
 
     layer.on('click', () => {
+      console.log('a')
       const { neighborhoods } = this.props.borrower;
 
       if (type === 'city') {
@@ -107,8 +108,10 @@ class CityMap extends Component {
           neighborhoods: [],
         })
       } else {
+        console.log(neighborhoods, properties.name)
         // if we click on a neighborhood that is already selected, remove it from the list of selected neighborhoods
         if (neighborhoods.includes(properties.name)) {
+          console.log('yo')
           const index = neighborhoods.indexOf(properties.name);
           neighborhoods.splice(index, 1)
 
@@ -219,6 +222,7 @@ class CityMap extends Component {
               type: 'FeatureCollection',
               features: MAPS[city].features.filter(({ properties: { name } }) => neighborhoods.includes(name)),
             }}
+            onEachFeature={this.onEachNeighborhoodFeature}
           />}
         </Map>
 
@@ -259,7 +263,7 @@ export default withWidth()(withStyles(styles)(connect(
   ({ app: { borrowers, editBorrower } }) => {
     return {
       borrower: editBorrower
-        ? borrowers.find(({ uuid }) => uuid === editBorrower)
+        ? borrowers.find(({ id }) => id === editBorrower)
         : borrowers[borrowers.length - 1]
     };
   },

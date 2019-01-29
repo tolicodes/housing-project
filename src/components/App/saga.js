@@ -7,7 +7,9 @@ import {
 
 import {
   DO_SAVE_BORROWER,
+  DO_DELETE_BORROWER,
   addBorrower,
+  removeBorrower,
 } from './actions';
 
 import {
@@ -16,6 +18,7 @@ import {
 
 import {
   saveBorrower,
+  deleteBorrower,
 } from './api';
 
 function* doSaveBorrower() {
@@ -27,8 +30,12 @@ function* doSaveBorrower() {
   } = yield select(({
     app: {
       borrowers,
+      editBorrower,
     },
-  }) => borrowers[borrowers.length - 1]);
+  }) => editBorrower
+    ? borrowers.find(({ id }) => id === editBorrower)
+    : borrowers[borrowers.length - 1]
+  );
 
   const user = yield select(({
     auth,
@@ -55,8 +62,16 @@ function* doSaveBorrower() {
   }
 }
 
+
+function* doDeleteBorrower({ data: id }) {
+  yield deleteBorrower(id);
+
+  yield put(removeBorrower(id));
+}
+
 export default function* root() {
   yield all([
     takeLatest(DO_SAVE_BORROWER, doSaveBorrower),
+    takeLatest(DO_DELETE_BORROWER, doDeleteBorrower),
   ]);
 }

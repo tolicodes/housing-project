@@ -74,7 +74,7 @@ export default withWidth()(withStyles(styles)(connect(
   ({ app: { borrowers, editBorrower } }) => {
     return {
       borrower: editBorrower
-        ? borrowers.find(({ uuid }) => uuid === editBorrower)
+        ? borrowers.find(({ id }) => id === editBorrower)
         : borrowers[borrowers.length - 1]
     };
   },

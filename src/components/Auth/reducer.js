@@ -2,6 +2,7 @@ import {
   SET_USER,
   DO_LOGOUT,
   AUTH_MODAL_SHOWN,
+  SET_BORROWERS,
 } from './actions';
 
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
 export default function (state = initialState, { type, data }) {
   switch (type) {
     case SET_USER: {
-      if (data.photo) {
+      if (data && data.photo) {
         localStorage.setItem('photo', data.photo);
       }
 

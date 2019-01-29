@@ -6,6 +6,8 @@ import {
   DO_ADD_BORROWER,
   DO_UPDATE_BORROWER,
   DO_EDIT_BORROWER,
+  DO_REMOVE_BORROWER,
+  DO_SET_BORROWERS,
 } from './actions';
 
 let borrowerCounter = 0;
@@ -24,8 +26,8 @@ const initialState = {
   ],
 };
 
-function findIndexById(state, uuid) {
-  return findKey(state.borrowers, borrower => borrower.uuid === uuid);
+function findIndexById(state, id) {
+  return findKey(state.borrowers, borrower => borrower.uuid === id || borrower.id === id);
 }
 
 export default function (state = initialState, action) {
@@ -42,9 +44,18 @@ export default function (state = initialState, action) {
       );
     }
 
+    case DO_SET_BORROWERS: {
+      console.log(data)
+      return {
+        ...state,
+        borrowers: [...data, createBorrower()],
+      };
+    }
+
     case DO_UPDATE_BORROWER: {
       const {
         uuid,
+        id,
         preapprovalAmount,
         name,
         neighborhoods,
@@ -55,8 +66,9 @@ export default function (state = initialState, action) {
         state,
         {
           borrowers: {
-            [findIndexById(state, uuid)]: {
+            [findIndexById(state, uuid || id)]: {
               $set: {
+                id,
                 uuid,
                 preapprovalAmount,
                 name,
@@ -70,12 +82,22 @@ export default function (state = initialState, action) {
     }
 
     case DO_EDIT_BORROWER: {
-      console.log(data);
       return update(
         state,
         {
           editBorrower: {
             $set: data,
+          },
+        },
+      );
+    }
+
+    case DO_REMOVE_BORROWER: {
+      return update(
+        state,
+        {
+          borrowers: {
+            $splice: [[findIndexById(state, data), 1]],
           },
         },
       );

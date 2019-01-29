@@ -20,6 +20,9 @@ import withWidth from '@material-ui/core/withWidth';
 import {
   editBorrower
 } from './App/actions';
+import {
+  deleteBorrower
+} from './App/actions';
 
 const drawerWidth = '300px';
 
@@ -55,8 +58,13 @@ const styles = () => ({
     flexDirection: 'column',
   },
   editButton: {
-    width: 'calc(100% - 40px)',
-    margin: '10px 20px'
+    // width: 'calc(100% - 40px)',
+    margin: '10px 2.5% 2.5%',
+    width: '60%',
+  },
+  deleteButton: {
+    width: '30%',
+    margin: '10px 0px 2.5%'
   },
   toggleButton1: {
     position: 'absolute',
@@ -77,6 +85,16 @@ class ClippedDrawer extends React.Component {
 
   onClickEdit = index => () => {
     this.props.editBorrower(index)
+  }
+
+  onClickDelete = index => () => {
+    const { props } = this;
+    const { borrowers } = props;
+    if (borrowers.length > 1) {
+      this.props.deleteBorrower(index);
+    } else {
+      alert("No borrowers to delete")
+    }
   }
 
   onToggleSidebar = () => {
@@ -101,9 +119,10 @@ class ClippedDrawer extends React.Component {
         preapprovalAmount,
         neighborhoods,
         uuid,
+        id,
       }) => (
           <ListItem
-            key={name}
+            key={name + uuid + id}
           >
             <ExpansionPanel className={classes.expansionPanel}>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -131,14 +150,29 @@ class ClippedDrawer extends React.Component {
                 </Typography>
               </ExpansionPanelDetails>
 
-              <Button
-                className={classes.editButton}
-                variant="contained"
-                color="primary"
-                onClick={this.onClickEdit(uuid)}
-              >
-                Edit
-            </Button>
+              {id && (
+              <>
+                <Button
+                  className={classes.editButton}
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  onClick={this.onClickEdit(id)}
+                >
+                  Edit
+              </Button>
+                <Button
+                  className={classes.deleteButton}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                  onClick={this.onClickDelete(id)}
+                >
+                  Delete
+                </Button>
+              </>
+              )
+            }
             </ExpansionPanel>
           </ListItem>
         ));
@@ -198,5 +232,6 @@ export default withWidth()(withStyles(styles)(connect(
   }),
   dispatch => bindActionCreators({
     editBorrower,
+    deleteBorrower
   }, dispatch),
 )(ClippedDrawer)));
