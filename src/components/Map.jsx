@@ -33,6 +33,7 @@ const highlightStyle = {
 
 const styles = () => ({
   mapContainer: {
+    position: 'relative',
     marginRight: '300px',
     paddingTop: '20px',
     '@media screen and (max-width: 425px)': {
