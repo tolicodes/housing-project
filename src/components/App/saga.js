@@ -61,8 +61,6 @@ function* doSaveBorrower() {
       neighborhoods,
     });
 
-    console.log(borrower)
-
     yield put(updateBorrower({
       ...borrower,
       uuid,

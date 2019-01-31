@@ -46,7 +46,6 @@ export default function (state = initialState, action) {
     }
 
     case DO_SET_BORROWERS: {
-      console.log(data)
       return {
         ...state,
         borrowers: [...data, createBorrower()],
