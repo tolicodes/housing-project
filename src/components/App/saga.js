@@ -10,6 +10,7 @@ import {
   DO_DELETE_BORROWER,
   addBorrower,
   removeBorrower,
+  updateBorrower,
 } from './actions';
 
 import {
@@ -25,8 +26,10 @@ function* doSaveBorrower() {
   const {
     name,
     preapprovalAmount,
+    purchasePrice,
     city,
     neighborhoods,
+    uuid,
   } = yield select(({
     app: {
       borrowers,
@@ -45,16 +48,25 @@ function* doSaveBorrower() {
 
   if (!name) return alert('Borrower name is required');
   if (!preapprovalAmount || preapprovalAmount === '$') return alert('Preapproval Amount required');
+  if (!purchasePrice || purchasePrice === '$') return alert('Purchase Amount required');
   if (!city) return alert('Please select a city');
   if (!neighborhoods.length) return alert('You must select at least 1 neighborhood per borrower');
 
   try {
-    yield saveBorrower({
+    const { data: borrower } = yield saveBorrower({
       name,
       preapprovalAmount,
+      purchasePrice,
       city,
       neighborhoods,
     });
+
+    yield put(updateBorrower({
+      ...borrower,
+      uuid,
+      neighborhoods,
+      city,
+    }));
 
     yield put(addBorrower());
   } catch (e) {

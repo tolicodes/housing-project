@@ -14,7 +14,7 @@ const styles = theme => ({
     zIndex: '10000',
     '@media screen and (max-width: 425px)': {
       height: '10px',
-      bottom: '180px',
+      bottom: '50px',
       left: '20px',
       textAlign: 'left',
       zIndex: '5000',

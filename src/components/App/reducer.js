@@ -16,6 +16,7 @@ const createBorrower = () => ({
   uuid: uuid(),
   preapprovalAmount: '$',
   name: `Borrower ${borrowerCounter += 1}`,
+  purchasePrice: '$',
   neighborhoods: [],
   city: '',
 });
@@ -45,7 +46,6 @@ export default function (state = initialState, action) {
     }
 
     case DO_SET_BORROWERS: {
-      console.log(data)
       return {
         ...state,
         borrowers: [...data, createBorrower()],
@@ -58,6 +58,7 @@ export default function (state = initialState, action) {
         id,
         preapprovalAmount,
         name,
+        purchasePrice,
         neighborhoods,
         city,
       } = data;
@@ -71,6 +72,7 @@ export default function (state = initialState, action) {
                 id,
                 uuid,
                 preapprovalAmount,
+                purchasePrice,
                 name,
                 neighborhoods,
                 city,
