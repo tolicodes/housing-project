@@ -127,6 +127,7 @@ class Users extends Component {
                   <TableCell className={classes.tableHeadCell}>Borrower Name</TableCell>
                   <TableCell className={classes.tableHeadCell}>Neighborhoods</TableCell>
                   <TableCell className={classes.tableHeadCell}>Preapproval Amount</TableCell>
+                  <TableCell className={classes.tableHeadCell}>Purchase Price</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -136,6 +137,7 @@ class Users extends Component {
                       <TableCell>{borrower.name}</TableCell>
                       <TableCell>{borrower.borrower_neighborhoods.map(({ name }) => name).join(', ')}</TableCell>
                       <TableCell>{borrower.preapprovalAmount}</TableCell>
+                      <TableCell>{borrower.purchasePrice}</TableCell>
                     </TableRow>
                   )
                 })}

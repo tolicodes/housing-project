@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import { Typography, ExpansionPanel } from '@material-ui/core';
+import { Typography, ExpansionPanel, ExpansionPanelActions } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -118,6 +118,7 @@ class ClippedDrawer extends React.Component {
         name,
         preapprovalAmount,
         neighborhoods,
+        purchasePrice,
         uuid,
         id,
       }) => (
@@ -130,7 +131,7 @@ class ClippedDrawer extends React.Component {
                   {'Borrower:'}
                   &nbsp;
               </Typography>
-                <Typography className={classes.secondaryHeading}>{name}</Typography>
+              <Typography className={classes.secondaryHeading}>{name}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.neighborhoods}>
                 <Typography className={classes.heading}>
@@ -149,7 +150,17 @@ class ClippedDrawer extends React.Component {
                   {preapprovalAmount}
                 </Typography>
               </ExpansionPanelDetails>
-
+              <ExpansionPanelDetails>
+                <Typography className={classes.heading}>
+                  Purchase Price:
+                {' '}
+                </Typography>
+                <Typography>
+                  {' '}
+                  {purchasePrice}
+                </Typography>
+              </ExpansionPanelDetails>
+              <ExpansionPanelActions>
               {id && (
               <>
                 <Button
@@ -173,6 +184,7 @@ class ClippedDrawer extends React.Component {
               </>
               )
             }
+            </ExpansionPanelActions>
             </ExpansionPanel>
           </ListItem>
         ));
