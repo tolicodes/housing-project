@@ -35,6 +35,8 @@ export default function (state = initialState, action) {
   const { data } = action;
   switch (action.type) {
     case DO_ADD_BORROWER: {
+      if (state.borrowers.some(borrower => !borrower.id && borrower.uuid)) return state;
+
       return update(
         state,
         {

@@ -35,10 +35,10 @@ const styles = () => ({
   mapContainer: {
     position: 'relative',
     marginRight: '300px',
-    paddingTop: '20px',
+    paddingTop: '10px',
     '@media screen and (max-width: 425px)': {
       width: '100%',
-      paddingTop: '30px',
+      paddingTop: '5px',
     }
   },
   fullWidth: {
@@ -67,6 +67,12 @@ class CityMap extends Component {
     displayHoodDetails: false,
   }
 
+  componentDidUpdate({ editBorrower: oldEditBorrower }) {
+    if (oldEditBorrower !== this.props.editBorrower) {
+      this.props.changeView('city');
+    }
+  }
+
   onEachCityFeature = (feature, layer) => this.onEachFeature('city', feature, layer)
 
   onEachNeighborhoodFeature = (feature, layer) => this.onEachFeature('neighborhood', feature, layer)
@@ -74,6 +80,10 @@ class CityMap extends Component {
   onEachFeature = (type, feature, layer) => {
     // Load the default style.
     layer.setStyle(defaultStyle);
+
+    if (this.props.borrower.neighborhoods.includes(feature.properties.name)) {
+      layer.setStyle(highlightStyle)
+    }
 
     const properties = feature.properties;
 
@@ -269,6 +279,7 @@ class CityMap extends Component {
 export default withWidth()(withStyles(styles)(connect(
   ({ app: { borrowers, editBorrower } }) => {
     return {
+      editBorrower,
       borrower: editBorrower
         ? borrowers.find(({ id }) => id === editBorrower)
         : borrowers[borrowers.length - 1]

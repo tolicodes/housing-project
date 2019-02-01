@@ -11,6 +11,7 @@ import {
   addBorrower,
   removeBorrower,
   updateBorrower,
+  editBorrower,
 } from './actions';
 
 import {
@@ -61,6 +62,8 @@ function* doSaveBorrower() {
       neighborhoods,
     });
 
+    yield put(editBorrower(null));
+
     yield put(updateBorrower({
       ...borrower,
       uuid,
@@ -69,6 +72,7 @@ function* doSaveBorrower() {
     }));
 
     yield put(addBorrower());
+
   } catch (e) {
     alert(e.message);
   }
@@ -78,7 +82,10 @@ function* doSaveBorrower() {
 function* doDeleteBorrower({ data: id }) {
   yield deleteBorrower(id);
 
+  yield put(editBorrower(null));
+
   yield put(removeBorrower(id));
+
 }
 
 export default function* root() {
