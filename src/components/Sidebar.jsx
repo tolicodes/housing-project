@@ -88,8 +88,19 @@ class ClippedDrawer extends React.Component {
     sidebarOpen: false,
   }
 
+  
+
   onClickEdit = index => () => {
-    this.props.editBorrower(index)
+    if(this.props.width) {
+      this.setState({
+        sidebarOpen: !this.state.sidebarOpen
+      })
+      this.props.editBorrower(index)
+    } else {
+      this.props.editBorrower(index)
+    }
+    
+
   }
 
   onClickDelete = id => () => {
