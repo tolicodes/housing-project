@@ -99,8 +99,6 @@ class ClippedDrawer extends React.Component {
     } else {
       this.props.editBorrower(index)
     }
-    
-
   }
 
   onClickDelete = id => () => {
