@@ -17,11 +17,12 @@ const styles = theme => ({
       bottom: '50px',
       left: '20px',
       textAlign: 'left',
-      zIndex: '5000',
+      zIndex: '1000',
     },
   },
   name: {
-    fontSize: '12px',
+    fontSize: '16px',
+    fontWeight: 'bold',
   },
   show: {
     display: 'block',

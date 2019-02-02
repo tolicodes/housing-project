@@ -15,7 +15,14 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     width: '100%',
-    padding: 0
+    padding: '0px',
+  },
+  paper: {
+    marginTop: '64px',
+    padding: '5px',
+    '@media screen and (max-width: 425px)': {
+      padding: '0px',
+    }
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -24,6 +31,7 @@ const styles = theme => ({
     padding: 0,
     '@media screen and (max-width: 425px)': {
       width: '45%',
+      marginBottom: '5px',
     }
   }
 });
@@ -45,8 +53,8 @@ class BorrowerInfo extends React.Component {
     } } = this.props;
 
     return (
-      <Paper style={{
-        marginTop: '64px',
+      <Paper className={classes.paper}
+      style={{
         marginRight: (['sm', 'xs'].includes(width)) ? 0 : '300px'
       }}>
         <form className={classes.container} noValidate autoComplete="off">
@@ -55,7 +63,7 @@ class BorrowerInfo extends React.Component {
             className={classes.textField}
             value={name}
             onChange={this.handleChange('name')}
-            margin="normal"
+            margin={(['sm', 'xs'].includes(width)) ? '' : "normal"}
           />
           <TextField
             label="Pre-approval Amount"
@@ -63,7 +71,7 @@ class BorrowerInfo extends React.Component {
             value={preapprovalAmount}
             placeholder="$"
             onChange={this.handleChange('preapprovalAmount')}
-            margin="normal"
+            margin={(['sm', 'xs'].includes(width)) ? '' : "normal"}
           />
           <TextField
             label="Purchase Price"
@@ -71,7 +79,7 @@ class BorrowerInfo extends React.Component {
             value={purchasePrice}
             placeholder="$"
             onChange={this.handleChange('purchasePrice')}
-            margin="normal"
+            margin={(['sm', 'xs'].includes(width)) ? '' : "normal"}
           />
         </form>
       </Paper>

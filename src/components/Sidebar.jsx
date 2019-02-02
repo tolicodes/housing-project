@@ -58,7 +58,6 @@ const styles = () => ({
     flexDirection: 'column',
   },
   editButton: {
-    // width: 'calc(100% - 40px)',
     margin: '10px 2.5% 2.5%',
     width: '60%',
   },
@@ -70,11 +69,17 @@ const styles = () => ({
     position: 'absolute',
     bottom: 50,
     right: 20,
+    '@media screen and (max-width: 425px)': {
+      bottom: 45,
+    }
   },
   toggleButton2: {
     position: 'absolute',
     bottom: 50,
     right: 320,
+    '@media screen and (max-width: 425px)': {
+      bottom: 45,
+    } 
   }
 });
 
@@ -83,15 +88,25 @@ class ClippedDrawer extends React.Component {
     sidebarOpen: false,
   }
 
+  
+
   onClickEdit = index => () => {
-    this.props.editBorrower(index)
+    if(this.props.width) {
+      this.setState({
+        sidebarOpen: !this.state.sidebarOpen
+      })
+      this.props.editBorrower(index)
+    } else {
+      this.props.editBorrower(index)
+    }
   }
 
-  onClickDelete = index => () => {
+  onClickDelete = id => () => {
+    console.log('id', id);
     const { props } = this;
     const { borrowers } = props;
     if (borrowers.length > 1) {
-      this.props.deleteBorrower(index);
+      this.props.deleteBorrower(id);
     } else {
       alert("No borrowers to delete")
     }
