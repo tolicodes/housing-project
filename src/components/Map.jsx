@@ -88,7 +88,6 @@ class CityMap extends Component {
     const properties = feature.properties;
 
     layer.on('mouseover', () => {
-      // check to see if we are hovering over a neighborhood or not
       if (type === 'neighborhood') {
         this.setState({
           displayHoodDetails: true,
